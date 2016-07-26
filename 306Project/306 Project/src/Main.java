@@ -35,7 +35,7 @@ public class Main {
 		        } else if(line.contains("->")){ // Line with edges and weights
 		        	String[] words = line.split("\\s+");
 		        	System.out.println(words[0] + " to " + words[2]);
-		        	graph.addEdge(words[0]+words[2], words[0], words[2]);
+		        	graph.addEdge(words[0]+words[2], words[0], words[2], true);
 		        } else { // Vertices
 		        	if(line.contains("}")) continue;
 		        	String[] words = line.split("\\s+");
