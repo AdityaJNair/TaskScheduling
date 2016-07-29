@@ -1,2 +1,2 @@
 # RunningGoatShorts
-Project - Team 6
+306 Project - Team 6
