@@ -12,6 +12,5 @@ public class ValidityTest {
     @Test
     public void validTest(){
         assertTrue(true);
-        assertFalse(false);
     }
 }
