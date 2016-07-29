@@ -4,7 +4,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -124,7 +124,6 @@ fabric.properties
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
