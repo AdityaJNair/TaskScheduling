@@ -3,12 +3,14 @@ package test;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.junit.*;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by JSCooke on 29/07/16.
  */
+
 public class ValidityTests {
 
     private Graph testGraph = new SingleGraph("Test Graph 1");
@@ -44,16 +46,29 @@ public class ValidityTests {
         testGraph.getEdge("AC").isDirected();
         testGraph.getEdge("BD").isDirected();
         testGraph.getEdge("CD").isDirected();
+
     }
 
     @Test
     public void validTest(){
 
         /*
-            Use the program to find the path and verify that the path is valid, from a known set of valid paths.
-            How this will be done depends on the - as of 1 August - undecided output format of the graph.
-        */
+         * Use the program to find the path and verify that the path is valid, from a known set of valid paths.
+         * How this will be done depends on the - as of 1 August - undecided output format of the graph.
+         */
 
+        //Read from output file, which is assumed to be called "output.dot", and in the same directory as the .jar file.
+
+        try {
+            File file = new  File("output.dot");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+            //At this stage, we can read through the file using reader.
+
+        }catch(FileNotFoundException e){
+            fail("File not found. There may be an I/O problem.");
+        }
     }
 
     @After
