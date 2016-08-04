@@ -14,38 +14,48 @@ public class ValidityTest {
 
     CustomGraphReader graphReader;
     UserOptions options = UserOptions.getInstance();
+    String[] args = new String[7];
 
     @Before
-    public void setUp(){}
+    public void setUp(){
+        args[0] = "testGraph.dot";
+        args[1] = "2";
+        args[2] = "-p";
+        args[3] = "2";
+        args[4] = "-v";
+        args[5] = "-o";
+        args[6] = "OUTPUT";
+        graphReader = new CustomGraphReader(args);
+    }
 
     @Test
     public void userOptionsTest(){
-        String[] args = {"testGraph.dot", "2", "-p", "2", "-v","-o", "OUTPUT"};
 
-        graphReader = new CustomGraphReader(args);
-        
         assertEquals(options.getFilenameIn(),args[0]);
-        System.out.println(options.getFilenameIn());
+        //System.out.println(options.getFilenameIn());
 
         assertEquals(options.getFilenameOut(),args[6]+".dot");
-        System.out.println(options.getFilenameOut());
+        //System.out.println(options.getFilenameOut());
 
         assertTrue(options.isParallel());
-        System.out.println(options.isParallel());
+        //System.out.println(options.isParallel());
 
         assertTrue(options.isVisible());
-        System.out.println(options.isVisible());
+        //System.out.println(options.isVisible());
 
         assertEquals(options.getParallelThreads(),Integer.parseInt(args[3]));
-        System.out.println(options.getParallelThreads());
+        //System.out.println(options.getParallelThreads());
 
         assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
-        System.out.println(options.getProcessors());
+        //System.out.println(options.getProcessors());
     }
 
     @Test
     public void readDAGTest(){
-
+        graphReader.readDAG();
+        for (String s:graphReader.getEdgeList()){
+            System.out.print(s);
+        }
     }
 
     @After
