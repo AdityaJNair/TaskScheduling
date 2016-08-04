@@ -1,11 +1,14 @@
 package graph306;
 
 /**
- * Class to hold the user's input command line parameters.
+ * Singleton class to hold the user's input command line parameters.
  */
 
 
 public class UserOptions {
+
+     //Singleton field 
+    private static UserOptions instance = new UserOptions(); //May need to verify that this has been instantiated in methods.
 
     //Data fields
     private String filenameIn;
@@ -14,6 +17,18 @@ public class UserOptions {
     private boolean isParallel;
     private int parallelThreads;
     private int processors;
+ 
+    //Singleton methods 
+    private UserOptions(){
+        //Do nothing, this class shouldn't be instantiated
+    } 
+    /**
+     * Gets an instance of the UserOptions object
+     * @return The current UserOptions.
+     */
+    public static UserOptions getInstance(){
+        return instance;
+    }
 
     //Getters and setters for all fields.
     public String getFilenameIn() {
