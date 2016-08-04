@@ -18,6 +18,11 @@ import org.graphstream.graph.implementations.SingleGraph;
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
+	UserOptions userOptions = UserOptions.getInstance();
+	HashSet<String> sourceNodes = new HashSet<String>();
+	List<String> edgeList = new ArrayList<String>();
+	public GraphAdapter graph = null;
+	
 	public UserOptions getUserOptions() {
 		return userOptions;
 	}
@@ -33,11 +38,6 @@ public class CustomGraphReader {
 	public GraphAdapter getGraph() {
 		return graph;
 	}
-
-	UserOptions userOptions = UserOptions.getInstance();
-	HashSet<String> sourceNodes = new HashSet<String>();
-	List<String> edgeList = new ArrayList<String>();
-	public GraphAdapter graph = null;
 	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
