@@ -12,11 +12,21 @@ import static org.junit.Assert.*;
 
 public class ValidityTest {
 
-    CustomGraphReader graphReader;
+	CustomGraphReader graphReader;
     UserOptions options = UserOptions.getInstance();
+    String[] args = new String[7];
 
     @Before
-    public void setUp(){}
+    public void setUp(){
+        args[0] = "testGraph.dot";
+        args[1] = "2";
+        args[2] = "-p";
+        args[3] = "2";
+        args[4] = "-v";
+        args[5] = "-o";
+        args[6] = "OUTPUT";
+        graphReader = new CustomGraphReader(args);
+    }
 
     @Test
     public void userOptionsTest(){
@@ -46,7 +56,10 @@ public class ValidityTest {
 
     @Test
     public void readDAGTest(){
-
+        graphReader.readDAG();
+        for (String s:graphReader.getEdgeList()){
+            System.out.print(s);
+        }
     }
 
     @After
