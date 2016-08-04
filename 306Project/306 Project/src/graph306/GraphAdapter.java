@@ -22,6 +22,13 @@ public class GraphAdapter {
         return graph;
 
     }
+    
+    /**
+     * Displays the graph that has been created.
+     */
+    public void display(){
+    	graph.display();
+    }
 
     /**
      * Adds a node to the graph.
