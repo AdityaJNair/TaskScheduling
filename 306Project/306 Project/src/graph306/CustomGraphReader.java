@@ -18,6 +18,22 @@ import org.graphstream.graph.implementations.SingleGraph;
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
+	public UserOptions getUserOptions() {
+		return userOptions;
+	}
+
+	public HashSet<String[]> getSourceNodes() {
+		return sourceNodes;
+	}
+
+	public List<String> getEdgeList() {
+		return edgeList;
+	}
+
+	public GraphAdapter getGraph() {
+		return graph;
+	}
+
 	UserOptions userOptions = UserOptions.getInstance();
 	HashSet<String[]> sourceNodes;
 	List<String> edgeList = new ArrayList<String>();
@@ -62,18 +78,14 @@ public class CustomGraphReader {
 				userOptions.setFilenameOut(args[i]+".dot");
 			}
 		}
-		
-		//run a read method on DAG
-		readDAG();
-		//create the DAG
-		createDAG();
+
 	}
 	
 	/**
 	 * Reads the input file and adds nodes to the graph. Also adds the nodes to the source nodes list
 	 * which is later manipulated to contain only the source nodes.
 	 */
-	private void readDAG(){
+	public void readDAG(){
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
 		    for(String line; (line = br.readLine()) != null; ) {
@@ -117,7 +129,7 @@ public class CustomGraphReader {
 	 * It formats the string and sets the two nodes and gives the graph their dependencies and the cost.
 	 * Additionally the node that is dependent on another (B) in A->B is removed from the source hashset.
 	 */
-	private void createDAG(){
+	public void createDAG(){
 		//added edges to the graph
 		for(String edge: edgeList){
 			//remove white-spaces from the list string input to get A,->,B,[Weight=2];"
