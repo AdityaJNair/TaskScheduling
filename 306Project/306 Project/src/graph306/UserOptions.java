@@ -13,8 +13,8 @@ public class UserOptions {
     //Data fields
     private String filenameIn;
     private String filenameOut;
-    private boolean isVisible;
-    private boolean isParallel;
+    private boolean isVisible = false;
+    private boolean isParallel = false;
     private int parallelThreads;
     private int processors;
 
