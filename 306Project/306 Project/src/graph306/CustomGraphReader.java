@@ -9,11 +9,13 @@ import java.util.HashSet;
  */
 public class CustomGraphReader {
 	UserOptions userOptions;
-	HashSet sourceNodes;
+	HashSet<String> sourceNodes;
 	List edgeList;
 	
 	public CustomGraphReader(String[] args){
 		userOptions.setFilenameIn(args[0]);
+		userOptions.setFilenameOut(args[0]);
+		
 		userOptions.setProcessors(Integer.parseInt(args[1]));
 		for(int i = 2; i < args.length; i++) {
 			if(args[i].equals("-v")) {
@@ -32,6 +34,11 @@ public class CustomGraphReader {
 		
 		readDAG();
 		createDAG();
+	}
+	
+	private String getFileName(String file){
+		
+		return "";
 	}
 	
 	private void readDAG(){
