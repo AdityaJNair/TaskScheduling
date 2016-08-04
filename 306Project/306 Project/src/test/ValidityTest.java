@@ -1,10 +1,11 @@
-package test;
-
 import graph306.CustomGraphReader;
 import graph306.UserOptions;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by JSCooke on 29/07/16.
@@ -12,13 +13,14 @@ import static org.junit.Assert.*;
 
 public class ValidityTest {
 
-	CustomGraphReader graphReader;
+    CustomGraphReader graphReader;
     UserOptions options = UserOptions.getInstance();
     String[] args = new String[7];
 
     @Before
     public void setUp(){
-        args[0] = "testGraph.dot";
+        String slash = System.getProperty("file.separator");
+        args[0] = "src"+slash+"resources"+slash+"Graphs"+slash+"testGraph.dot";
         args[1] = "2";
         args[2] = "-p";
         args[3] = "2";
@@ -30,36 +32,44 @@ public class ValidityTest {
 
     @Test
     public void userOptionsTest(){
-        String[] args = {"/306 Project/src/resources/Graphs/testGraph.dot", "2", "-p", "2", "-v","-o", "OUTPUT"};
 
-
-        graphReader = new CustomGraphReader(args);
-        
         assertEquals(options.getFilenameIn(),args[0]);
-        System.out.println(options.getFilenameIn());
+        //System.out.println(options.getFilenameIn());
 
         assertEquals(options.getFilenameOut(),args[6]+".dot");
-        System.out.println(options.getFilenameOut());
+        //System.out.println(options.getFilenameOut());
 
         assertTrue(options.isParallel());
-        System.out.println(options.isParallel());
+        //System.out.println(options.isParallel());
 
         assertTrue(options.isVisible());
-        System.out.println(options.isVisible());
+        //System.out.println(options.isVisible());
 
         assertEquals(options.getParallelThreads(),Integer.parseInt(args[3]));
-        System.out.println(options.getParallelThreads());
+        //System.out.println(options.getParallelThreads());
 
         assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
-        System.out.println(options.getProcessors());
+        //System.out.println(options.getProcessors());
     }
 
     @Test
     public void readDAGTest(){
         graphReader.readDAG();
-        for (String s:graphReader.getEdgeList()){
-            System.out.print(s);
-        }
+        //Note that these use hard coded values from testGraph.dot.
+        assertEquals(graphReader.getEdgeList().size(), 6);
+        assertEquals(graphReader.getSourceNodes().size(), 7);
+
+        //Use these to inspect the graph.
+        //graphReader.getGraph().display();
+        //while (true){}
+
+    }
+
+    @Test
+    public void createDAGTest() {
+        graphReader.createDAG();
+        //Note that these use hard coded values from testGraph.dot.
+        assertEquals(graphReader.getSourceNodes().size(),3);
     }
 
     @After
