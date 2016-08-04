@@ -20,7 +20,7 @@ public class ValidityTest {
     @Before
     public void setUp(){
         String slash = System.getProperty("file.separator");
-        args[0] = "src"+slash+"resources"+slash+"Graphs"+slash+"testGraph.dot";
+        args[0] = "306 Project"+slash+"src"+slash+"resources"+slash+"Graphs"+slash+"testGraph.dot";
         args[1] = "2";
         args[2] = "-p";
         args[3] = "2";
