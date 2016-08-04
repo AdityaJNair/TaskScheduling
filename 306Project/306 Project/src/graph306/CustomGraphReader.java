@@ -108,15 +108,13 @@ public class CustomGraphReader {
 		        
 		        	String[] words = line.split("\\s+");
 		        	
-		        	
 		        	// Add nodes to source nodes list
-		        
-		        	String weight = words[1]; 
-		        
-		        	weight = weight.replaceAll("[^0-9]+", "");
-
-		        	int weightInt = Integer.parseInt(weight);
+		        	sourceNodes.add(words[0]);
 		        	
+		        	String weight = words[1]; 
+		        	weight = weight.replaceAll("[^0-9]+", "");
+		        	int weightInt = Integer.parseInt(weight);
+
 		        	// add vertex to the graph
 		        	graph.addNode(words[0], weightInt);
 		        }
