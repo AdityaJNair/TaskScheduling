@@ -38,7 +38,7 @@ public class CustomGraphReader {
 	
 	private String getFileName(String file){
 		
-		return "";
+		return file.substring(0, file.length()-4);
 	}
 	
 	private void readDAG(){
