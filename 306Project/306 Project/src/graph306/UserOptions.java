@@ -11,8 +11,8 @@ public class UserOptions {
     private static UserOptions instance = new UserOptions(); //May need to verify that this has been instantiated in methods.
 
     //Data fields
-    private String filenameIn;
-    private String filenameOut;
+    private String filenameIn = null;
+    private String filenameOut = null;
     private boolean isVisible = false;
     private boolean isParallel = false;
     private int parallelThreads = -1;
