@@ -22,6 +22,13 @@ public class GraphAdapter {
         return graph;
 
     }
+    
+    /**
+     * Displays the graph that has been created.
+     */
+    public void display(){
+    	graph.display();
+    }
 
     /**
      * Adds a node to the graph.
@@ -38,14 +45,14 @@ public class GraphAdapter {
 
     /**
      * Adds a directed edge to the graph.
-     * @param id The unique identifier for the edge.
      * @param source The identifier of the parent node of the edge.
      * @param destination The identifier of the child node of the edge.
      * @param cost The cost (in time units) of the node.
      */
 
-    public void addEdge(String id, String source, String destination, int cost){
+    public void addEdge(String source, String destination, int cost){
 
+        String id = source+destination;
         graph.addEdge(id, source, destination);
         graph.getEdge(id).addAttribute("Cost", cost);
         graph.getEdge(id).isDirected();

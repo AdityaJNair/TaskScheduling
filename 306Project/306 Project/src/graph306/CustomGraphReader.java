@@ -96,23 +96,28 @@ public class CustomGraphReader {
 		        }
 		    }
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("The input file was not found.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("An IO Exception has occurred.");
 		}
 	}
 	
 	/**
-	 * read list
-	 * add edges to the graph
-	 * remove sources
-	 * store after loop finishes
+	 * createDAG() - iterates through the edge List that contains all the dependencies between nodes.
+	 * It formats the string and sets the two nodes and gives the graph their dependencies and the cost.
+	 * Additionally the node that is dependent on another (B) in A->B is removed from the source hashset.
 	 */
 	private void createDAG(){
+		//added edges to the graph
 		for(String edge: edgeList){
-			
+			//remove white-spaces from the list string input to get A,->,B,[Weight=2];"
+			String[] dependencyArray = edge.split("\\s+");
+			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
+			//added the weight and the dependencies to the graph
+			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
+			//remove the node that is dependent on another node as it is no longer source node
+			sourceNodes.remove(dependencyArray[2]);
 		}
+
 	}
 }
