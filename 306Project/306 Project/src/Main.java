@@ -13,17 +13,12 @@ import org.graphstream.stream.file.FileSourceDOT;
 import org.graphstream.stream.file.FileSourceFactory;
 
 import graph306.CustomGraphReader;
+import graph306.UserOptions;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		System.out.print("Enter file path: "); // Use args[0] in the real program		
-		String filePath = reader.nextLine();
-		
 		CustomGraphReader graphReader = new CustomGraphReader(args);
-		
 	}
 
 }
