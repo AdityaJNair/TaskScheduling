@@ -113,7 +113,7 @@ public class CustomGraphReader {
 			String[] dependencyArray = edge.split("\\s+");
 			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
 			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
-			
+			sourceNodes.remove(dependencyArray[2]);
 		}
 		
 	}
