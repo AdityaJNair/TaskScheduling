@@ -62,6 +62,12 @@ public class CustomGraphReader {
 		
 	}
 	
+	/**
+	 * read list
+	 * add edges to the graph
+	 * remove sources
+	 * store after loop finishes
+	 */
 	private void createDAG(){
 		
 	}
