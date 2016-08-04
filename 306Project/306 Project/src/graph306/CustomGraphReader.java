@@ -69,29 +69,39 @@ public class CustomGraphReader {
 		createDAG();
 	}
 	
+	/**
+	 * Reads the input file and adds nodes to the graph. Also adds the nodes to the source nodes list
+	 * which is later manipulated to contain only the source nodes.
+	 */
 	private void readDAG(){
+		
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		        if(line.contains("digraph")){
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
-		        	while (m.find()) { // first line. Contains graph name
-		        	  graph = new GraphAdapter(); // create new graph
+		        	
+		        	// first line. Contains graph name
+		        	while (m.find()) { 
+		        		// create new graph object
+		        		graph = new GraphAdapter(); 
 		        	}
 		        	continue;
 		        } else if(line.contains("->")){ // Line with edges and weights
 		        	edgeList.add(line);
 		        	continue;
-//		        	String[] words = line.split("\\s+");
-//		        	System.out.println(words[0] + " to " + words[2]);
-//		        	graph.addEdge(words[0]+words[2], words[0], words[2], true); // Add to edgelist
 		        } else { // add Vertices to the graph
-		        	if(line.contains("}")) break; // exit if end of file
+		        	// exit if end of file
+		        	if(line.contains("}")) break; 
 		        	String[] words = line.split("\\s+");
-		        	sourceNodes.add(words); // Add nodes to source nodes list
+		        	
+		        	// Add nodes to source nodes list
+		        	sourceNodes.add(words); 
 		        	String weight = words[3]; 
 		        	weight = weight.replaceAll("[^0-9]+", " ");
 		        	int weightInt = Integer.parseInt(weight);
+		        	
+		        	// add vertex to the graph
 		        	graph.addNode(words[0], weightInt);
 		        }
 		    }
