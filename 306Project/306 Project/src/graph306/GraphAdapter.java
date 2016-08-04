@@ -10,7 +10,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 
 public class GraphAdapter {
 
-    public Graph graph = new SingleGraph("Graph under construction");
+    private Graph graph = new SingleGraph("Graph under construction");
 
     /**
      * Returns the graph that has been created.
