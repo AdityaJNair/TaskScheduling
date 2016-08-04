@@ -13,7 +13,25 @@ public class CustomGraphReader {
 	List edgeList;
 	
 	public CustomGraphReader(String[] args){
+		userOptions.setFilenameIn(args[0]);
+		userOptions.setProcessors(Integer.parseInt(args[1]));
+		for(int i = 2; i < args.length; i++) {
+			if(args[i].equals("-v")) {
+				userOptions.setVisible(true);
+			}
+			else if(args[i].equals("-p")){
+				userOptions.setParallel(true);
+				i++;
+				userOptions.setParallelThreads(Integer.parseInt(args[i]));
+			}
+			else if(args[i].equals("-o")){
+				i++;
+				userOptions.setFilenameOut(args[i]);
+			}
+		}
 		
+		readDAG();
+		createDAG();
 	}
 	
 	private void readDAG(){
