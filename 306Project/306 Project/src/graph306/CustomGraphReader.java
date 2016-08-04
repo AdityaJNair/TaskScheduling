@@ -18,7 +18,7 @@ import org.graphstream.graph.implementations.SingleGraph;
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
-	UserOptions userOptions = null;
+	UserOptions userOptions = UserOptions.getInstance();
 	HashSet<String[]> sourceNodes;
 	List<String> edgeList = new ArrayList<String>();
 	GraphAdapter graph = null;
