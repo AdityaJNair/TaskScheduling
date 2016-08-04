@@ -12,39 +12,45 @@ import static org.junit.Assert.*;
 
 public class ValidityTest {
 
+    CustomGraphReader graphReader;
+    UserOptions options = UserOptions.getInstance();
+
     @Before
     public void setUp(){}
 
     @Test
     public void userOptionsTest(){
-        String[] args = {"testGraph.dot", "2", "-p", "2", "-v", "-o", "OUTPUT"};
+        String[] args = {"testGraph.dot", "2", "-p", "2", "-v","-o", "OUTPUT"};
 
-        CustomGraphReader graphReader = new CustomGraphReader(args);
-        UserOptions options = UserOptions.getInstance();
-
+        graphReader = new CustomGraphReader(args);
+        
         assertEquals(options.getFilenameIn(),args[0]);
-        //System.out.println(options.getFilenameIn());
+        System.out.println(options.getFilenameIn());
 
         assertEquals(options.getFilenameOut(),args[6]+".dot");
-        //System.out.println(options.getProcessors()));
+        System.out.println(options.getFilenameOut());
 
         assertTrue(options.isParallel());
-        //System.out.println(options.isParallel());
+        System.out.println(options.isParallel());
 
         assertTrue(options.isVisible());
-        //System.out.println(options.isVisible());
+        System.out.println(options.isVisible());
 
         assertEquals(options.getParallelThreads(),Integer.parseInt(args[3]));
-        //System.out.println(options.getParallelThreads());
+        System.out.println(options.getParallelThreads());
 
         assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
-        //System.out.println(options.getProcessors());
+        System.out.println(options.getProcessors());
+    }
+
+    @Test
+    public void readDAGTest(){
+
     }
 
     @After
     public void tearDown(){
         //Reset UserOptions to default values
-        UserOptions options = UserOptions.getInstance();
         options.setFilenameIn(null);
         options.setFilenameOut(null);
         options.setParallel(false);
