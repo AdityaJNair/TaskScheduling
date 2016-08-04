@@ -18,6 +18,22 @@ import org.graphstream.graph.implementations.SingleGraph;
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
+	public UserOptions getUserOptions() {
+		return userOptions;
+	}
+
+	public HashSet<String[]> getSourceNodes() {
+		return sourceNodes;
+	}
+
+	public List<String> getEdgeList() {
+		return edgeList;
+	}
+
+	public GraphAdapter getGraph() {
+		return graph;
+	}
+
 	UserOptions userOptions = UserOptions.getInstance();
 	HashSet<String[]> sourceNodes;
 	List<String> edgeList = new ArrayList<String>();
