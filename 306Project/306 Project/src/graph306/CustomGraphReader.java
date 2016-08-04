@@ -22,7 +22,7 @@ public class CustomGraphReader {
 		return userOptions;
 	}
 
-	public HashSet<String[]> getSourceNodes() {
+	public HashSet<String> getSourceNodes() {
 		return sourceNodes;
 	}
 
@@ -35,9 +35,9 @@ public class CustomGraphReader {
 	}
 
 	UserOptions userOptions = UserOptions.getInstance();
-	HashSet<String[]> sourceNodes;
+	HashSet<String> sourceNodes = new HashSet<String>();
 	List<String> edgeList = new ArrayList<String>();
-	GraphAdapter graph = null;
+	public GraphAdapter graph = null;
 	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
@@ -105,12 +105,16 @@ public class CustomGraphReader {
 		        } else { // add Vertices to the graph
 		        	// exit if end of file
 		        	if(line.contains("}")) break; 
+		        
 		        	String[] words = line.split("\\s+");
 		        	
+		        	
 		        	// Add nodes to source nodes list
-		        	sourceNodes.add(words); 
-		        	String weight = words[3]; 
-		        	weight = weight.replaceAll("[^0-9]+", " ");
+		        
+		        	String weight = words[1]; 
+		        
+		        	weight = weight.replaceAll("[^0-9]+", "");
+
 		        	int weightInt = Integer.parseInt(weight);
 		        	
 		        	// add vertex to the graph
