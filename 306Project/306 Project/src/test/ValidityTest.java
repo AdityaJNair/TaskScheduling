@@ -20,7 +20,8 @@ public class ValidityTest {
 
     @Test
     public void userOptionsTest(){
-        String[] args = {"testGraph.dot", "2", "-p", "2", "-v","-o", "OUTPUT"};
+        String[] args = {"/306 Project/src/resources/Graphs/testGraph.dot", "2", "-p", "2", "-v","-o", "OUTPUT"};
+
 
         graphReader = new CustomGraphReader(args);
         
