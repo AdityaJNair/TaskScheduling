@@ -16,26 +16,40 @@ public class ValidityTest {
     public void setUp(){}
 
     @Test
-    public void validTest(){
-        String[] args = {"testGraph.dot","2"};
+    public void userOptionsTest(){
+        String[] args = {"testGraph.dot", "2", "-p", "2", "-v", "-o", "OUTPUT"};
 
         CustomGraphReader graphReader = new CustomGraphReader(args);
+        UserOptions options = UserOptions.getInstance();
 
-        assertEquals(UserOptions.getInstance().getFilenameIn(),args[0]);
-        //System.out.println(UserOptions.getInstance().getFilenameIn());
+        assertEquals(options.getFilenameIn(),args[0]);
+        //System.out.println(options.getFilenameIn());
 
-        assertEquals(Integer.toString(UserOptions.getInstance().getProcessors()),args[1]);
-        //System.out.println(Integer.toString(UserOptions.getInstance().getProcessors()));
+        assertEquals(options.getFilenameOut(),args[6]+".dot");
+        //System.out.println(options.getProcessors()));
+
+        assertTrue(options.isParallel());
+        //System.out.println(options.isParallel());
+
+        assertTrue(options.isVisible());
+        //System.out.println(options.isVisible());
+
+        assertEquals(options.getParallelThreads(),Integer.parseInt(args[3]));
+        //System.out.println(options.getParallelThreads());
+
+        assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
+        //System.out.println(options.getProcessors());
     }
 
     @After
     public void tearDown(){
-        UserOptions userOptions = UserOptions.getInstance();
-        userOptions.setFilenameIn(null);
-        userOptions.setFilenameOut(null);
-        userOptions.setParallel(false);
-        userOptions.setVisible(false);
-        userOptions.setParallelThreads(-1);
-        userOptions.setProcessors(-1);
+        //Reset UserOptions to default values
+        UserOptions options = UserOptions.getInstance();
+        options.setFilenameIn(null);
+        options.setFilenameOut(null);
+        options.setParallel(false);
+        options.setVisible(false);
+        options.setParallelThreads(-1);
+        options.setProcessors(-1);
     }
 }
