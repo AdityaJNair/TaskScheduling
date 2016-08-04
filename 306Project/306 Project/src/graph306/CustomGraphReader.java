@@ -95,7 +95,7 @@ public class CustomGraphReader {
 		        }
 		    }
 		} catch (FileNotFoundException e) {
-			System.out.println("A the input file was not found.");
+			System.out.println("The input file was not found.");
 		} catch (IOException e) {
 			System.out.println("An IO Exception has occurred.");
 		}
