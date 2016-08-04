@@ -7,7 +7,7 @@ package graph306;
 
 public class UserOptions {
 
-     //Singleton field 
+    //Singleton field
     private static UserOptions instance = new UserOptions(); //May need to verify that this has been instantiated in methods.
 
     //Data fields
@@ -17,11 +17,11 @@ public class UserOptions {
     private boolean isParallel;
     private int parallelThreads;
     private int processors;
- 
-    //Singleton methods 
+
+    //Singleton methods
     private UserOptions(){
         //Do nothing, this class shouldn't be instantiated
-    } 
+    }
     /**
      * Gets an instance of the UserOptions object
      * @return The current UserOptions.
