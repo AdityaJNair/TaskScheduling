@@ -95,11 +95,9 @@ public class CustomGraphReader {
 		        }
 		    }
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("A the input file was not found.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("An IO Exception has occurred.");
 		}
 	}
 	
