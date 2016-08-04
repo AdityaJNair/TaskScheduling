@@ -1,1 +1,0 @@
-This is a placeholder resource. The package wouldn't commit without it.
