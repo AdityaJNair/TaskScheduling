@@ -1,16 +1,26 @@
 package graph306;
 
+import java.awt.List;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
-	UserOptions userOptions;
-	HashSet<String> sourceNodes;
-	List<String> edgeList;
+	UserOptions userOptions = null;
+	HashSet<String[]> sourceNodes;
+	List edgeList = null;
+	GraphAdapter graph = null;
 	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
@@ -59,7 +69,38 @@ public class CustomGraphReader {
 	}
 	
 	private void readDAG(){
-		
+		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
+		    for(String line; (line = br.readLine()) != null; ) {
+		        if(line.contains("digraph")){
+		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
+		        	Matcher m = p.matcher(line);
+		        	while (m.find()) { // first line. Contains graph name
+		        	  graph = new GraphAdapter(); // create new graph
+		        	}
+		        	continue;
+		        } else if(line.contains("->")){ // Line with edges and weights
+		        	edgeList.add(line);
+		        	continue;
+//		        	String[] words = line.split("\\s+");
+//		        	System.out.println(words[0] + " to " + words[2]);
+//		        	graph.addEdge(words[0]+words[2], words[0], words[2], true); // Add to edgelist
+		        } else { // add Vertices to the graph
+		        	if(line.contains("}")) break; // exit if end of file
+		        	String[] words = line.split("\\s+");
+		        	sourceNodes.add(words); // Add nodes to source nodes list
+		        	String weight = words[3]; 
+		        	weight = weight.replaceAll("[^0-9]+", " ");
+		        	int weightInt = Integer.parseInt(weight);
+		        	graph.addNode(words[0], weightInt);
+		        }
+		    }
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
