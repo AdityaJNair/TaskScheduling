@@ -15,8 +15,8 @@ public class UserOptions {
     private String filenameOut;
     private boolean isVisible = false;
     private boolean isParallel = false;
-    private int parallelThreads;
-    private int processors;
+    private int parallelThreads = -1;
+    private int processors = -1;
 
     //Singleton methods
     private UserOptions(){
