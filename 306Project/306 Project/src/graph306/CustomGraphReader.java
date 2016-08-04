@@ -1,6 +1,6 @@
 package graph306;
 
-import java.awt.List;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +19,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 public class CustomGraphReader {
 	UserOptions userOptions = null;
 	HashSet<String[]> sourceNodes;
-	List edgeList = null;
+	List<String> edgeList = null;
 	GraphAdapter graph = null;
 	
 	/**
