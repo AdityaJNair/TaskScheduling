@@ -1,6 +1,6 @@
 package graph306;
 
-import java.awt.List;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +19,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 public class CustomGraphReader {
 	UserOptions userOptions = null;
 	HashSet<String[]> sourceNodes;
-	List edgeList = null;
+	List<String> edgeList = null;
 	GraphAdapter graph = null;
 	
 	/**
@@ -108,8 +108,14 @@ public class CustomGraphReader {
 	 * store after loop finishes
 	 */
 	private void createDAG(){
+		//added edges to the graph
 		for(String edge: edgeList){
+			String[] dependencyArray = edge.split("\\s+");
+			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
+			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
 			
 		}
+		
 	}
+
 }
