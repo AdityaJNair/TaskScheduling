@@ -1,7 +1,7 @@
 package graph306;
 
-import java.awt.List;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class CustomGraphReader {
 	UserOptions userOptions;
 	HashSet<String> sourceNodes;
-	List edgeList;
+	List<String> edgeList;
 	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
@@ -69,6 +69,8 @@ public class CustomGraphReader {
 	 * store after loop finishes
 	 */
 	private void createDAG(){
-		
+		for(String edge: edgeList){
+			
+		}
 	}
 }
