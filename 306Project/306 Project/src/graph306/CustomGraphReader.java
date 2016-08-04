@@ -108,8 +108,14 @@ public class CustomGraphReader {
 	 * store after loop finishes
 	 */
 	private void createDAG(){
+		//added edges to the graph
 		for(String edge: edgeList){
+			String[] dependencyArray = edge.split("\\s+");
+			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
+			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
 			
 		}
+		
 	}
+
 }
