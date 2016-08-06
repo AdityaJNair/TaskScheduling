@@ -1,8 +1,5 @@
 package graph306;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
-
 /**
  * A wrapper class so that the graph representation framework in use can be altered without changing methods.
  * Follows the adapter design pattern.
@@ -31,7 +28,7 @@ public class GraphAdapter {
 
     public void addNode(String id, int cost){
 
-        //Add node to AdjacencyGraph. If nodes were already created by add edge, don't add them again
+        graph.addNode(id, cost);
 
     }
 
@@ -44,7 +41,7 @@ public class GraphAdapter {
 
     public void addEdge(String source, String destination, int cost){
 
-        //Add edge to adjacency graph. If nodes don't exist, add both.
+        graph.addEdge(source, destination, cost);
 
     }
 
