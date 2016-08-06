@@ -3,6 +3,7 @@ package graph306;
 import java.util.List;
 
 public class NodeObject {
+	private String nodeName;
 	private int[] timeWeightOnEachProcessor;
 	private int processor;
 	private List<NodeObject> currentPath;
@@ -44,6 +45,13 @@ public class NodeObject {
 		this.nodesToCheck = nodesToCheck;
 	}
 
+	public String getNodeName() {
+		return nodeName;
+	}
 
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+	
 
 }
