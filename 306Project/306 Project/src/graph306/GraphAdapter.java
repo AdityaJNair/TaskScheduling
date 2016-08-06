@@ -1,8 +1,5 @@
 package graph306;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
-
 /**
  * A wrapper class so that the graph representation framework in use can be altered without changing methods.
  * Follows the adapter design pattern.
@@ -10,24 +7,17 @@ import org.graphstream.graph.implementations.SingleGraph;
 
 public class GraphAdapter {
 
-    private Graph graph = new SingleGraph("Graph under construction");
+    private AdjacencyList graph = new AdjacencyList();
 
     /**
      * Returns the graph that has been created.
-     * @return The graph, as an org.graphstream.graph.Graph.
+     * @return The graph, as an AdjacencyList.
      */
 
-    public Graph getGraph() {
+    public AdjacencyList getGraph() {
 
         return graph;
 
-    }
-    
-    /**
-     * Displays the graph that has been created.
-     */
-    public void display(){
-    	graph.display();
     }
 
     /**
@@ -38,8 +28,7 @@ public class GraphAdapter {
 
     public void addNode(String id, int cost){
 
-        graph.addNode(id);
-        graph.getNode(id).addAttribute("Cost", cost);
+        graph.addNode(id, cost);
 
     }
 
@@ -52,10 +41,7 @@ public class GraphAdapter {
 
     public void addEdge(String source, String destination, int cost){
 
-        String id = source+destination;
-        graph.addEdge(id, source, destination);
-        graph.getEdge(id).addAttribute("Cost", cost);
-        graph.getEdge(id).isDirected();
+        graph.addEdge(source, destination, cost);
 
     }
 
