@@ -140,7 +140,7 @@ public class CustomGraphReader {
 			//added the weight and the dependencies to the graph
 			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
 			//remove the node that is dependent on another node as it is no longer source node
-			sourceNodes.remove(dependencyArray[2]);
+			sourceNodes.remove(dependencyArray[2]);			
 		}
 
 	}
