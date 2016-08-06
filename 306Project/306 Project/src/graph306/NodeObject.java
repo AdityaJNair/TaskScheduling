@@ -1,5 +1,6 @@
 package graph306;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NodeObject {
@@ -8,9 +9,24 @@ public class NodeObject {
 	private int processor;
 	private List<NodeObject> currentPath;
 	private List<String> nodesToCheck;
+	private List<NodeObject> childrenNodes;
 	
-	public NodeObject(){
-		
+	public NodeObject(int setProcessor, List<NodeObject> currentPathNotIncludeThis, List<String> nodesToCheckUpdated, String nodeName, int[] timeWeightOnEachProcessor){
+		//set the name of this nodeObject
+		this.nodeName = nodeName;
+		//add the time weight up to this processor
+		this.timeWeightOnEachProcessor = timeWeightOnEachProcessor;
+		//store the processor number
+		this.processor = setProcessor;
+		//add this to the end of the current path
+		this.currentPath = currentPathNotIncludeThis;
+		this.currentPath.add(this.currentPath.size(), this);
+		//remove this node from the list to check for nodes that have not been seen yet
+		this.nodesToCheck = nodesToCheckUpdated;
+		this.nodesToCheck.remove(nodeName);
+		//initialize the field childrenNodes with an ArrayList of 0 children
+		this.childrenNodes = new ArrayList<NodeObject>();
+
 	}
 	
 	public int getProcessor() {
@@ -52,6 +68,13 @@ public class NodeObject {
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
 	}
-	
+
+	public List<NodeObject> getChildrenNodes() {
+		return childrenNodes;
+	}
+
+	public void setChildrenNodes(List<NodeObject> childrenNodes) {
+		this.childrenNodes = childrenNodes;
+	}
 
 }
