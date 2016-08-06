@@ -28,12 +28,15 @@ public class SolutionTree {
 	 * @param nodesToCheck
 	 */
 	private void calculateTime(List<NodeObject> nodesToCheck){
+		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
+			// Compare with minimumTime to see if this solution is better
 			return;
 		}
 		
-		
+		// Look through the list of unseen nodes and recursively call this method on ones 
+		// That do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			
 			
