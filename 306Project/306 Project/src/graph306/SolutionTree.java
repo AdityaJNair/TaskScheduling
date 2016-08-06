@@ -22,5 +22,33 @@ public class SolutionTree {
 		this.inputGraph = inputGraph;
 	}
 	
-	
+	/** 
+	 * Pseudocode for recursively calculating the time taken to execute each path
+	 * in the solution tree.
+	 * @param nodesToCheck
+	 */
+	private void calculateTime(List<NodeObject> nodesToCheck){
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			return;
+		}
+		
+		
+		for(int i = 0 ; i < nodesToCheck.size() ; i++){
+			
+			
+			if( true/* currentNodes[i]'s parents are not in the list*/){
+				List<NodeObject> listForChild = nodesToCheck;
+				listForChild.remove(i);
+				
+//				for(int j = 0 ; j < processorNumber ; j++){
+//					// create new node object for each processor
+//					calculateTime(listForChild);
+//				}
+				
+			}
+			
+		}
+		
+	}
 }
