@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +18,6 @@ import org.graphstream.graph.implementations.SingleGraph;
  */
 public class CustomGraphReader {
 	UserOptions userOptions = UserOptions.getInstance();
-	HashSet<String> sourceNodes = new HashSet<String>();
 	List<String> edgeList = new ArrayList<String>();
 	public GraphAdapter graph = null;
 	
@@ -27,9 +25,6 @@ public class CustomGraphReader {
 		return userOptions;
 	}
 
-	public HashSet<String> getSourceNodes() {
-		return sourceNodes;
-	}
 
 	public List<String> getEdgeList() {
 		return edgeList;
@@ -108,9 +103,8 @@ public class CustomGraphReader {
 		        
 		        	String[] words = line.split("\\s+");
 		        	
-		        	// Add nodes to source nodes list
-		        	sourceNodes.add(words[0]);
-		        	
+//		        	sourceNodes.add(words[0]);
+
 		        	String weight = words[1]; 
 		        	weight = weight.replaceAll("[^0-9]+", "");
 		        	int weightInt = Integer.parseInt(weight);
@@ -139,8 +133,7 @@ public class CustomGraphReader {
 			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
 			//added the weight and the dependencies to the graph
 			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
-			//remove the node that is dependent on another node as it is no longer source node
-			sourceNodes.remove(dependencyArray[2]);
+//			sourceNodes.remove(dependencyArray[2]);
 		}
 
 	}
