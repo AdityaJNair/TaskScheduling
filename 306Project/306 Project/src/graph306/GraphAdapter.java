@@ -28,7 +28,8 @@ public class GraphAdapter {
 
     public void addNode(String id, int cost){
 
-        graph.addNode(id, cost);
+        graph.addNode(id);
+        graph.addNodeWeight(id, cost);
 
     }
 
