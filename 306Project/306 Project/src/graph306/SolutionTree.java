@@ -66,8 +66,6 @@ public class SolutionTree {
 		if(maxTimeAtPoint(currentNode) >= minimumTime){
 			return;
 		}
-		//adding the current node to the path
-		currentNode.getCurrentPath().add(currentNode);
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
