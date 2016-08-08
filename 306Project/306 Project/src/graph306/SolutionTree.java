@@ -1,6 +1,7 @@
 package graph306;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,10 @@ public class SolutionTree {
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	
+	/**
+	 * 
+	 * @param inputGraph
+	 */
 	public SolutionTree(AdjacencyList inputGraph){
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
@@ -33,15 +38,21 @@ public class SolutionTree {
 	 * in the solution tree.
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
+	 * @param currentNode - the current node 
 	 */
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
 			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestSchedule = currentNode.getCurrentPath();
+			}
 			return;
 		}
-		
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
@@ -63,22 +74,21 @@ public class SolutionTree {
 	 * @return
 	 */
 	private boolean isValidOption(String node, List<String> nodesToCheck){
-		// Get the parents of current node inputGraph.getParents()
-		ArrayList<NodeObject> parentList = new ArrayList<NodeObject>(); // CHANGE THIS TO getDependencies() CALLED ON AdjacencyList
 		
-		// valid of element has no parent. 
-		if(parentList.isEmpty()){ 
+		//root node
+		if(checkAdjacencyListNullMap(node)){ 
 			return true;
 		}
+		
 		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
-		for(int i = 0 ; i < parentList.size(); i++){
-			if(nodesToCheck.contains(parentList.get(i))){
+		for(int i = 0 ; i < nodesToCheck.size(); i++){
+			// valid of element has no parent. 
+			 if(nodesToCheck.contains(parentList.get(i))){
 				// return false if one of the parents is present in the nodesToCheck list
 				return false;
 			}
 		}
 		return true;
-		
 	}
 	
 	/**
@@ -87,7 +97,9 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkAdjacencyListNullMap(String nodeName){
-		if(inputGraph.getAdjacencyList().get(inputGraph.getIndices().get(nodeName)).size() == 0){
+		
+		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
+		if(inputGraph.getAdjacencyList().get(indexAtListForMap).size() == 0){
 			return true;
 		} else {
 			return false;
@@ -97,6 +109,17 @@ public class SolutionTree {
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
 		inputGraph.getAdjacencyList();
 		return true;
+	}
+	
+	public int maxTimeAtPoint(NodeObject node){
+		int largest = -1;
+		for(int i=0; i< node.getTimeWeightOnEachProcessor().length -1 ; i++){
+			if(node.getTimeWeightOnEachProcessor()[i] > largest){
+				largest = node.getTimeWeightOnEachProcessor()[i];
+			}
+		}
+		return largest;
+		
 	}
 	
 	public static int getMinimumTime() {
