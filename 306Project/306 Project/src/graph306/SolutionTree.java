@@ -28,7 +28,7 @@ public class SolutionTree {
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 */
-	public void calculateTime(List<NodeObject> nodesToCheck){
+	public void calculateTime(NodeObject currentNode, List<NodeObject> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -43,7 +43,8 @@ public class SolutionTree {
 				List<NodeObject> listForChild = nodesToCheck;
 				listForChild.remove(i);
 				// create new node object for each processor
-				// calculateTime(listForChild);
+				NodeObject nextNode = nodesToCheck.get(i);
+				calculateTime(nextNode, listForChild);
 			}		
 		}
 	}
