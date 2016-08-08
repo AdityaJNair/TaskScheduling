@@ -9,17 +9,18 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	
+	private List nodeList;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
-	
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
-	
-	public AdjacencyList inputGraph;
+	private AdjacencyList inputGraph;
 	
 	public SolutionTree(AdjacencyList inputGraph){
 		this.inputGraph = inputGraph;
+		for(String entry : inputGraph.getIndices().keySet()){
+    		nodeList.add(entry);
+    	}
 	}
 	
 	/** 
