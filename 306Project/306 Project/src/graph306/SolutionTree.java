@@ -2,6 +2,7 @@ package graph306;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -65,33 +66,29 @@ public class SolutionTree {
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){	
 				for(int j = 0; j < numberofProcessors; j++){
+					
+					//UPDATE THE NEW NODE FOR RECURSION
+					
 					//create a newpath that is the same as current which includes the currentNode as well
-					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
 					//same thing but only copying the processor array --not checking for times at this place
+					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+					
 					//initialising the fields for the new NodalObject to recurse through
 					String newNodeName = nodesToCheck.get(i);
 					int newProcessor = j;
-					//getting weights of the graph
-					int communicationCost = getEdgeWeight(currentNode, newNodeName);
 					int nodalWeight = getNodalWeight(newNodeName);
-					int newStartTime = -1;
+					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
 					int newEndTime = newStartTime+nodalWeight;
+					processorArray[newProcessor-1] = newEndTime;
 					
-					//need to calculate timing at this point
-					
+					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
 					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
-					nextNode.getCurrentPath().add(nextNode);
+					//copy the nodesToCheck list and need to remove the current node from it for recursion
+					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					//NodeObject nextNode = new NodeObject(j, ));
+					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 				//for loop for each processor
 				//create a node object
