@@ -75,7 +75,7 @@ public class CustomGraphReader {
 		        	// first line. Contains graph name
 		        	while (m.find()) { 
 		        		// create new graph object
-		        		userOptions.setGraphName(m.group(0));
+		        		userOptions.setGraphName(m.group(1));
 		        		graph = new GraphAdapter(); 
 		        	}
 		        	continue;
