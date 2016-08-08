@@ -28,7 +28,7 @@ public class SolutionTree {
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 */
-	private void calculateTime(List<NodeObject> nodesToCheck){
+	public void calculateTime(List<NodeObject> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
