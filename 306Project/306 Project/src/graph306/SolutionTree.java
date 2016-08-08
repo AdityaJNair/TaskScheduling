@@ -187,8 +187,10 @@ public class SolutionTree {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * checkProcessStartTimeTask finds the time when to add the task on the processor. This is required as need to check on the
+	 * constraints which are the communication costs. The dependencies constraint is met in the checkValidSolutionDepency method called
+	 * before. So just finds the start time for the particular task.
+	 * @return finds the start time for the particular task.
 	 */
 	public int checkProcessStartTimeTask(NodeObject currentNode, String newNode, int processor){
 		if(checkAdjacencyListNullMap(newNode)){
@@ -199,7 +201,7 @@ public class SolutionTree {
 			//has parents
 			int maxTime = -1;
 			int tmpTime = -1;
-			//check parents if processor is different
+			//iterate through the current path of nodes visited to see the latest time to add the particular node
 			for(NodeObject node: currentNode.getCurrentPath()){
 				//check parents if processor is same
 				if(isDependent(node,newNode)){
@@ -211,17 +213,20 @@ public class SolutionTree {
 						tmpTime = node.getEndTime() + getEdgeWeight(node, newNode);
 					}
 				}
-				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor(parameter)
+				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor
+				//this is only based on the dependency rule. So only dependencies are checked to see if the constraints are met.
 				if(maxTime < tmpTime){
 					maxTime = tmpTime;
 				}
 			}
 			//This is the case when all dependencies are finished and the node can just be added at the end of the processor
-			//Can act as a source node
+			//Can act as a source node since the startTime would be greater than the maxTime if added after a dependency.
 			if(currentNode.getTimeWeightOnEachProcessor()[processor] > maxTime){
 				return currentNode.getTimeWeightOnEachProcessor()[processor];
 			} else {
-				//if the dependency requires a time greater than the endtime of latest node in same processor use with the communication cost
+				//if the dependency requires a time greater than the endtime of latest node in same processor. 
+				//Must mean there is a communication cost required from a different processor
+				//The startTime to run on current processor
 				return maxTime;
 			}
 		}
