@@ -18,6 +18,7 @@ public class SolutionTree {
 	private AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
+	private int numberofProcessors;
 	
 	/**
 	 * 
@@ -29,7 +30,7 @@ public class SolutionTree {
 		for(String entry : inputGraph.getIndices().keySet()){
     		nodeList.add(entry);
     	}
-		int numberofProcessors = UserOptions.getInstance().getProcessors();
+		numberofProcessors = UserOptions.getInstance().getProcessors();
 		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors]);		
 	}
 	
@@ -60,9 +61,17 @@ public class SolutionTree {
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
-			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){
-
-				
+			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){	
+				for(int j = 0; j < numberofProcessors; j++){
+					List<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+					
+					
+					
+					
+					
+					//NodeObject nextNode = new NodeObject(j, ));
+				}
 				//for loop for each processor
 				//create a node object
 				//update the nodelist for the recursion only
