@@ -1,5 +1,6 @@
 package graph306;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NodeObject {
@@ -9,7 +10,7 @@ public class NodeObject {
 	private List<NodeObject> currentPath;
 
 	
-	public NodeObject(int setProcessor, List<NodeObject> currentPathNotIncludeThis, List<String> nodesToCheckUpdated, String nodeName, int[] timeWeightOnEachProcessor){
+	public NodeObject(int setProcessor, ArrayList<NodeObject> currentPathNotIncludeThis, String nodeName, int[] timeWeightOnEachProcessor){
 		//set the name of this nodeObject
 		this.nodeName = nodeName;
 		//add the time weight up to this processor
