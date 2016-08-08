@@ -67,7 +67,8 @@ public class CustomGraphReader {
 	 */
 	public void readDAG(){
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
-		    for(String line; (line = br.readLine()) != null; ) {
+			String line;
+		    while((line = br.readLine()) != null ) {
 		    	//sets the name of the graph and creates a graph 
 		        if(line.contains("digraph")){
 		        	//checks first line and finds the text inside quotation marks which is graph name (used for output)

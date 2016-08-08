@@ -3,6 +3,9 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +71,34 @@ public class ValidityTest {
         graphReader.readDAG();
         //Gets the graph from the adapter.
         AdjacencyList testList = graphReader.getGraph().getGraph();
+    }
+    
+    @Test
+    public void readDAGTest2(){
+        String slash = System.getProperty("file.separator");
+        args[0] = "D:"+slash+"Workspace"+slash+"306-Project"+slash+"306Project"+slash+"306 Project"+slash+"src"+slash+"test"+slash+"testGraph.dot";
+        args[1] = "2";
+        args[2] = "-p";
+        args[3] = "2";
+        args[4] = "-v";
+        args[5] = "-o";
+        args[6] = "OUTPUT";
+        graphReader = new CustomGraphReader(args);
+        graphReader.readDAG();
+        //Gets the graph from the adapter.
+        AdjacencyList testList = graphReader.getGraph().getGraph();
+        System.out.println("Size of the list "+testList.getAdjacencyList().size());
+    	for(Map.Entry<String, Integer> entry : testList.getIndices().entrySet()){
+    		System.out.println("Node "+entry.getKey() + " is at index " + entry.getValue());
+    	}
+    	System.out.println();
+        for(int i=0; i<testList.getAdjacencyList().size();i++){
+        	System.out.println("At index= "+i+" the size of the map is "+testList.getAdjacencyList().get(i).size());
+        	for(Map.Entry<String, Integer> entry : testList.getAdjacencyList().get(i).entrySet()){
+        		System.out.println("    Contains an entry "+entry.getKey() + " and the edge weight is " + entry.getValue());
+        	}
+        }
+
     }
 
     @After
