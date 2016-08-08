@@ -1,3 +1,4 @@
+import graph306.AdjacencyList;
 import graph306.CustomGraphReader;
 import graph306.UserOptions;
 import org.junit.After;
@@ -30,6 +31,9 @@ public class ValidityTest {
         graphReader = new CustomGraphReader(args);
     }
 
+    /**
+     * Tests that all user options have been correctly stored in the UserOptions class.
+     */
     @Test
     public void userOptionsTest(){
 
@@ -50,26 +54,17 @@ public class ValidityTest {
 
         assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
         //System.out.println(options.getProcessors());
+
+        //This value is hard coded from testgraph.dot
+        assertEquals(options.getGraphName(),"edgefirst");
+        //System.out.println(options.getGraphName());
     }
 
     @Test
     public void readDAGTest(){
         graphReader.readDAG();
-        //Note that these use hard coded values from testGraph.dot.
-        assertEquals(graphReader.getEdgeList().size(), 6);
-//        assertEquals(graphReader.getSourceNodes().size(), 7);
-
-        //Use these to inspect the graph.
-        //graphReader.getGraph().display();
-        //while (true){}
-
-    }
-
-    @Test
-    public void createDAGTest() {
-        graphReader.createDAG();
-        //Note that these use hard coded values from testGraph.dot.
-//        assertEquals(graphReader.getSourceNodes().size(),3);
+        //Gets the graph from the adapter.
+        AdjacencyList testList = graphReader.getGraph().getGraph();
     }
 
     @After
