@@ -28,7 +28,7 @@ public class SolutionTree {
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 */
-	public void calculateTime(NodeObject currentNode, List<NodeObject> nodesToCheck){
+	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -40,10 +40,11 @@ public class SolutionTree {
 		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){
-				List<NodeObject> listForChild = nodesToCheck;
+				List<String> listForChild = nodesToCheck;
 				listForChild.remove(i);
 				// create new node object for each processor
-				NodeObject nextNode = nodesToCheck.get(i);
+				String nextNodeName = nodesToCheck.get(i);
+				NodeObject nextNode = getNodeObject(nextNodeName);
 				calculateTime(nextNode, listForChild);
 			}		
 		}
@@ -55,7 +56,7 @@ public class SolutionTree {
 	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
-	private boolean isValidOption(NodeObject node, List<NodeObject> nodesToCheck){
+	private boolean isValidOption(String node, List<String> nodesToCheck){
 		// Get the parents of current node inputGraph.getParents()
 		ArrayList<NodeObject> parentList = new ArrayList<NodeObject>(); // CHANGE THIS TO getDependencies() CALLED ON AdjacencyList
 		
@@ -74,5 +75,14 @@ public class SolutionTree {
 		
 	}
 	
+	/**
+	 * Gets a node object from its name.
+	 * @param nodeName
+	 * @return
+	 */
+	public NodeObject getNodeObject(String nodeName){
+		return null;
+		
+	}
 	
 }
