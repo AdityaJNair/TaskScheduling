@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-
+	
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -43,6 +43,13 @@ public class SolutionTree {
 	 * @param currentNode - the current node 
 	 */
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
+		System.out.println();
+		System.out.println(currentNode.getNodeName() + "  " + currentNode.getProcessor() + "  " + currentNode.getStartTime() + "  " + currentNode.getEndTime());
+		for(String a: nodesToCheck){
+			System.out.print(a);
+		}
+		System.out.println();
+		
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -63,8 +70,9 @@ public class SolutionTree {
 		currentNode.getCurrentPath().add(currentNode);
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
-		for(int i = 0 ; i < nodesToCheck.size() ; i++){
-			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){	
+		for(String nodeToCheckStr : nodesToCheck){
+			if(isValidOption(nodeToCheckStr, nodesToCheck)){
+				System.out.println("IS VALID OPTION AND WILL GO RECURSIVE  " + nodeToCheckStr);
 				for(int j = 0; j < numberofProcessors; j++){
 					
 					//UPDATE THE NEW NODE FOR RECURSION
@@ -75,12 +83,12 @@ public class SolutionTree {
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
 					
 					//initialising the fields for the new NodalObject to recurse through
-					String newNodeName = nodesToCheck.get(i);
+					String newNodeName = nodeToCheckStr;
 					int newProcessor = j;
 					int nodalWeight = getNodalWeight(newNodeName);
 					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
 					int newEndTime = newStartTime+nodalWeight;
-					processorArray[newProcessor-1] = newEndTime;
+					processorArray[newProcessor] = newEndTime;
 					
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
 					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
@@ -95,7 +103,6 @@ public class SolutionTree {
 				//update the nodelist for the recursion only
 				//cost of weight
 				//time if it is greater than the minimumBest time
-				
 				//List<String> listForChild = nodesToCheck;
 				//listForChild.remove(i);
 				// create new node object for each processor
@@ -116,18 +123,17 @@ public class SolutionTree {
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 
+			System.out.println("inside check null = is true for " +node);
 			return true;
 		}
 		
-		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
-		for(int i = 0 ; i < nodesToCheck.size(); i++){
-			// valid of element has no parent. 
-			 if(checkValidSolutionDepency(nodesToCheck.get(i), nodesToCheck)){
-				// return false if one of the parents is present in the nodesToCheck list
-				return true;
+			// valid if element has no parent. 
+			//inside this if statement if a parent is present that has not been seen this will be set to true and return false
+			//for an invalid option
+			 if(checkValidSolutionDepency(node, nodesToCheck)){
+				return false;
 			}
-		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -156,15 +162,18 @@ public class SolutionTree {
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
 		//found c
 		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
+		System.out.println(nodeName);
 		//get map for c
 		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
+			System.out.println("MUST FIRST DO = " + entry);
 			//we check to see if the nodesToCheck has a or b inside of it.
 			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
-				return false;
+				return true;
 			}
 		}
-		return true;
+		System.out.println("ALL DEPENDENCIES COMPLETED");
+		return false;
 	}
 	
 	/**
@@ -174,9 +183,10 @@ public class SolutionTree {
 	 */
 	public int maxTimeAtPoint(NodeObject node){
 		int largest = -1;
-		for(int i=0; i< node.getTimeWeightOnEachProcessor().length -1 ; i++){
-			if(node.getTimeWeightOnEachProcessor()[i] > largest){
-				largest = node.getTimeWeightOnEachProcessor()[i];
+		for(int i: node.getTimeWeightOnEachProcessor()){
+			System.out.println("LENGHTH " + node.getTimeWeightOnEachProcessor().length);
+			if(i > largest){
+				largest = i;
 			}
 		}
 		return largest;
