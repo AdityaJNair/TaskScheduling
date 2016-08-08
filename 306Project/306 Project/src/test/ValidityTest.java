@@ -1,3 +1,4 @@
+import graph306.AdjacencyList;
 import graph306.CustomGraphReader;
 import graph306.UserOptions;
 import org.junit.After;
@@ -59,17 +60,12 @@ public class ValidityTest {
         assertEquals(graphReader.getEdgeList().size(), 6);
 //        assertEquals(graphReader.getSourceNodes().size(), 7);
 
-        //Use these to inspect the graph.
-        //graphReader.getGraph().display();
-        //while (true){}
-
     }
 
     @Test
     public void createDAGTest() {
         graphReader.createDAG();
-        //Note that these use hard coded values from testGraph.dot.
-//        assertEquals(graphReader.getSourceNodes().size(),3);
+        AdjacencyList adjacencyList = graphReader.getGraph().getGraph();
     }
 
     @After

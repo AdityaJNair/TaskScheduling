@@ -10,7 +10,7 @@ public class Main {
 		graphReader.readDAG();
 		//create the DAG
 		graphReader.createDAG();
-		graphReader.graph.display();
+		//graphReader.graph.display();
 	}
 
 }
