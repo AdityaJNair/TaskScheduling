@@ -1,12 +1,15 @@
-import graph306.AdjacencyList;
-import graph306.CustomGraphReader;
-import graph306.UserOptions;
+package test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import graph306.AdjacencyList;
+import graph306.CustomGraphReader;
+import graph306.UserOptions;
 
 /**
  * Created by JSCooke on 29/07/16.
