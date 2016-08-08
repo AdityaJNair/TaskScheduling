@@ -25,9 +25,10 @@ public class SolutionTree {
 	/** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
-	 * @param nodesToCheck
+	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
+	 * of the solution tree
 	 */
-	private void calculateTime(List<NodeObject> nodesToCheck){
+	public void calculateTime(List<NodeObject> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -35,23 +36,38 @@ public class SolutionTree {
 			return;
 		}
 		
-		// Look through the list of unseen nodes and recursively call this method on ones 
-		// That do not have any parents on the nodesToCheck list.
+		// Look through the list of unseen nodes and recursively call this method on nodes 
+		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
-			
-			
-			if( true/* currentNodes[i]'s parents are not in the list*/){
+			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){
 				List<NodeObject> listForChild = nodesToCheck;
 				listForChild.remove(i);
-				
-//				for(int j = 0 ; j < processorNumber ; j++){
-//					// create new node object for each processor
-//					calculateTime(listForChild);
-//				}
-				
-			}
-			
+				// create new node object for each processor
+				// calculateTime(listForChild);
+			}		
 		}
+	}
+	
+	/**
+	 * Checks if the node is a valid option for option tree
+	 * @param node : The node we are checking the validity for.
+	 * @param nodesToCheck : List of unseen nodes at a given point in time
+	 * @return
+	 */
+	private boolean isValidOption(NodeObject node, List<NodeObject> nodesToCheck){
+		// Get the parents of current node inputGraph.getParents()
+		ArrayList<NodeObject> parentList = new ArrayList<NodeObject>(); // CHANGE THIS TO getDependencies() CALLED ON AdjacencyList
+		
+		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
+		for(int i = 0 ; i < parentList.size(); i++){
+			if(nodesToCheck.contains(parentList.get(i))){
+				// return false if one of the parents is present in the nodesToCheck list
+				return false;
+			}
+		}
+		return true;
 		
 	}
+	
+	
 }
