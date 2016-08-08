@@ -14,7 +14,7 @@ public class GraphAdapter {
      * @return The graph, as an AdjacencyList.
      */
 
-    public AdjacencyList getGraph() {
+    public AdjacencyList getAdjacencyList() {
 
         return graph;
 

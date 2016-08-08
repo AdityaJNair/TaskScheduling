@@ -15,7 +15,6 @@ public class SolutionTree {
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	private AdjacencyList inputGraph;
-	
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	
@@ -51,8 +50,8 @@ public class SolutionTree {
 				listForChild.remove(i);
 				// create new node object for each processor
 				String nextNodeName = nodesToCheck.get(i);
-				NodeObject nextNode = getNodeObject(nextNodeName);
-				calculateTime(nextNode, listForChild);
+				//NodeObject nextNode = getNodeObject(nextNodeName);
+				//calculateTime(nextNode, listForChild);
 			}		
 		}
 	}
@@ -83,13 +82,62 @@ public class SolutionTree {
 	}
 	
 	/**
-	 * Gets a node object from its name.
+	 * 
 	 * @param nodeName
 	 * @return
 	 */
-	public NodeObject getNodeObject(String nodeName){
-		return null;
-		
+	public boolean checkAdjacencyListNullMap(String nodeName){
+		if(inputGraph.getAdjacencyList().get(inputGraph.getIndices().get(nodeName)).size() == 0){
+			return true;
+		} else {
+			return false;
+		}
 	}
+	
+	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
+		inputGraph.getAdjacencyList();
+		return true;
+	}
+	
+	public static int getMinimumTime() {
+		return minimumTime;
+	}
+
+	public static void setMinimumTime(int minimumTime) {
+		SolutionTree.minimumTime = minimumTime;
+	}
+
+	public static List<NodeObject> getBestSchedule() {
+		return bestSchedule;
+	}
+
+	public static void setBestSchedule(List<NodeObject> bestSchedule) {
+		SolutionTree.bestSchedule = bestSchedule;
+	}
+
+	public AdjacencyList getInputGraph() {
+		return inputGraph;
+	}
+
+	public void setInputGraph(AdjacencyList inputGraph) {
+		this.inputGraph = inputGraph;
+	}
+
+	public NodeObject getRootNode() {
+		return rootNode;
+	}
+
+	public void setRootNode(NodeObject rootNode) {
+		this.rootNode = rootNode;
+	}
+
+	public List<String> getNodeList() {
+		return nodeList;
+	}
+
+	public void setNodeList(List<String> nodeList) {
+		this.nodeList = nodeList;
+	}
+
 	
 }

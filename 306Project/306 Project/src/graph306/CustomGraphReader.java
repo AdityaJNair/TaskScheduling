@@ -103,7 +103,7 @@ public class CustomGraphReader {
 		}
 	}
 
-	public GraphAdapter getGraph() {
+	public GraphAdapter getGraphAdapter() {
 		return graph;
 	}
 }

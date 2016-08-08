@@ -70,7 +70,7 @@ public class ValidityTest {
     public void readDAGTest(){
         graphReader.readDAG();
         //Gets the graph from the adapter.
-        AdjacencyList testList = graphReader.getGraph().getGraph();
+        AdjacencyList testList = graphReader.getGraphAdapter().getAdjacencyList();
     }
     
     @Test
@@ -88,7 +88,7 @@ public class ValidityTest {
         graphReader = new CustomGraphReader(args);
         graphReader.readDAG();
         //Gets the graph from the adapter.
-        AdjacencyList testList = graphReader.getGraph().getGraph();
+        AdjacencyList testList = graphReader.getGraphAdapter().getAdjacencyList();
         System.out.println("Size of the list "+testList.getAdjacencyList().size());
     	for(Map.Entry<String, Integer> entry : testList.getIndices().entrySet()){
     		System.out.println("Node "+entry.getKey() + " is at index " + entry.getValue());
