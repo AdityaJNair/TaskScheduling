@@ -8,8 +8,10 @@ public class NodeObject {
 	private int[] timeWeightOnEachProcessor;
 	private int processor;
 	private List<NodeObject> currentPath;
+	private int startTime;
+	private int endTime;
 
-	
+
 	public NodeObject(int setProcessor, ArrayList<NodeObject> currentPathNotIncludeThis, String nodeName, int[] timeWeightOnEachProcessor){
 		//set the name of this nodeObject
 		this.nodeName = nodeName;
@@ -53,6 +55,22 @@ public class NodeObject {
 
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
+	}
+	
+	public int getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(int startTime) {
+		this.startTime = startTime;
+	}
+
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(int endTime) {
+		this.endTime = endTime;
 	}
 
 }
