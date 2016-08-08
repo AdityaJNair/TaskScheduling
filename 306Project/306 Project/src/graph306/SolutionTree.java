@@ -50,8 +50,8 @@ public class SolutionTree {
 	
 	/**
 	 * Checks if the node is a valid option for option tree
-	 * @param parentList
-	 * @param nodesToCheck
+	 * @param node : The node we are checking the validity for.
+	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
 	private boolean isValidOption(NodeObject node, List<NodeObject> nodesToCheck){
@@ -65,7 +65,6 @@ public class SolutionTree {
 				return false;
 			}
 		}
-		
 		return true;
 		
 	}
