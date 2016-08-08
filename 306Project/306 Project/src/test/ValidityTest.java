@@ -51,21 +51,17 @@ public class ValidityTest {
 
         assertEquals(options.getProcessors(),Integer.parseInt(args[1]));
         //System.out.println(options.getProcessors());
+
+        //This value is hard coded from testgraph.dot
+        assertEquals(options.getGraphName(),"edgefirst");
+        //System.out.println(options.getGraphName());
     }
 
     @Test
     public void readDAGTest(){
         graphReader.readDAG();
-        //Note that these use hard coded values from testGraph.dot.
-        assertEquals(graphReader.getEdgeList().size(), 6);
-//        assertEquals(graphReader.getSourceNodes().size(), 7);
 
-    }
 
-    @Test
-    public void createDAGTest() {
-        graphReader.createDAG();
-        AdjacencyList adjacencyList = graphReader.getGraph().getGraph();
     }
 
     @After
