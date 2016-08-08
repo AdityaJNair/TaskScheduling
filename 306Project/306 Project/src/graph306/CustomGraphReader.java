@@ -69,6 +69,7 @@ public class CustomGraphReader {
 	public void readDAG(){
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
 		    for(String line; (line = br.readLine()) != null; ) {
+		    	//sets the name of the graph and creates a graph 
 		        if(line.contains("digraph")){
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
@@ -98,11 +99,6 @@ public class CustomGraphReader {
 		} catch (IOException e) {
 			System.out.println("An IO Exception has occurred.");
 		}
-	}
-	
-	
-	public UserOptions getUserOptions() {
-		return userOptions;
 	}
 
 	public GraphAdapter getGraph() {

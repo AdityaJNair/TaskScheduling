@@ -9,8 +9,6 @@ public class Main {
 		//run a read method on DAG
 		graphReader.readDAG();
 		//create the DAG
-		graphReader.createDAG();
-		//graphReader.graph.display();
 	}
 
 }
