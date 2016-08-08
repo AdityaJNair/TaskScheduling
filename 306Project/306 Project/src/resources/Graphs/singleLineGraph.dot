@@ -1,15 +1,15 @@
-digraph "edgefirst"{
+digraph "sing line graph" {
 a [Weight=3];
-a -> c [Weight=2];
+a -> b [Weight=2];
 b [Weight=2];
 b -> c [Weight=2];
 c [Weight=3];
+c -> d [Weight=2];
 d [Weight=4];
-c -> d [Weight=1];
+d -> e [Weight=2];
 e [Weight=3];
-c -> e [Weight=3];
+e -> f [Weight=2];
 f [Weight=1];
-g [Weight=2];
 f -> g [Weight=2];
-g -> e [Weight=1];
+g [Weight=2];
 }
