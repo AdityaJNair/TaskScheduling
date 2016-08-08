@@ -83,7 +83,8 @@ public class CustomGraphReader {
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
 		        	continue;
-		        } else { // add Vertices to the graph
+		        } else { 
+		        	// add Vertices to the graph
 		        	// exit if end of file
 		        	if(line.contains("}")){
 		        		break; 
