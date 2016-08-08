@@ -21,19 +21,6 @@ public class CustomGraphReader {
 	List<String> edgeList = new ArrayList<String>();
 	public GraphAdapter graph = null;
 	
-	public UserOptions getUserOptions() {
-		return userOptions;
-	}
-
-
-	public List<String> getEdgeList() {
-		return edgeList;
-	}
-
-	public GraphAdapter getGraph() {
-		return graph;
-	}
-	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
 	 * main arguments.
@@ -87,7 +74,6 @@ public class CustomGraphReader {
 		        if(line.contains("digraph")){
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
-		        	
 		        	// first line. Contains graph name
 		        	while (m.find()) { 
 		        		// create new graph object
@@ -100,15 +86,11 @@ public class CustomGraphReader {
 		        } else { // add Vertices to the graph
 		        	// exit if end of file
 		        	if(line.contains("}")) break; 
-		        
 		        	String[] words = line.split("\\s+");
-		        	
 //		        	sourceNodes.add(words[0]);
-
 		        	String weight = words[1]; 
 		        	weight = weight.replaceAll("[^0-9]+", "");
 		        	int weightInt = Integer.parseInt(weight);
-
 		        	// add vertex to the graph
 		        	graph.addNode(words[0], weightInt);
 		        }
@@ -136,5 +118,19 @@ public class CustomGraphReader {
 //			sourceNodes.remove(dependencyArray[2]);
 		}
 
+	}
+	
+	
+	public UserOptions getUserOptions() {
+		return userOptions;
+	}
+
+
+	public List<String> getEdgeList() {
+		return edgeList;
+	}
+
+	public GraphAdapter getGraph() {
+		return graph;
 	}
 }
