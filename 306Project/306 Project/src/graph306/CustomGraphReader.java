@@ -63,37 +63,38 @@ public class CustomGraphReader {
 	}
 	
 	/**
-	 * Reads the input file and adds nodes to the graph. Also adds the nodes to the source nodes list
-	 * which is later manipulated to contain only the source nodes.
+	 * Reads the input file and adds nodes to the graph (Adjacency List).
 	 */
 	public void readDAG(){
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		    	//sets the name of the graph and creates a graph 
 		        if(line.contains("digraph")){
+		        	//checks first line and finds the text inside quotation marks which is graph name (used for output)
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
 		        	// first line. Contains graph name
 		        	while (m.find()) { 
-		        		// create new graph object
+		        		// create new graph object and sets the name of the graph to userOptions
 		        		userOptions.setGraphName(m.group(1));
 		        		graph = new GraphAdapter(); 
 		        	}
 		        	continue;
-		        } else if(line.contains("->")){ // Line with edges and weights
+		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
 		        	continue;
 		        } else { 
-		        	// add Vertices to the graph
 		        	// exit if end of file
 		        	if(line.contains("}")){
 		        		break; 
 		        	}
+		        	// add Vertices to the graph
 		        	String[] words = line.split("\\s+");
 		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
 		        }
 		    }
+		    //checking for errors
 		} catch (FileNotFoundException e) {
 			System.out.println("The input file was not found.");
 		} catch (IOException e) {
