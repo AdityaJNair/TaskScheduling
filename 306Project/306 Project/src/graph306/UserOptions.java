@@ -17,8 +17,9 @@ public class UserOptions {
     private boolean isParallel = false;
     private int parallelThreads = -1;
     private int processors = -1;
+    private String graphName = null;
 
-    //Singleton methods
+	//Singleton methods
     private UserOptions(){
         //Do nothing, this class shouldn't be instantiated
     }
@@ -67,5 +68,12 @@ public class UserOptions {
     public void setProcessors(int processors) {
         this.processors = processors;
     }
+
+    public String getGraphName() {
+		return graphName;
+	}
+	public void setGraphName(String graphName) {
+		this.graphName = graphName;
+	}
 
 }

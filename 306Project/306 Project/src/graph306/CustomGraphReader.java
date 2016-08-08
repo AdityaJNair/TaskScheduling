@@ -18,7 +18,6 @@ import org.graphstream.graph.implementations.SingleGraph;
  */
 public class CustomGraphReader {
 	UserOptions userOptions = UserOptions.getInstance();
-	List<String> edgeList = new ArrayList<String>();
 	public GraphAdapter graph = null;
 	
 	/**
@@ -68,7 +67,6 @@ public class CustomGraphReader {
 	 * which is later manipulated to contain only the source nodes.
 	 */
 	public void readDAG(){
-		
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		        if(line.contains("digraph")){
@@ -81,18 +79,16 @@ public class CustomGraphReader {
 		        	}
 		        	continue;
 		        } else if(line.contains("->")){ // Line with edges and weights
-		        	edgeList.add(line);
+		        	String[] edgeString = line.split("\\s+");
+		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
 		        	continue;
 		        } else { // add Vertices to the graph
 		        	// exit if end of file
-		        	if(line.contains("}")) break; 
+		        	if(line.contains("}")){
+		        		break; 
+		        	}
 		        	String[] words = line.split("\\s+");
-//		        	sourceNodes.add(words[0]);
-		        	String weight = words[1]; 
-		        	weight = weight.replaceAll("[^0-9]+", "");
-		        	int weightInt = Integer.parseInt(weight);
-		        	// add vertex to the graph
-		        	graph.addNode(words[0], weightInt);
+		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
 		        }
 		    }
 		} catch (FileNotFoundException e) {
@@ -102,32 +98,9 @@ public class CustomGraphReader {
 		}
 	}
 	
-	/**
-	 * createDAG() - iterates through the edge List that contains all the dependencies between nodes.
-	 * It formats the string and sets the two nodes and gives the graph their dependencies and the cost.
-	 * Additionally the node that is dependent on another (B) in A->B is removed from the source hashset.
-	 */
-	public void createDAG(){
-		//added edges to the graph
-		for(String edge: edgeList){
-			//remove white-spaces from the list string input to get A,->,B,[Weight=2];"
-			String[] dependencyArray = edge.split("\\s+");
-			int edgeWeight = Integer.parseInt(dependencyArray[3].replaceAll("[^0-9]+", ""));
-			//added the weight and the dependencies to the graph
-			graph.addEdge(dependencyArray[0], dependencyArray[2], edgeWeight);
-//			sourceNodes.remove(dependencyArray[2]);
-		}
-
-	}
-	
 	
 	public UserOptions getUserOptions() {
 		return userOptions;
-	}
-
-
-	public List<String> getEdgeList() {
-		return edgeList;
 	}
 
 	public GraphAdapter getGraph() {
