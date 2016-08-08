@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	private List nodeList;
+	private List nodeList = new ArrayList();
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
