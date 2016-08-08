@@ -83,7 +83,7 @@ public class SolutionTree {
 		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
 		for(int i = 0 ; i < nodesToCheck.size(); i++){
 			// valid of element has no parent. 
-			 if(nodesToCheck.contains(parentList.get(i))){
+			 if(){
 				// return false if one of the parents is present in the nodesToCheck list
 				return false;
 			}
@@ -92,7 +92,9 @@ public class SolutionTree {
 	}
 	
 	/**
-	 * 
+	 * Using the adjacency list, get the index of the String node using the indicies map.
+	 * Once the index is found, get the map in the adjanceny list and check the size of the map
+	 * If the map size is 0 then it is a source node that we have not seen so it is a valid option.
 	 * @param nodeName
 	 * @return
 	 */
@@ -106,11 +108,29 @@ public class SolutionTree {
 		}
 	}
 	
+	/**
+	 * Check if the node we are currently looking at has unseen parent nodes.
+	 * @param nodeName
+	 * @param nodesToCheck
+	 * @return
+	 */
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
-		inputGraph.getAdjacencyList();
+		//found c
+		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
+		//
+		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
+			if(nodesToCheck.contains(entry)){
+				return false;
+			}
+		}
 		return true;
 	}
 	
+	/**
+	 * Find the largest time in the processor assuming that the node is updated.
+	 * @param node
+	 * @return
+	 */
 	public int maxTimeAtPoint(NodeObject node){
 		int largest = -1;
 		for(int i=0; i< node.getTimeWeightOnEachProcessor().length -1 ; i++){
