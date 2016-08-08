@@ -68,5 +68,17 @@ public class AdjacencyList {
         adjacencyList.get(destinationIndex).put(source,cost);
     }
 
-    //Add other methods here to make recursive lookup easier.
+    //Add other methods here to make recursive lookup easier, and replace these getters.
+
+    public List<Map<String, Integer>> getAdjacencyList() {
+        return adjacencyList;
+    }
+
+    public Map<String, Integer> getIndices() {
+        return indices;
+    }
+
+    public Map<String, Integer> getNodeWeights() {
+        return nodeWeights;
+    }
 }

@@ -31,6 +31,9 @@ public class ValidityTest {
         graphReader = new CustomGraphReader(args);
     }
 
+    /**
+     * Tests that all user options have been correctly stored in the UserOptions class.
+     */
     @Test
     public void userOptionsTest(){
 
@@ -60,8 +63,8 @@ public class ValidityTest {
     @Test
     public void readDAGTest(){
         graphReader.readDAG();
-
-
+        //Gets the graph from the adapter.
+        AdjacencyList testList = graphReader.getGraph().getGraph();
     }
 
     @After
