@@ -31,7 +31,7 @@ public class SolutionTree {
     		nodeList.add(entry);
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
-		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors]);		
+		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
 	}
 	
 	/** 
@@ -58,13 +58,33 @@ public class SolutionTree {
 		if(maxTimeAtPoint(currentNode) >= minimumTime){
 			return;
 		}
+		currentNode.getCurrentPath().add(currentNode);
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){	
 				for(int j = 0; j < numberofProcessors; j++){
-					List<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					//create a newpath that is the same as current (need to be updated with the node nodeToCheck.get(i))
+					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					//same thing but only copying the processor array --not checking for times at this place
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+					//initialising the fields for the new NodalObject to recurse through
+					String newNodeName = nodesToCheck.get(i);
+					int newProcessor = j;
+					//getting weights of the graph
+					int communicationCost = getEdgeWeight(currentNode, newNodeName);
+					int nodalWeight = getNodalWeight(newNodeName);
+					int newStartTime = -1;
+					int newEndTime = newStartTime+nodalWeight;
+					
+					//need to calculate timing at this point
+					
+					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+					nextNode.getCurrentPath().add(nextNode);
+					
+					
+					
+					
 					
 					
 					
@@ -164,6 +184,55 @@ public class SolutionTree {
 		return largest;
 		
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int checkProcessStartTimeTask(NodeObject currentNode, String newNode, int processor){
+		if(checkAdjacencyListNullMap(newNode)){
+			//returns the endtime for particular processor as the new start time if the node in question was a source node
+			//so it has no dependencies
+			return currentNode.getTimeWeightOnEachProcessor()[processor];
+		}else{
+			//has parents
+			//check parents if processor is same
+			//check parents if processor is different
+			
+			
+			
+			return 0;
+			
+		}
+	}
+	
+	/**
+	 * getting the nodal weight from a string of node name
+	 * @param node
+	 * @return
+	 */
+	public int getNodalWeight(String node){
+		if(node.equals("rootNode")){
+			return 0;
+		}
+		return inputGraph.getNodeWeights().get(node);
+	}
+	
+	/**
+	 * Getting the edge weight from the currentNode to the new valid node
+	 * @param currentNode
+	 * @param nextNode
+	 * @return
+	 */
+	public int getEdgeWeight(NodeObject currentNode, String nextNode){
+		if(currentNode.getNodeName().equals("rootNode")){
+			return 0;
+		}
+		int index = inputGraph.getIndices().get(nextNode);
+		int value = inputGraph.getAdjacencyList().get(index).get(currentNode.getNodeName());
+		return value;
+	}
+	
 	
 	public static int getMinimumTime() {
 		return minimumTime;

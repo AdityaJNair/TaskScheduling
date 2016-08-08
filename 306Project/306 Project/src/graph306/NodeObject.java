@@ -12,7 +12,7 @@ public class NodeObject {
 	private int endTime;
 
 
-	public NodeObject(int setProcessor, ArrayList<NodeObject> currentPathNotIncludeThis, String nodeName, int[] timeWeightOnEachProcessor){
+	public NodeObject(int setProcessor, ArrayList<NodeObject> currentPathNotIncludeThis, String nodeName, int[] timeWeightOnEachProcessor, int startTime, int endTime){
 		//set the name of this nodeObject
 		this.nodeName = nodeName;
 		//add the time weight up to this processor
@@ -23,6 +23,8 @@ public class NodeObject {
 		this.currentPath = currentPathNotIncludeThis;
 		this.currentPath.add(this.currentPath.size(), this);
 		//remove this node from the list to check for nodes that have not been seen yet
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 	
 	public int getProcessor() {
