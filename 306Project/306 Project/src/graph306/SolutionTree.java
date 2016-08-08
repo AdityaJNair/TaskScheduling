@@ -59,6 +59,10 @@ public class SolutionTree {
 		// Get the parents of current node inputGraph.getParents()
 		ArrayList<NodeObject> parentList = new ArrayList<NodeObject>(); // CHANGE THIS TO getDependencies() CALLED ON AdjacencyList
 		
+		// valid of element has no parent. 
+		if(parentList.isEmpty()){ 
+			return true;
+		}
 		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
 		for(int i = 0 ; i < parentList.size(); i++){
 			if(nodesToCheck.contains(parentList.get(i))){
