@@ -53,14 +53,26 @@ public class SolutionTree {
 			}
 			return;
 		}
+		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+		if(maxTimeAtPoint(currentNode) >= minimumTime){
+			return;
+		}
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){
-				List<String> listForChild = nodesToCheck;
-				listForChild.remove(i);
+
+				
+				//for loop for each processor
+				//create a node object
+				//update the nodelist for the recursion only
+				//cost of weight
+				//time if it is greater than the minimumBest time
+				
+				//List<String> listForChild = nodesToCheck;
+				//listForChild.remove(i);
 				// create new node object for each processor
-				String nextNodeName = nodesToCheck.get(i);
+				//String nextNodeName = nodesToCheck.get(i);
 				//NodeObject nextNode = getNodeObject(nextNodeName);
 				//calculateTime(nextNode, listForChild);
 			}		
@@ -83,12 +95,12 @@ public class SolutionTree {
 		// Loop through the nodes that depend on current node and see if they are present in nodesToCheck
 		for(int i = 0 ; i < nodesToCheck.size(); i++){
 			// valid of element has no parent. 
-			 if(){
+			 if(checkValidSolutionDepency(nodesToCheck.get(i), nodesToCheck)){
 				// return false if one of the parents is present in the nodesToCheck list
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -117,8 +129,10 @@ public class SolutionTree {
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
 		//found c
 		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
-		//
+		//get map for c
 		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
+			//we check to see if the nodesToCheck has a or b inside of it.
+			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
 				return false;
 			}
