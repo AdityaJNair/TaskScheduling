@@ -76,6 +76,8 @@ public class ValidityTest {
     @Test
     public void readDAGTest2(){
         String slash = System.getProperty("file.separator");
+        //For eclipse, this path will work.
+        //For IntelliJ, remove this part: "D:"+slash+"Workspace"+slash+"306-Project"+slash+"306Project"+slash+"
         args[0] = "D:"+slash+"Workspace"+slash+"306-Project"+slash+"306Project"+slash+"306 Project"+slash+"src"+slash+"test"+slash+"testGraph.dot";
         args[1] = "2";
         args[2] = "-p";
