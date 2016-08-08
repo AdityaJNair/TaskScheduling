@@ -65,7 +65,7 @@ public class SolutionTree {
 		for(int i = 0 ; i < nodesToCheck.size() ; i++){
 			if(isValidOption(nodesToCheck.get(i), nodesToCheck)){	
 				for(int j = 0; j < numberofProcessors; j++){
-					//create a newpath that is the same as current (need to be updated with the node nodeToCheck.get(i))
+					//create a newpath that is the same as current which includes the currentNode as well
 					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
 					//same thing but only copying the processor array --not checking for times at this place
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
@@ -193,19 +193,55 @@ public class SolutionTree {
 	public int checkProcessStartTimeTask(NodeObject currentNode, String newNode, int processor){
 		if(checkAdjacencyListNullMap(newNode)){
 			//returns the endtime for particular processor as the new start time if the node in question was a source node
-			//so it has no dependencies
+			//so it has no dependencies and can be placed directly at the end of any processor
 			return currentNode.getTimeWeightOnEachProcessor()[processor];
 		}else{
 			//has parents
-			//check parents if processor is same
+			int maxTime = -1;
+			int tmpTime = -1;
 			//check parents if processor is different
-			
-			
-			
-			return 0;
-			
+			for(NodeObject node: currentNode.getCurrentPath()){
+				//check parents if processor is same
+				if(isDependent(node,newNode)){
+					if(node.getProcessor() == processor){
+						//if it is same process, the next time it can go on is directly after it so endtime = starttime
+						tmpTime = node.getEndTime();
+					} else {
+						//if process are different; add communication cost so next time it can go on is directly after the communication cost.
+						tmpTime = node.getEndTime() + getEdgeWeight(node, newNode);
+					}
+				}
+				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor(parameter)
+				if(maxTime < tmpTime){
+					maxTime = tmpTime;
+				}
+			}
+			//This is the case when all dependencies are finished and the node can just be added at the end of the processor
+			//Can act as a source node
+			if(currentNode.getTimeWeightOnEachProcessor()[processor] > maxTime){
+				return currentNode.getTimeWeightOnEachProcessor()[processor];
+			} else {
+				//if the dependency requires a time greater than the endtime of latest node in same processor use with the communication cost
+				return maxTime;
+			}
 		}
 	}
+
+
+	/**
+	 * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
+	 * @return true if is dependent and is inside the adjacency list : false if not in the map
+	 */
+	public boolean isDependent(NodeObject node, String newNode){
+		//if the newNode in the adjacency list has the NodalObject that is a parent to it, return true
+		int index = inputGraph.getIndices().get(newNode);
+		if(inputGraph.getAdjacencyList().get(index).containsKey(node.getNodeName())){
+			return true;
+		}
+		//if not a parent return false
+		return false;
+	}
+
 	
 	/**
 	 * getting the nodal weight from a string of node name
@@ -233,6 +269,10 @@ public class SolutionTree {
 		int value = inputGraph.getAdjacencyList().get(index).get(currentNode.getNodeName());
 		return value;
 	}
+
+	/*
+	 * GETTERS AND SETTERS FOR THIS CLASS
+	 */
 	
 	
 	public static int getMinimumTime() {
