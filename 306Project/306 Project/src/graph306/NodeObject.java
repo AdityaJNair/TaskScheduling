@@ -3,6 +3,11 @@ package graph306;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * 
+ *
+ */
 public class NodeObject {
 	private String nodeName;
 	private int[] timeWeightOnEachProcessor;

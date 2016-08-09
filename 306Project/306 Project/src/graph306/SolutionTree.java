@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class creates a solution tree from the input adjacency list.
- * @author Priyankit
+ * 
  *
  */
 public class SolutionTree {

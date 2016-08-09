@@ -24,6 +24,7 @@ public class DotWriter {
 	public void createDot(List<NodeObject> schedule, UserOptions userOptions,ArrayList<String> edges, AdjacencyList nodeList) {
 		try {
 			int weight;
+			int processor;
 			String cleanEdge; //this string contains an edge with no trailing spaces
 			//Creating the PrintWriter to start writing into a dot file.
 			PrintWriter writer = new PrintWriter(userOptions.getFilenameOut());
@@ -32,7 +33,8 @@ public class DotWriter {
 			//Adds all the nodes and the info that come along with it -> weight, start time and processor
 			for(int i=1; i<schedule.size();i++){
 				weight = nodeList.getNodeWeights().get(schedule.get(i).getNodeName());
-				writer.println(schedule.get(i).getNodeName() + " [ Weight="+weight+", Start ="+schedule.get(i).getStartTime()+", Processor ="+schedule.get(i).getProcessor()+"];");
+				processor = schedule.get(i).getProcessor() + 1;
+				writer.println(schedule.get(i).getNodeName() + " [ Weight="+weight+", Start ="+schedule.get(i).getStartTime()+", Processor ="+processor+"];");
 			}
 			
 			//Adds all the edges into the file.
