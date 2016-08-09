@@ -65,6 +65,10 @@ public class CustomGraphReader {
 	
 	/**
 	 * Reads the input file and adds nodes to the graph (Adjacency List).
+	 * Stores information from the input graph and stores it as information in fields for the singleton class of UserOptions
+	 * Checks and adds the name of the graph
+	 * Checks for any edges and adds those nodes if not seen
+	 * Checks for nodes and adds the weights in the list
 	 */
 	public void readDAG(){
 		try(BufferedReader br = new BufferedReader(new FileReader(userOptions.getFilenameIn()))) {
@@ -99,11 +103,15 @@ public class CustomGraphReader {
 		    }
 		    //checking for errors
 		} catch (FileNotFoundException e) {
-			System.out.println("The input file was not found.");
+			System.out.println("The input file was not found in readDAG() for CustomGraphReader.");
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("An IO Exception has occurred.");
+			System.out.println("An IO Exception has occurred in readDAG() for CustomGraphReader.");
+			e.printStackTrace();
 		}
 	}
+	
+	//GETTERS
 
 	public GraphAdapter getGraphAdapter() {
 		return graph;

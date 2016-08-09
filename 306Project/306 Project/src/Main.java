@@ -10,7 +10,7 @@ import graph306.UserOptions;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		//start
+		//start timing
 		long startTime = System.nanoTime();
 
 		CustomGraphReader graphReader = new CustomGraphReader(args);
@@ -19,19 +19,18 @@ public class Main {
 		SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
 		solver.calculateTime(solver.getRootNode(), solver.getNodeList());
 		
-		//end
-		//print statements
+		//end timing
+		//print statements to see the time and the minimum path time
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime)/1000000;  //divide by 1000000 to get milliseconds.
 		System.out.println(duration+" miliseconds");
-		System.out.println("Minimum cost of time "+solver.getMinimumTime());
+		System.out.println("Minimum time to do all tasks "+solver.getMinimumTime());
 		for(NodeObject a: solver.getBestSchedule()){
-			System.out.println(a.getNodeName() + "  " + a.getProcessor() + "  " + a.getStartTime() + "  " + a.getEndTime());
+			System.out.println("Node_name= "+a.getNodeName() + " Processor= " + (a.getProcessor()+1) + " Start_time= " + a.getStartTime() + " End_time= " + a.getEndTime());
 		}
-		
+		//Create .dot file at the end
 		DotWriter writer = new DotWriter();
 		writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
-		
 	}
 
 }

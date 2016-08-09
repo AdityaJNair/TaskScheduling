@@ -3,8 +3,6 @@ package graph306;
 /**
  * Singleton class to hold the user's input command line parameters.
  */
-
-
 public class UserOptions {
 
     //Singleton field

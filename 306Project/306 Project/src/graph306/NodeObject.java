@@ -16,7 +16,17 @@ public class NodeObject {
 	private int startTime;
 	private int endTime;
 
-
+	/**
+	 * Initialises a nodeObject that is used to recursively look through and find the best path.
+	 * Stores important information for each node such as the name, processor, current path, start time and end time. And also
+	 * the cost at each processor at this point (including this node)
+	 * @param setProcessor
+	 * @param currentPathNotIncludeThis
+	 * @param nodeName
+	 * @param timeWeightOnEachProcessor
+	 * @param startTime
+	 * @param endTime
+	 */
 	public NodeObject(int setProcessor, ArrayList<NodeObject> currentPathNotIncludeThis, String nodeName, int[] timeWeightOnEachProcessor, int startTime, int endTime){
 		//set the name of this nodeObject
 		this.nodeName = nodeName;
@@ -31,6 +41,8 @@ public class NodeObject {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+	
+	//Getters and setters
 	
 	public int getProcessor() {
 		return processor;

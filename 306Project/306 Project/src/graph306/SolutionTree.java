@@ -16,13 +16,14 @@ public class SolutionTree {
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	
 	private AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	private int numberofProcessors;
 	
 	/**
-	 * 
+	 * Constructor that initialises the adjacency list to this class and makes a list of all nodes to use when checking if a node has been seen or not
 	 * @param inputGraph
 	 */
 	public SolutionTree(AdjacencyList inputGraph){
@@ -32,6 +33,7 @@ public class SolutionTree {
     		nodeList.add(entry);
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
+		//create the root node object
 		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
 	}
 	
@@ -87,6 +89,7 @@ public class SolutionTree {
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					
+					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
@@ -154,8 +157,9 @@ public class SolutionTree {
 	
 	/**
 	 * Find the largest time in the processor assuming that the node is updated.
+	 * Each element in this array has the end time for the index processor (assuming index 0 = processor 1)
 	 * @param node
-	 * @return
+	 * @return largest end time amongst all processors
 	 */
 	public int maxTimeAtPoint(NodeObject node){
 		int largest = -1;
