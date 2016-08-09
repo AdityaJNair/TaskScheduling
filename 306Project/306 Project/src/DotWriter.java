@@ -7,36 +7,40 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The DotWriter class is used to output a .dot File
+ *
+ */
 public class DotWriter {
 	
-	
-
-	
-	
-	//System.out.println(duration+" miliseconds");
-	//System.out.println("Minimum cost of time "+solver.getMinimumTime());
-	//for(NodeObject a: solver.getBestSchedule()){
-	//	System.out.println(a.getNodeName() + "  " + a.getProcessor() + "  " + a.getStartTime() + "  " + a.getEndTime());
-	//}
-	//PrintWriter writer = new PrintWriter(UserOptions.)
-	
+	/**
+	 * The createDot method is used to create the dot file.
+	 * @param schedule - Is used to get the path and display it, it also gets the
+	 * 					start time of each node and which processor it is in.
+	 * @param userOptions - used to get the desired output name and the graph name
+	 * @param edges - the list of edges in the path
+	 * @param nodeList - is used to get the weight of each node
+	 */
 	public void createDot(List<NodeObject> schedule, UserOptions userOptions,ArrayList<String> edges, AdjacencyList nodeList) {
 		try {
 			int weight;
+			String cleanEdge; //this string contains an edge with no trailing spaces
+			//Creating the PrintWriter to start writing into a dot file.
 			PrintWriter writer = new PrintWriter(userOptions.getFilenameOut());
 			writer.println("digraph "+"\"output"+userOptions.getGraphName()+"\""+" {");
-			
-			///for(NodeObject node: schedule){
-			//	weight = nodeList.getNodeWeights().get(node);
-			//	writer.println(node.getNodeName() + " [ Weight="+weight+", Start ="+node.getStartTime()+", Processor ="+node.getProcessor()+";");
-			//}
+	
+			//Adds all the nodes and the info that come along with it -> weight, start time and processor
 			for(int i=1; i<schedule.size();i++){
 				weight = nodeList.getNodeWeights().get(schedule.get(i).getNodeName());
 				writer.println(schedule.get(i).getNodeName() + " [ Weight="+weight+", Start ="+schedule.get(i).getStartTime()+", Processor ="+schedule.get(i).getProcessor()+"];");
 			}
+			
+			//Adds all the edges into the file.
 			for(String edge: edges){
-				if(!edge.endsWith(";")){
+				//makes sure that there is no trailing white spaces so that we can check if there is a ";"
+				cleanEdge = edge.trim();
+				//If the edge does not contain a ";" than add it else just write the edge into the file.
+				if(!cleanEdge.endsWith(";")){
 					writer.println(edge+";");
 				} else {
 					writer.println(edge);
@@ -46,7 +50,7 @@ public class DotWriter {
 			writer.close();
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("Opps Sorry.");
+			System.out.println("ERROR: File was not found or something wrong with the .dot file");
 		}
 	}
 
