@@ -43,12 +43,12 @@ public class SolutionTree {
 	 * @param currentNode - the current node 
 	 */
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
-		/*System.out.println();
+		System.out.println();
 		System.out.println(currentNode.getNodeName() + "  " + currentNode.getProcessor() + "  " + currentNode.getStartTime() + "  " + currentNode.getEndTime());
 		for(String a: nodesToCheck){
 			System.out.print(a);
 		}
-		System.out.println();*/
+		System.out.println();
 		
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
@@ -57,20 +57,27 @@ public class SolutionTree {
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
+				System.out.println("minimum time before at current node "+currentNode.getNodeName()+" = " +minimumTime );
 				minimumTime = maxTimeAtPoint(currentNode);
+				System.out.println("minimum time before at current node "+currentNode.getNodeName()+" = " +minimumTime );
 				bestSchedule = currentNode.getCurrentPath();
+				for(NodeObject a: bestSchedule){
+					System.out.println(a.getNodeName() + "  " + a.getProcessor() + "  " + a.getStartTime() + "  " + a.getEndTime());
+				}
 			}
 			return;
 		}
+		
 		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
 		if(maxTimeAtPoint(currentNode) >= minimumTime){
+			System.out.println("Max time at current node " + maxTimeAtPoint(currentNode) + " and minimum time = " + minimumTime );
 			return;
 		}
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-				//System.out.println("IS VALID OPTION AND WILL GO RECURSIVE  " + nodeToCheckStr);
+				System.out.println("IS VALID OPTION AND WILL GO RECURSIVE  " + nodeToCheckStr);
 				for(int j = 0; j < numberofProcessors; j++){
 					
 					//UPDATE THE NEW NODE FOR RECURSION
@@ -110,7 +117,7 @@ public class SolutionTree {
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 
-			//System.out.println("inside check null = is true for " +node);
+			System.out.println("inside check null = is true for " +node);
 			return true;
 		}
 		
@@ -149,17 +156,17 @@ public class SolutionTree {
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
 		//found c
 		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
-		//System.out.println(nodeName);
+		System.out.println("In valid solution dependency check " +nodeName);
 		//get map for c
 		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
-			//System.out.println("MUST FIRST DO = " + entry);
+			System.out.println("MUST FIRST DO = " + entry);
 			//we check to see if the nodesToCheck has a or b inside of it.
 			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
 				return true;
 			}
 		}
-		//System.out.println("ALL DEPENDENCIES COMPLETED");
+		System.out.println("ALL DEPENDENCIES ARE COMPLETED. CAN USE");
 		return false;
 	}
 	
@@ -171,7 +178,6 @@ public class SolutionTree {
 	public int maxTimeAtPoint(NodeObject node){
 		int largest = -1;
 		for(int i: node.getTimeWeightOnEachProcessor()){
-			//System.out.println("LENGHTH " + node.getTimeWeightOnEachProcessor().length);
 			if(i > largest){
 				largest = i;
 			}
