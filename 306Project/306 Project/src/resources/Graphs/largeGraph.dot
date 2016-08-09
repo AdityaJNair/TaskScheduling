@@ -1,0 +1,37 @@
+digraph "largeGraph"{
+a [Weight=7];
+b [Weight=5];
+c [Weight=3];
+d [Weight=11];
+e [Weight=8];
+f [Weight=2];
+g [Weight=9];
+h [Weight=10];
+i [Weight=5];
+j [Weight=2];
+k [Weight=9];
+l [Weight=10];
+m [Weight=5];
+n [Weight=2];
+o [Weight=9];
+a -> e [Weight=3];
+b -> e [Weight=12];
+c -> e [Weight=1];
+d -> e [Weight=4];
+e -> f [Weight=7];
+e -> g [Weight=8];
+e -> h [Weight=1];
+e -> i [Weight=2];
+f -> j [Weight=3];
+g -> j [Weight=12];
+h -> j [Weight=1];
+i -> j [Weight=4];
+j -> k [Weight=3];
+j -> l [Weight=12];
+j -> m [Weight=1];
+j -> n [Weight=4];
+k -> o [Weight=3];
+l -> o [Weight=12];
+m -> o [Weight=1];
+n -> o [Weight=4];
+}

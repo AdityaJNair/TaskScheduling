@@ -1,0 +1,19 @@
+digraph "manyedge"{
+a [Weight=7];
+b [Weight=5];
+c [Weight=3];
+d [Weight=11];
+e [Weight=8];
+f [Weight=2];
+g [Weight=9];
+h [Weight=10];
+i [Weight=5];
+a -> e [Weight=3];
+b -> e [Weight=12];
+c -> e [Weight=1];
+d -> e [Weight=4];
+e -> f [Weight=7];
+e -> g [Weight=8];
+e -> h [Weight=1];
+e -> i [Weight=2];
+}
