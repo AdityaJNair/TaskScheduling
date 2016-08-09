@@ -5,6 +5,7 @@ import java.util.List;
 import graph306.CustomGraphReader;
 import graph306.NodeObject;
 import graph306.SolutionTree;
+import graph306.UserOptions;
 
 public class Main {
 
@@ -23,6 +24,10 @@ public class Main {
 		for(NodeObject a: solver.getBestSchedule()){
 			System.out.println(a.getNodeName() + "  " + a.getProcessor() + "  " + a.getStartTime() + "  " + a.getEndTime());
 		}
+		
+		DotWriter writer = new DotWriter();
+		writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
+		
 	}
 
 }

@@ -19,6 +19,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 public class CustomGraphReader {
 	UserOptions userOptions = UserOptions.getInstance();
 	public GraphAdapter graph = null;
+	public ArrayList<String> edges = new ArrayList<String>();
 	
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
@@ -84,6 +85,7 @@ public class CustomGraphReader {
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
+		        	edges.add(line);
 		        	continue;
 		        } else { 
 		        	// exit if end of file
@@ -105,5 +107,9 @@ public class CustomGraphReader {
 
 	public GraphAdapter getGraphAdapter() {
 		return graph;
+	}
+	
+	public ArrayList<String> getEdgeList(){
+		return edges;
 	}
 }
