@@ -52,7 +52,8 @@ public class DotWriter {
 			writer.close();
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File was not found or something wrong with the .dot file");
+			System.out.println("ERROR: File was not found or something wrong with the .dot file in createDot() for class DotWriter");
+			e.printStackTrace();
 		}
 	}
 
