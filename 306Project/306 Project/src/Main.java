@@ -10,6 +10,7 @@ import graph306.UserOptions;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		//start
 		long startTime = System.nanoTime();
 
 		CustomGraphReader graphReader = new CustomGraphReader(args);
@@ -17,6 +18,9 @@ public class Main {
 		graphReader.readDAG();
 		SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
 		solver.calculateTime(solver.getRootNode(), solver.getNodeList());
+		
+		//end
+		//print statements
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime)/1000000;  //divide by 1000000 to get milliseconds.
 		System.out.println(duration+" miliseconds");
