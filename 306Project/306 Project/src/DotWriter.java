@@ -25,7 +25,7 @@ public class DotWriter {
 		try {
 			int weight;
 			PrintWriter writer = new PrintWriter(userOptions.getFilenameOut());
-			writer.println("digraph "+"\""+userOptions.getGraphName()+"\""+" {");
+			writer.println("digraph "+"\"output"+userOptions.getGraphName()+"\""+" {");
 			
 			///for(NodeObject node: schedule){
 			//	weight = nodeList.getNodeWeights().get(node);
@@ -38,8 +38,9 @@ public class DotWriter {
 			for(String edge: edges){
 				if(!edge.endsWith(";")){
 					writer.println(edge+";");
+				} else {
+					writer.println(edge);
 				}
-				
 			}
 			writer.println("}");
 			writer.close();
