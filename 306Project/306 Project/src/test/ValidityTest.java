@@ -18,10 +18,6 @@ import graph306.AdjacencyList;
 import graph306.CustomGraphReader;
 import graph306.UserOptions;
 
-/**
- * Created by JSCooke on 29/07/16.
- */
-
 public class ValidityTest {
 
     CustomGraphReader graphReader;
