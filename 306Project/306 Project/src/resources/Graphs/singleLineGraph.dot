@@ -1,0 +1,15 @@
+digraph "sing line graph" {
+a [Weight=3];
+a -> b [Weight=2];
+b [Weight=2];
+b -> c [Weight=2];
+c [Weight=3];
+c -> d [Weight=2];
+d [Weight=4];
+d -> e [Weight=2];
+e [Weight=3];
+e -> f [Weight=2];
+f [Weight=1];
+f -> g [Weight=2];
+g [Weight=2];
+}
