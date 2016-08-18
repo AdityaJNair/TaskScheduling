@@ -1,16 +1,12 @@
 package graph306;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
@@ -20,7 +16,8 @@ public class CustomGraphReader {
 	UserOptions userOptions = UserOptions.getInstance();
 	public GraphAdapter graph = null;
 	public ArrayList<String> edges = new ArrayList<String>();
-	
+
+
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
 	 * main arguments.
@@ -81,18 +78,20 @@ public class CustomGraphReader {
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
 		        	// first line. Contains graph name
-		        	while (m.find()) { 
-		        		// create new graph object and sets the name of the graph to userOptions
-		        		userOptions.setGraphName(m.group(1));
-		        		graph = new GraphAdapter(); 
-		        	}
+		        	while (m.find()) {
+						// create new graph object and sets the name of the graph to userOptions
+						userOptions.setGraphName(m.group(1));
+						graph = new GraphAdapter();
+					}
 		        	continue;
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
+//					Edge e = gsGraph.addEdge(edgeString[0]+edgeString[2], edgeString[0], edgeString[2], true);
+//					e.addAttribute("ui.label", Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
 		        	edges.add(line);
-		        	continue;
-		        } else { 
+					continue;
+		        } else {
 		        	// exit if end of file
 		        	if(line.contains("}")){
 		        		break; 
@@ -100,8 +99,10 @@ public class CustomGraphReader {
 		        	// add Vertices to the graph
 		        	String[] words = line.split("\\s+");
 		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
-		        }
-		    }
+//					Node n = gsGraph.addNode(words[0]);
+//					n.addAttribute("ui.label", words[0]+": "+Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
+				}
+			}
 		    //checking for errors
 		} catch (FileNotFoundException e) {
 			System.out.println("The input file was not found in readDAG() for CustomGraphReader.");

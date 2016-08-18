@@ -1,5 +1,10 @@
 package graph306;
 
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,12 +16,16 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	
+	public static Graph gsGraph = new SingleGraph("DAG");
+
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
-	
+
+	private int i = 0;
+	private String oldNode = "";
+	private String newNode;
 	private AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
@@ -44,7 +53,7 @@ public class SolutionTree {
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
+	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck) throws InterruptedException {
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -88,7 +97,28 @@ public class SolutionTree {
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					
+					String nn = new String();
+					int oldNodePos = 0;
+					for (NodeObject temp : currentNode.getCurrentPath()){
+						if (temp.getNodeName().equals("rootNode")) {
+							continue;
+						}
+						nn+= temp.getNodeName() + Integer.toString(temp.getProcessor());
+						if (oldNodePos == currentNode.getCurrentPath().size()-2){
+							oldNode = nn;
+						}
+						oldNodePos++;
+					}
+					nn += newNodeName + newProcessor;
+					Node n = gsGraph.addNode(nn);
+					n.addAttribute("ui.label", nn);
+					newNode = nn;
+					if(oldNode.length()>0) {
+						i += 1;
+						Edge e = gsGraph.addEdge(Integer.toString(i), oldNode, newNode, true);
+						e.addAttribute("ui.label", newEndTime);
+					}
+					Thread.sleep(500);
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
