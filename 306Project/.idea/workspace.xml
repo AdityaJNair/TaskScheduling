@@ -25,6 +25,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ValidityTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/306 Project/src/test/ValidityTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="394">
+              <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Milestone1Test.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DotWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/306 Project/src/DotWriter.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -35,49 +59,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DotWriter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DotWriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/306 Project/src/test/milestone1/DotWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="570">
+              <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edgeFirst.dot" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/306 Project/src/resources/Graphs/edgeFirst.dot">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testGraph.dot" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/306 Project/src/test/testGraph.dot">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AdjacencyList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding>
-                <element signature="e#2517#2518#0" expanded="true" />
-                <element signature="e#2553#2554#0" expanded="true" />
-                <element signature="e#2601#2602#0" expanded="true" />
-                <element signature="e#2631#2632#0" expanded="true" />
-                <element signature="e#2683#2684#0" expanded="true" />
-                <element signature="e#2717#2718#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -98,8 +85,8 @@
             <state relative-caret-position="1095">
               <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
               <folding>
-                <marker date="1471562070000" expanded="true" signature="125:201" ph="/**...*/" />
-                <marker date="1471562070000" expanded="true" signature="6010:6015" ph="/**...*/" />
+                <marker date="1471562463000" expanded="true" signature="125:201" ph="/**...*/" />
+                <marker date="1471562463000" expanded="true" signature="6010:6015" ph="/**...*/" />
               </folding>
             </state>
           </provider>
@@ -108,11 +95,19 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/306 Project/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
+            <state relative-caret-position="60">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/306 Project/src/test/milestone1/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -192,6 +187,8 @@
         <option value="$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java" />
         <option value="$PROJECT_DIR$/306 Project/src/test/ValidityTest.java" />
         <option value="$PROJECT_DIR$/306 Project/src/test/milestone1/DotWriter.java" />
+        <option value="$PROJECT_DIR$/306 Project/src/test/milestone1/Main.java" />
+        <option value="$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java" />
       </list>
     </option>
   </component>
@@ -401,33 +398,7 @@
       <recent name="$PROJECT_DIR$/306 Project/src/test/milestone1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration default="false" name="ValidityTest.readDAGTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="306Project" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="test.ValidityTest" />
-      <option name="METHOD_NAME" value="readDAGTest2" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.Milestone1Test">
     <configuration default="false" name="ValidityTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -519,6 +490,27 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="306Project" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Milestone1Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="306Project" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="Milestone1Test" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -772,19 +764,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest2" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ValidityTest (1)" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.ValidityTest.visualReadDAGTest" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.ValidityTest (1)" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.ValidityTest.visualReadDAGTest" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.Milestone1Test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.ValidityTest (1)" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.ValidityTest.visualReadDAGTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest2" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.Milestone1Test" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ValidityTest (1)" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ValidityTest.readDAGTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ValidityTest.visualReadDAGTest" />
       </list>
     </recent_temporary>
   </component>
@@ -802,26 +794,26 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 52m 55s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 41m 15s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 53m 29s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 42m 16s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 54m 20s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 49m 02s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 54m 40s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 49m 06s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 54m 56s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 49m 08s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 55m 04s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 49m 10s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 55m 17s.xml">
-      <configuration name="ValidityTest (1)" configurationId="JUnit" />
+    <history-entry file="Milestone1Test - 2016.08.19 at 11h 49m 44s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
     <history-entry file="ValidityTest_(1) - 2016.08.08 at 17h 55m 30s.xml">
       <configuration name="ValidityTest (1)" configurationId="JUnit" />
@@ -835,27 +827,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28554216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28554216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -980,8 +972,8 @@
         <state relative-caret-position="180">
           <caret line="15" column="7" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="7" />
           <folding>
-            <marker date="1471562070000" expanded="true" signature="125:201" ph="/**...*/" />
-            <marker date="1471562070000" expanded="true" signature="6010:6015" ph="/**...*/" />
+            <marker date="1471562463000" expanded="true" signature="125:201" ph="/**...*/" />
+            <marker date="1471562463000" expanded="true" signature="6010:6015" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -990,9 +982,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1109,16 +1099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/306 Project/src/test/ValidityTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1243">
-          <caret line="176" column="61" selection-start-line="176" selection-start-column="61" selection-end-line="176" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/306 Project/src/resources/Graphs/test.dot">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1171,18 +1151,8 @@
         <state relative-caret-position="1095">
           <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
           <folding>
-            <marker date="1471562070000" expanded="true" signature="125:201" ph="/**...*/" />
-            <marker date="1471562070000" expanded="true" signature="6010:6015" ph="/**...*/" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/306 Project/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1471562463000" expanded="true" signature="125:201" ph="/**...*/" />
+            <marker date="1471562463000" expanded="true" signature="6010:6015" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -1244,9 +1214,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/306 Project/src/test/milestone1/DotWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="570">
+          <caret line="46" column="45" selection-start-line="46" selection-start-column="45" selection-end-line="46" selection-end-column="45" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/306 Project/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/306 Project/src/test/ValidityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/306 Project/src/test/milestone1/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
