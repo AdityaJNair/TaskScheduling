@@ -1,13 +1,9 @@
 package milestone1;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import milestone1.oldgraph306.CustomGraphReader;
-import milestone1.oldgraph306.NodeObject;
 import milestone1.oldgraph306.SolutionTree;
-import milestone1.oldgraph306.UserOptions;
 
 public class Main {
 

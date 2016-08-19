@@ -1,7 +1,5 @@
 package milestone1.oldgraph306;
 
-import milestone1.oldgraph306.NodeObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;

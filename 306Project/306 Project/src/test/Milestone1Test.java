@@ -1,10 +1,10 @@
 import graph306.CustomGraphReader;
 import graph306.SolutionTree;
-import milestone1.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import milestone1.*;
 
 import java.io.IOException;
 
