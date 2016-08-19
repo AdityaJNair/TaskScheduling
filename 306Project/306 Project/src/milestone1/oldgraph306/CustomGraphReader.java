@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import milestone1.oldgraph306.GraphAdapter;
-
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
  * Also notes which nodes have no dependents.
