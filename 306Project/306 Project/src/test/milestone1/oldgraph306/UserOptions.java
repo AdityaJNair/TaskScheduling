@@ -1,4 +1,4 @@
-package milestone1.graph306;
+package milestone1.oldgraph306;
 
 /**
  * Singleton class to hold the user's input command line parameters.
