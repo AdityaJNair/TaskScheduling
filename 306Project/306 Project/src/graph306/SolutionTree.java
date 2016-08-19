@@ -58,6 +58,7 @@ public class SolutionTree {
 			return;
 		}
 		
+		
 		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
 		if(maxTimeAtPoint(currentNode) >= minimumTime){
 			return;
