@@ -64,9 +64,10 @@ public class SolutionTree {
 			return;
 		}
 		
-		if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-			return;
-		}
+//		if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+//			return;
+//		}
+		
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
@@ -103,8 +104,8 @@ public class SolutionTree {
 	
 	// Test Code starts-------------------------------
 	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
-		int nodeWeight = getNodalWeight(currentNode.getNodeName());
-		int totalWeight = nodeWeight;
+		int currentMaxTime = maxTimeAtPoint(currentNode); // NOT CORRECT
+		int totalWeight = currentMaxTime;
 		int currentWeight;
 		for(String nodeToCheckStr : nodesToCheck){
 			currentWeight = getNodalWeight(nodeToCheckStr);
