@@ -47,7 +47,7 @@ public class Milestone1Test {
         try {
             Long[] oldTimes = oldResults();
             Assert.assertEquals("Invalid Schedule", oldTimes[1],times[1]);
-            Assert.assertTrue("Runtime Increased", times[0]<oldTimes[0]);
+            Assert.assertTrue("Runtime Increased by "+Long.toString(times[0]-oldTimes[0]), times[0]<oldTimes[0]);
         }catch(IOException e){
             //Theoretically, this is unreachable. The input is defined in the brief and won't change.
             Assert.fail("Invalid input to old main function");
