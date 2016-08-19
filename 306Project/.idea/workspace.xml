@@ -72,10 +72,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdjacencyList.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AdjacencyList.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
+            <state relative-caret-position="-45">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
@@ -120,11 +120,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Milestone1Test.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Milestone1Test.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
-              <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+            <state relative-caret-position="150">
+              <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -169,8 +169,8 @@
         <option value="$PROJECT_DIR$/306 Project/src/test/milestone1/oldgraph306/CustomGraphReader.java" />
         <option value="$PROJECT_DIR$/306 Project/src/test/milestone1/oldgraph306/SolutionTree.java" />
         <option value="$PROJECT_DIR$/306 Project/src/test/milestone1/Main.java" />
-        <option value="$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java" />
         <option value="$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java" />
+        <option value="$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java" />
       </list>
     </option>
   </component>
@@ -815,15 +815,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Milestone1Test - 2016.08.19 at 12h 48m 24s.xml">
-      <configuration name="Milestone1Test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="Milestone1Test - 2016.08.19 at 12h 48m 44s.xml">
-      <configuration name="Milestone1Test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="Milestone1Test - 2016.08.19 at 12h 48m 47s.xml">
-      <configuration name="Milestone1Test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="Milestone1Test - 2016.08.19 at 12h 48m 48s.xml">
       <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
@@ -845,6 +836,15 @@
     <history-entry file="Milestone1Test - 2016.08.19 at 12h 50m 07s.xml">
       <configuration name="Milestone1Test" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="Milestone1Test - 2016.08.19 at 12h 57m 33s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Milestone1Test - 2016.08.19 at 12h 57m 44s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Milestone1Test - 2016.08.19 at 13h 01m 12s.xml">
+      <configuration name="Milestone1Test" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -857,7 +857,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28554216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28554216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1277,21 +1277,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java">
+    <entry file="file://$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-45">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/306 Project/src/graph306/AdjacencyList.java">
+    <entry file="file://$PROJECT_DIR$/306 Project/src/test/Milestone1Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="150">
+          <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
