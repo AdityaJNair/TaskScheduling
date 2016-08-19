@@ -1,7 +1,6 @@
-package milestone1.graph306;
+package milestone1.oldgraph306;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,18 +8,15 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import graph306.*;
-import graph306.GraphAdapter;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
+import milestone1.oldgraph306.GraphAdapter;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
  * Also notes which nodes have no dependents.
  */
 public class CustomGraphReader {
-	graph306.UserOptions userOptions = graph306.UserOptions.getInstance();
-	public graph306.GraphAdapter graph = null;
+	milestone1.oldgraph306.UserOptions userOptions = milestone1.oldgraph306.UserOptions.getInstance();
+	public milestone1.oldgraph306.GraphAdapter graph = null;
 	public ArrayList<String> edges = new ArrayList<String>();
 	
 	/**
@@ -86,7 +82,7 @@ public class CustomGraphReader {
 		        	while (m.find()) { 
 		        		// create new graph object and sets the name of the graph to userOptions
 		        		userOptions.setGraphName(m.group(1));
-		        		graph = new graph306.GraphAdapter();
+		        		graph = new milestone1.oldgraph306.GraphAdapter();
 		        	}
 		        	continue;
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
@@ -116,7 +112,7 @@ public class CustomGraphReader {
 	
 	//GETTERS
 
-	public GraphAdapter getGraphAdapter() {
+	public milestone1.oldgraph306.GraphAdapter getGraphAdapter() {
 		return graph;
 	}
 	

@@ -1,8 +1,8 @@
 package milestone1;
 
-import graph306.AdjacencyList;
-import graph306.NodeObject;
-import graph306.UserOptions;
+import milestone1.oldgraph306.AdjacencyList;
+import milestone1.oldgraph306.NodeObject;
+import milestone1.oldgraph306.UserOptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

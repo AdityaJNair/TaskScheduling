@@ -1,4 +1,4 @@
-package milestone1.graph306;
+package milestone1.oldgraph306;
 
 import java.util.*;
 

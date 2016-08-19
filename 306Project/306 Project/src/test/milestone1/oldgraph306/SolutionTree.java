@@ -1,7 +1,6 @@
-package milestone1.graph306;
+package milestone1.oldgraph306;
 
-import graph306.*;
-import graph306.NodeObject;
+import milestone1.oldgraph306.NodeObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,10 +17,10 @@ public class SolutionTree {
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	private static List<graph306.NodeObject> bestSchedule = new ArrayList<graph306.NodeObject>();
+	private static List<milestone1.oldgraph306.NodeObject> bestSchedule = new ArrayList<milestone1.oldgraph306.NodeObject>();
 	
 	private AdjacencyList inputGraph;
-	private graph306.NodeObject rootNode;
+	private milestone1.oldgraph306.NodeObject rootNode;
 	private List<String> nodeList;
 	private int numberofProcessors;
 	
@@ -35,9 +34,9 @@ public class SolutionTree {
 		for(String entry : inputGraph.getIndices().keySet()){
     		nodeList.add(entry);
     	}
-		numberofProcessors = graph306.UserOptions.getInstance().getProcessors();
+		numberofProcessors = milestone1.oldgraph306.UserOptions.getInstance().getProcessors();
 		//create the root node object
-		rootNode = new graph306.NodeObject(0, new ArrayList<graph306.NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);
+		rootNode = new milestone1.oldgraph306.NodeObject(0, new ArrayList<milestone1.oldgraph306.NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);
 	}
 	
 	/** 
@@ -47,7 +46,7 @@ public class SolutionTree {
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	public void calculateTime(graph306.NodeObject currentNode, List<String> nodesToCheck){
+	public void calculateTime(milestone1.oldgraph306.NodeObject currentNode, List<String> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -75,7 +74,7 @@ public class SolutionTree {
 					
 					//create a newpath that is the same as current which includes the currentNode as well
 					//same thing but only copying the processor array --not checking for times at this place
-					ArrayList<graph306.NodeObject> nextPath = new ArrayList<graph306.NodeObject>(currentNode.getCurrentPath());
+					ArrayList<milestone1.oldgraph306.NodeObject> nextPath = new ArrayList<milestone1.oldgraph306.NodeObject>(currentNode.getCurrentPath());
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
 					
 					//initialising the fields for the new NodalObject to recurse through
@@ -87,7 +86,7 @@ public class SolutionTree {
 					processorArray[newProcessor] = newEndTime;
 					
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
-					graph306.NodeObject nextNode = new graph306.NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+					milestone1.oldgraph306.NodeObject nextNode = new milestone1.oldgraph306.NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
@@ -164,7 +163,7 @@ public class SolutionTree {
 	 * @param node
 	 * @return largest end time amongst all processors
 	 */
-	public int maxTimeAtPoint(graph306.NodeObject node){
+	public int maxTimeAtPoint(milestone1.oldgraph306.NodeObject node){
 		int largest = -1;
 		for(int i: node.getTimeWeightOnEachProcessor()){
 			if(i > largest){
@@ -181,7 +180,7 @@ public class SolutionTree {
 	 * before. So just finds the start time for the particular task.
 	 * @return finds the start time for the particular task.
 	 */
-	public int checkProcessStartTimeTask(graph306.NodeObject currentNode, String newNode, int processor){
+	public int checkProcessStartTimeTask(milestone1.oldgraph306.NodeObject currentNode, String newNode, int processor){
 		if(checkAdjacencyListNullMap(newNode)){
 			//returns the endtime for particular processor as the new start time if the node in question was a source node
 			//so it has no dependencies and can be placed directly at the end of any processor
@@ -191,7 +190,7 @@ public class SolutionTree {
 			int maxTime = -1;
 			int tmpTime = -1;
 			//iterate through the current path of nodes visited to see the latest time to add the particular node
-			for(graph306.NodeObject node: currentNode.getCurrentPath()){
+			for(milestone1.oldgraph306.NodeObject node: currentNode.getCurrentPath()){
 				//check parents if processor is same
 				if(isDependent(node,newNode)){
 					if(node.getProcessor() == processor){
@@ -226,7 +225,7 @@ public class SolutionTree {
 	 * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
 	 * @return true if is dependent and is inside the adjacency list : false if not in the map
 	 */
-	public boolean isDependent(graph306.NodeObject node, String newNode){
+	public boolean isDependent(milestone1.oldgraph306.NodeObject node, String newNode){
 		//if the newNode in the adjacency list has the NodalObject that is a parent to it, return true
 		int index = inputGraph.getIndices().get(newNode);
 		if(inputGraph.getAdjacencyList().get(index).containsKey(node.getNodeName())){
@@ -255,7 +254,7 @@ public class SolutionTree {
 	 * @param nextNode
 	 * @return
 	 */
-	public int getEdgeWeight(graph306.NodeObject currentNode, String nextNode){
+	public int getEdgeWeight(milestone1.oldgraph306.NodeObject currentNode, String nextNode){
 		if(currentNode.getNodeName().equals("rootNode")){
 			return 0;
 		}
@@ -277,11 +276,11 @@ public class SolutionTree {
 		SolutionTree.minimumTime = minimumTime;
 	}
 
-	public static List<graph306.NodeObject> getBestSchedule() {
+	public static List<milestone1.oldgraph306.NodeObject> getBestSchedule() {
 		return bestSchedule;
 	}
 
-	public static void setBestSchedule(List<graph306.NodeObject> bestSchedule) {
+	public static void setBestSchedule(List<milestone1.oldgraph306.NodeObject> bestSchedule) {
 		SolutionTree.bestSchedule = bestSchedule;
 	}
 
@@ -293,7 +292,7 @@ public class SolutionTree {
 		this.inputGraph = inputGraph;
 	}
 
-	public graph306.NodeObject getRootNode() {
+	public milestone1.oldgraph306.NodeObject getRootNode() {
 		return rootNode;
 	}
 

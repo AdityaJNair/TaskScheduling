@@ -1,6 +1,6 @@
-package milestone1.graph306;
+package milestone1.oldgraph306;
 
-import graph306.AdjacencyList;
+import milestone1.oldgraph306.AdjacencyList;
 
 /**
  * A wrapper class so that the graph representation framework in use can be altered without changing methods.
