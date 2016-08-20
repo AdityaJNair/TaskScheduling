@@ -63,8 +63,10 @@ public class SolutionTree {
 			if(maxTimeAtPoint(currentNode) >= minimumTime){
 				return;
 			}
-		
 			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
+			if(timestart(currentNode,nodesToCheck) > minimumTime){
 				return;
 			}
 		}
@@ -182,6 +184,17 @@ public class SolutionTree {
 		}
 		int lowerBound = currentMaxTime + ((totalWeight + diff) / numberofProcessors);
 		return lowerBound;	
+	}
+	
+	private int timestart(NodeObject currentNode, List<String> nodesToCheck){
+		int timestart = currentNode.getStartTime();
+		int totalWeight = 0;
+		int currentWeight = 0;
+		for(String nodeToCheckStr : nodesToCheck){
+			currentWeight = getNodalWeight(nodeToCheckStr);
+			totalWeight+=currentWeight;
+		}
+		return (timestart + totalWeight);
 	}
 	
 	/**
