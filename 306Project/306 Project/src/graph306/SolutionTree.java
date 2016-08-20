@@ -29,7 +29,7 @@ public class SolutionTree {
 	public SolutionTree(AdjacencyList inputGraph){
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
-		for(String entry : inputGraph.getIndices().keySet()){
+		for(String entry : inputGraph.getNodes()){
     		nodeList.add(entry);
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
@@ -214,9 +214,8 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkAdjacencyListNullMap(String nodeName){
-		
-		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
-		if(inputGraph.getAdjacencyList().get(indexAtListForMap).size() == 0){
+
+		if(inputGraph.getAdjacencyList().get(nodeName).size() == 0){
 			return true;
 		} else {
 			return false;
@@ -230,10 +229,8 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
-		//found c
-		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
 		//get map for c
-		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
+		for(String entry : inputGraph.getAdjacencyList().get(nodeName).keySet()){
 			//we check to see if the nodesToCheck has a or b inside of it.
 			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
@@ -296,13 +293,13 @@ public class SolutionTree {
 			//iterate through the current path of nodes visited to see the latest time to add the particular node
 			for(NodeObject node: currentNode.getCurrentPath()){
 				//check parents if processor is same
-				if(isDependent(node,newNode)){
+				if(inputGraph.isDependent(node,newNode)){
 					if(node.getProcessor() == processor){
 						//if it is same process, the next time it can go on is directly after it so endtime = starttime
 						tmpTime = node.getEndTime();
 					} else {
 						//if process are different; add communication cost so next time it can go on is directly after the communication cost.
-						tmpTime = node.getEndTime() + getEdgeWeight(node, newNode);
+						tmpTime = node.getEndTime() + inputGraph.getEdgeWeight(node, newNode);
 					}
 				}
 				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor
@@ -323,22 +320,6 @@ public class SolutionTree {
 			}
 		}
 	}
-
-
-	/**
-	 * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
-	 * @return true if is dependent and is inside the adjacency list : false if not in the map
-	 */
-	public boolean isDependent(NodeObject node, String newNode){
-		//if the newNode in the adjacency list has the NodalObject that is a parent to it, return true
-		int index = inputGraph.getIndices().get(newNode);
-		if(inputGraph.getAdjacencyList().get(index).containsKey(node.getNodeName())){
-			return true;
-		}
-		//if not a parent return false
-		return false;
-	}
-
 	
 	/**
 	 * getting the nodal weight from a string of node name
@@ -350,21 +331,6 @@ public class SolutionTree {
 			return 0;
 		}
 		return inputGraph.getNodeWeights().get(node);
-	}
-	
-	/**
-	 * Getting the edge weight from the currentNode to the new valid node
-	 * @param currentNode
-	 * @param nextNode
-	 * @return
-	 */
-	public int getEdgeWeight(NodeObject currentNode, String nextNode){
-		if(currentNode.getNodeName().equals("rootNode")){
-			return 0;
-		}
-		int index = inputGraph.getIndices().get(nextNode);
-		int value = inputGraph.getAdjacencyList().get(index).get(currentNode.getNodeName());
-		return value;
 	}
 
 	/*
