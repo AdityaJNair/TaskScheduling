@@ -19,7 +19,7 @@ public class Milestone1Test {
         String slash = System.getProperty("file.separator");
         String filename = "306 Project"+slash+"src"+slash+"resources"+slash+"Graphs"+slash+"Nodes_11_OutTree.dot";
         args[0] = filename;
-        args[1] = "2";
+        args[1] = "4";
 
     }
     @Test
@@ -35,7 +35,7 @@ public class Milestone1Test {
             CustomGraphReader graphReader = new CustomGraphReader(args);
             graphReader.readDAG();
             solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
-            solver.calculateTime(solver.getRootNode(), solver.getNodeList());
+            solver.startIteration(solver.getRootNode(), solver.getNodeList());
             //if (i==0){
                 times[1] = new Long(solver.getMinimumTime());	//The optimal time for the schedule.
             //}
