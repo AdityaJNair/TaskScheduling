@@ -19,7 +19,7 @@ public class Milestone1Test {
         String slash = System.getProperty("file.separator");
         String filename = "306 Project"+slash+"src"+slash+"resources"+slash+"Graphs"+slash+"Nodes_11_OutTree.dot";
         args[0] = filename;
-        args[1] = "4";
+        args[1] = "2";
 
     }
     @Test
