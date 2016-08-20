@@ -11,10 +11,7 @@ import java.util.*;
 public class AdjacencyList {
 
     //List of maps containing parent nodes and the edge weight to them.
-    private List<Map<String, Integer>> adjacencyList = new ArrayList<>();
-
-    //Maps nodes to their index in the adjacency list.
-    private Map<String, Integer> indices = new HashMap<>();
+    private Map<String,Map<String, Integer>> adjacencyList = new HashMap<>();
 
     //Maps nodes to their weights.
     private Map<String, Integer> nodeWeights = new HashMap<>();
@@ -28,17 +25,13 @@ public class AdjacencyList {
     public void addNode(String id){
 
         //Check that the node hasn't already been added. If it has, end the function.
-        if (indices.containsKey(id)){
+        if (adjacencyList.containsKey(id)){
             return;
         }
 
         //Add a new map to the adjacency list representing that node.
         Map<String, Integer> newEntry = new HashMap<>();
-        adjacencyList.add(newEntry);
-
-        //Add node to indices map.
-        int newIndex = adjacencyList.size()-1;
-        indices.put(id, newIndex);
+        adjacencyList.put(id, newEntry);
 
     }
 
@@ -67,20 +60,47 @@ public class AdjacencyList {
         addNode(destination);
 
         //Add the edge and its weight to the map for the node.
-        int destinationIndex = indices.get(destination);
-        adjacencyList.get(destinationIndex).put(source,cost);
+        adjacencyList.get(destination).put(source,cost);
     }
 
     //Add other methods here to make recursive lookup easier, and replace these getters.
+    /**
+     * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
+     * @return true if is dependent and is inside the adjacency list : false if not in the map
+     */
+    public boolean isDependent(NodeObject node, String newNode){
+        if(adjacencyList.get(newNode).containsKey(node.getNodeName())){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    public List<Map<String, Integer>> getAdjacencyList() {
+    public Map<String, Integer> getParents(String node){
+        return adjacencyList.get(node);
+    }
+
+    /**
+     * Getting the edge weight from the currentNode to the new valid node
+     * @param currentNode
+     * @param nextNode
+     * @return
+     */
+    public int getEdgeWeight(NodeObject currentNode, String nextNode){
+        if(currentNode.getNodeName().equals("rootNode")){
+            return 0;
+        } else {
+            return adjacencyList.get(nextNode).get(currentNode.getNodeName());
+        }
+    }
+
+    public Set<String> getNodes(){
+        return adjacencyList.keySet();
+    }
+
+    public Map<String, Map<String,Integer>> getAdjacencyList(){
         return adjacencyList;
     }
-
-    public Map<String, Integer> getIndices() {
-        return indices;
-    }
-
     public Map<String, Integer> getNodeWeights() {
         return nodeWeights;
     }

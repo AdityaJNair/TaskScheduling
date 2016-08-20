@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	
+	public long nodeNumber = 0;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -29,7 +29,7 @@ public class SolutionTree {
 	public SolutionTree(AdjacencyList inputGraph){
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
-		for(String entry : inputGraph.getIndices().keySet()){
+		for(String entry : inputGraph.getNodes()){
     		nodeList.add(entry);
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
@@ -58,15 +58,32 @@ public class SolutionTree {
 			return;
 		}
 		
-		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
-		if(maxTimeAtPoint(currentNode) >= minimumTime){
-			return;
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				//return;
+			//}
 		}
+        
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-				for(int j = 0; j < numberofProcessors; j++){
+				int count = 0;
+				for(int i = 0 ; i <numberofProcessors; i++){
+					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
+						count++;
+					}
+				}
+				int killtree = 0;
+				if(count >= 2){
+					killtree = count -1;
+				}
+				for(int j = 0; j < (numberofProcessors - killtree); j++){
 					
 					//UPDATE THE NEW NODE FOR RECURSION
 					
@@ -88,12 +105,35 @@ public class SolutionTree {
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					
+					nodeNumber++;
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
 		}
+	}
+
+
+	/**
+	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 
+	 * current best time and adding all processes not yet executed and dividing it by the
+	 * number of processors.
+	 * @param currentNode: the whose lower bound has to be calculated
+	 * @param nodesToCheck: List of nodes not yet seen by the 
+	 * @return
+	 */
+	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
+		int currentMaxTime = minTimeAtPoint(currentNode); 
+		int currentworstTime = maxTimeAtPoint(currentNode);
+		int diff = currentworstTime - currentMaxTime;
+		int totalWeight = 0;
+		int currentWeight;
+		for(String nodeToCheckStr : nodesToCheck){
+			currentWeight = getNodalWeight(nodeToCheckStr);
+			totalWeight = totalWeight + currentWeight;
+		}
+		int lowerBound = currentMaxTime + ((totalWeight + diff) / numberofProcessors);
+		return lowerBound;	
 	}
 	
 	/**
@@ -126,9 +166,8 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkAdjacencyListNullMap(String nodeName){
-		
-		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
-		if(inputGraph.getAdjacencyList().get(indexAtListForMap).size() == 0){
+
+		if(inputGraph.getAdjacencyList().get(nodeName).size() == 0){
 			return true;
 		} else {
 			return false;
@@ -142,10 +181,8 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
-		//found c
-		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
 		//get map for c
-		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
+		for(String entry : inputGraph.getAdjacencyList().get(nodeName).keySet()){
 			//we check to see if the nodesToCheck has a or b inside of it.
 			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
@@ -173,6 +210,24 @@ public class SolutionTree {
 	}
 	
 	/**
+	 * Find the largest time in the processor assuming that the node is updated.
+	 * Each element in this array has the end time for the index processor (assuming index 0 = processor 1)
+	 * TODO : fix comments
+	 * @param node
+	 * @return largest end time amongst all processors
+	 */
+	public int minTimeAtPoint(NodeObject node){
+		int smallest = Integer.MAX_VALUE;
+		for(int i: node.getTimeWeightOnEachProcessor()){
+			if(i < smallest){
+				smallest = i;
+			}
+		}
+		return smallest;
+		
+	}
+	
+	/**
 	 * checkProcessStartTimeTask finds the time when to add the task on the processor. This is required as need to check on the
 	 * constraints which are the communication costs. The dependencies constraint is met in the checkValidSolutionDepency method called
 	 * before. So just finds the start time for the particular task.
@@ -190,13 +245,13 @@ public class SolutionTree {
 			//iterate through the current path of nodes visited to see the latest time to add the particular node
 			for(NodeObject node: currentNode.getCurrentPath()){
 				//check parents if processor is same
-				if(isDependent(node,newNode)){
+				if(inputGraph.isDependent(node,newNode)){
 					if(node.getProcessor() == processor){
 						//if it is same process, the next time it can go on is directly after it so endtime = starttime
 						tmpTime = node.getEndTime();
 					} else {
 						//if process are different; add communication cost so next time it can go on is directly after the communication cost.
-						tmpTime = node.getEndTime() + getEdgeWeight(node, newNode);
+						tmpTime = node.getEndTime() + inputGraph.getEdgeWeight(node, newNode);
 					}
 				}
 				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor
@@ -217,22 +272,6 @@ public class SolutionTree {
 			}
 		}
 	}
-
-
-	/**
-	 * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
-	 * @return true if is dependent and is inside the adjacency list : false if not in the map
-	 */
-	public boolean isDependent(NodeObject node, String newNode){
-		//if the newNode in the adjacency list has the NodalObject that is a parent to it, return true
-		int index = inputGraph.getIndices().get(newNode);
-		if(inputGraph.getAdjacencyList().get(index).containsKey(node.getNodeName())){
-			return true;
-		}
-		//if not a parent return false
-		return false;
-	}
-
 	
 	/**
 	 * getting the nodal weight from a string of node name
@@ -244,21 +283,6 @@ public class SolutionTree {
 			return 0;
 		}
 		return inputGraph.getNodeWeights().get(node);
-	}
-	
-	/**
-	 * Getting the edge weight from the currentNode to the new valid node
-	 * @param currentNode
-	 * @param nextNode
-	 * @return
-	 */
-	public int getEdgeWeight(NodeObject currentNode, String nextNode){
-		if(currentNode.getNodeName().equals("rootNode")){
-			return 0;
-		}
-		int index = inputGraph.getIndices().get(nextNode);
-		int value = inputGraph.getAdjacencyList().get(index).get(currentNode.getNodeName());
-		return value;
 	}
 
 	/*
