@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	
+	public long nodeNumber = 0;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -58,10 +58,17 @@ public class SolutionTree {
 			return;
 		}
 		
-		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
-		if(maxTimeAtPoint(currentNode) >= minimumTime){
-			return;
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
 		}
+        
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
@@ -88,12 +95,93 @@ public class SolutionTree {
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					
+					nodeNumber++;
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
 		}
+	}
+
+	public void startIteration(NodeObject currentNode, List<String> nodesToCheck){
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestSchedule = currentNode.getCurrentPath();
+			}
+			return;
+		}
+
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
+		}
+
+		// Look through the list of unseen nodes and recursively call this method on nodes
+		// that do not have any parents on the nodesToCheck list.
+		for(String nodeToCheckStr : nodesToCheck){
+			if(isValidOption(nodeToCheckStr, nodesToCheck)){
+
+					//UPDATE THE NEW NODE FOR RECURSION
+
+					//create a newpath that is the same as current which includes the currentNode as well
+					//same thing but only copying the processor array --not checking for times at this place
+					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+
+					//initialising the fields for the new NodalObject to recurse through
+					String newNodeName = nodeToCheckStr;
+					int newProcessor = 0;
+					int nodalWeight = getNodalWeight(newNodeName);
+					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
+					int newEndTime = newStartTime+nodalWeight;
+					processorArray[newProcessor] = newEndTime;
+
+					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
+					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+					//copy the nodesToCheck list and need to remove the current node from it for recursion
+					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+					newUpdatedListWithoutCurrentNode.remove(newNodeName);
+					nodeNumber++;
+					//recursive call
+					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
+				}
+
+		}
+	}
+
+
+	/**
+	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 
+	 * current best time and adding all processes not yet executed and dividing it by the
+	 * number of processors.
+	 * @param currentNode: the whose lower bound has to be calculated
+	 * @param nodesToCheck: List of nodes not yet seen by the 
+	 * @return
+	 */
+	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
+		int currentMaxTime = minTimeAtPoint(currentNode); 
+		int currentworstTime = maxTimeAtPoint(currentNode);
+		int diff = currentworstTime - currentMaxTime;
+		int totalWeight = 0;
+		int currentWeight;
+		for(String nodeToCheckStr : nodesToCheck){
+			currentWeight = getNodalWeight(nodeToCheckStr);
+			totalWeight = totalWeight + currentWeight;
+		}
+		int lowerBound = currentMaxTime + ((totalWeight + diff) / numberofProcessors);
+		return lowerBound;	
 	}
 	
 	/**
@@ -169,6 +257,24 @@ public class SolutionTree {
 			}
 		}
 		return largest;
+		
+	}
+	
+	/**
+	 * Find the largest time in the processor assuming that the node is updated.
+	 * Each element in this array has the end time for the index processor (assuming index 0 = processor 1)
+	 * TODO : fix comments
+	 * @param node
+	 * @return largest end time amongst all processors
+	 */
+	public int minTimeAtPoint(NodeObject node){
+		int smallest = Integer.MAX_VALUE;
+		for(int i: node.getTimeWeightOnEachProcessor()){
+			if(i < smallest){
+				smallest = i;
+			}
+		}
+		return smallest;
 		
 	}
 	
