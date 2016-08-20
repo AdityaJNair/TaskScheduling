@@ -32,7 +32,7 @@ public class Main {
 		//Create .dot file at the end
 		DotWriter writer = new DotWriter();
 		writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
-		System.out.println("Program ended");
+		System.out.println(solver.nodeNumber);
 	}
 
 }

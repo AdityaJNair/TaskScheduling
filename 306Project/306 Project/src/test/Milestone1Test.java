@@ -1,3 +1,5 @@
+package test;
+
 import graph306.CustomGraphReader;
 import graph306.SolutionTree;
 import org.junit.After;

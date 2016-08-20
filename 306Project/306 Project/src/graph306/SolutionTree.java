@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class SolutionTree {
-	
+	public long nodeNumber = 0;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -58,15 +58,16 @@ public class SolutionTree {
 			return;
 		}
 		
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
 		
-		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
-		if(maxTimeAtPoint(currentNode) >= minimumTime){
-			return;
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
 		}
-		
-//		if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-//			return;
-//		}
 		
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
@@ -94,7 +95,7 @@ public class SolutionTree {
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					
+					nodeNumber++;
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
@@ -104,14 +105,14 @@ public class SolutionTree {
 	
 	// Test Code starts-------------------------------
 	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
-		int currentMaxTime = maxTimeAtPoint(currentNode); // NOT CORRECT
-		int totalWeight = currentMaxTime;
+		int currentMaxTime = minTimeAtPoint(currentNode); // NOT CORRECT
+		int totalWeight = 0;
 		int currentWeight;
 		for(String nodeToCheckStr : nodesToCheck){
 			currentWeight = getNodalWeight(nodeToCheckStr);
 			totalWeight = totalWeight + currentWeight;
 		}
-		int lowerBound = totalWeight / numberofProcessors;
+		int lowerBound = currentMaxTime + (totalWeight / numberofProcessors);
 		return lowerBound;	
 	}
 	// Test Code ends-------------------------------
@@ -189,6 +190,24 @@ public class SolutionTree {
 			}
 		}
 		return largest;
+		
+	}
+	
+	/**
+	 * Find the largest time in the processor assuming that the node is updated.
+	 * Each element in this array has the end time for the index processor (assuming index 0 = processor 1)
+	 * TODO : fix comments
+	 * @param node
+	 * @return largest end time amongst all processors
+	 */
+	public int minTimeAtPoint(NodeObject node){
+		int smallest = Integer.MAX_VALUE;
+		for(int i: node.getTimeWeightOnEachProcessor()){
+			if(i < smallest){
+				smallest = i;
+			}
+		}
+		return smallest;
 		
 	}
 	
