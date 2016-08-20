@@ -1,6 +1,8 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 import graph306.CustomGraphReader;
 import graph306.NodeObject;
@@ -8,16 +10,14 @@ import graph306.SolutionTree;
 import graph306.UserOptions;
 
 public class Main {
-
 	public static void main(String[] args) throws IOException {
-		//start timing
 		long startTime = System.nanoTime();
 
 		CustomGraphReader graphReader = new CustomGraphReader(args);
 		//run a read method on DAG
 		graphReader.readDAG();
 		SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
-		solver.startIteration(solver.getRootNode(), solver.getNodeList());
+		solver.calculateTime(solver.getRootNode(), solver.getNodeList());
 		
 		//end timing
 		//	print statements to see the time and the minimum path time
@@ -32,6 +32,7 @@ public class Main {
 		DotWriter writer = new DotWriter();
 		writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
 		System.out.println(solver.nodeNumber);
+		System.out.println("HI");
 	}
 
 }

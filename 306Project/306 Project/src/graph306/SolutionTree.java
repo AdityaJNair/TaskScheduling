@@ -64,16 +64,26 @@ public class SolutionTree {
 				return;
 			}
 		
-			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				return;
-			}
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				//return;
+			//}
 		}
         
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-				for(int j = 0; j < numberofProcessors; j++){
+				int count = 0;
+				for(int i = 0 ; i <numberofProcessors; i++){
+					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
+						count++;
+					}
+				}
+				int killtree = 0;
+				if(count >= 2){
+					killtree = count -1;
+				}
+				for(int j = 0; j < (numberofProcessors - killtree); j++){
 					
 					//UPDATE THE NEW NODE FOR RECURSION
 					
@@ -100,64 +110,6 @@ public class SolutionTree {
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
-		}
-	}
-
-	public void startIteration(NodeObject currentNode, List<String> nodesToCheck){
-		// Exit condition for exiting recursion
-		if(nodesToCheck.size() == 0){
-			// Calculate time
-			// Compare with minimumTime to see if this solution is better
-			if(maxTimeAtPoint(currentNode) < minimumTime){
-				//when tree all the way down, and the time is lower than the global flag, set the new time
-				//and set the new schedule to it
-				minimumTime = maxTimeAtPoint(currentNode);
-				bestSchedule = currentNode.getCurrentPath();
-			}
-			return;
-		}
-
-		if(minimumTime != Integer.MAX_VALUE){
-			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
-			if(maxTimeAtPoint(currentNode) >= minimumTime){
-				return;
-			}
-
-			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				return;
-			}
-		}
-
-		// Look through the list of unseen nodes and recursively call this method on nodes
-		// that do not have any parents on the nodesToCheck list.
-		for(String nodeToCheckStr : nodesToCheck){
-			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-
-					//UPDATE THE NEW NODE FOR RECURSION
-
-					//create a newpath that is the same as current which includes the currentNode as well
-					//same thing but only copying the processor array --not checking for times at this place
-					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
-					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
-
-					//initialising the fields for the new NodalObject to recurse through
-					String newNodeName = nodeToCheckStr;
-					int newProcessor = 0;
-					int nodalWeight = getNodalWeight(newNodeName);
-					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
-					int newEndTime = newStartTime+nodalWeight;
-					processorArray[newProcessor] = newEndTime;
-
-					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
-					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
-					//copy the nodesToCheck list and need to remove the current node from it for recursion
-					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
-					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					nodeNumber++;
-					//recursive call
-					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
-				}
-
 		}
 	}
 
