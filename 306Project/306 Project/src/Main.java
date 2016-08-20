@@ -17,6 +17,7 @@ public class Main {
     {
         //private Graph graph = new MultiGraph("embedded");
         //private Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+
         private Viewer viewer = new Viewer(SolutionTree.gsGraph, ThreadingModel.GRAPH_IN_GUI_THREAD);
         private View view = viewer.addDefaultView(false);
 
@@ -24,7 +25,6 @@ public class Main {
             setLayout(new BorderLayout());
             this.add((Component) view);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            viewer.enableAutoLayout();
         }
     }
 
@@ -32,28 +32,27 @@ public class Main {
 		//start timing
 		//long startTime = System.nanoTime();
 
-        Runnable init = new Runnable() {
-            public void run() {
-                MyFrame frame = new MyFrame();
-                frame.setSize(700,700);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
+        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+//        Viewer viewer = new Viewer(SolutionTree.gsGraph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        Viewer viewer = SolutionTree.gsGraph.display(false);
+        viewer.enableAutoLayout();
+        SolutionTree.gsGraph.addAttribute("ui.stylesheet", "node { " +
+                "size:5px; " +
+                "text-color:red; " +
+                "text-size:13px; " +
+                "text-alignment:above;" +
+                "}" +
+                "edge { " +
+                "text-color:red; " +
+                "text-size:8px; " +
+                "text-background-mode:rounded-box;" +
+                "}");
+        SolutionTree.gsGraph.addAttribute("ui.antialias");
+        SolutionTree.gsGraph.addAttribute("ui.quality");
+//
 
-                SolutionTree.gsGraph.addAttribute("ui.antialias");
-            }
-        };
-        Thread appThread = new Thread() {
-            public void run() {
-                try {
-                    SwingUtilities.invokeAndWait(init);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Finished on " + Thread.currentThread());
-            }
-        };
-        appThread.start();
+
+
 
 
         CustomGraphReader graphReader = new CustomGraphReader(args);

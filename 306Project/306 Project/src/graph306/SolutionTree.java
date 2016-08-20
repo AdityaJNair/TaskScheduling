@@ -23,7 +23,7 @@ public class SolutionTree {
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 
-	private int i = 0;
+    private int nid = 0;
 	private String oldNode = "";
 	private String newNode;
 	private AdjacencyList inputGraph;
@@ -61,8 +61,30 @@ public class SolutionTree {
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
+				gsGraph.addAttribute("ui.style", "fill-color:black;");
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
+				String oldNode = new String();
+				String newNode = new String();
+				int i = 0;
+				for(NodeObject node : currentNode.getCurrentPath()){
+					if(node.getNodeName().equals("rootNode"))
+						continue;
+					newNode+=node.getNodeName()+node.getProcessor();
+					if(gsGraph.getNode(newNode)==null) {
+						Node n = gsGraph.addNode(newNode);
+//						n.addAttribute("ui.label", newNode);
+						if (i > 0) {
+							Edge e = gsGraph.addEdge(Integer.toString(nid), newNode, oldNode);
+							e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
+							e.addAttribute("ui.style","fill-color: cyan;");
+						}
+					}
+					oldNode = newNode;
+					i++;
+					nid++;
+					Thread.sleep(20);
+				}
 			}
 			return;
 		}
@@ -98,28 +120,19 @@ public class SolutionTree {
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					String nn = new String();
-					int oldNodePos = 0;
-					for (NodeObject temp : currentNode.getCurrentPath()){
-						if (temp.getNodeName().equals("rootNode")) {
-							continue;
-						}
-						nn+= temp.getNodeName() + Integer.toString(temp.getProcessor());
-						if (oldNodePos == currentNode.getCurrentPath().size()-2){
-							oldNode = nn;
-						}
-						oldNodePos++;
-					}
-					nn += newNodeName + newProcessor;
-					Node n = gsGraph.addNode(nn);
-					n.addAttribute("ui.label", nn);
-					newNode = nn;
-					if(oldNode.length()>0) {
-						i += 1;
-						Edge e = gsGraph.addEdge(Integer.toString(i), oldNode, newNode, true);
-						e.addAttribute("ui.label", newEndTime);
-					}
-					Thread.sleep(500);
+//					int oldNodePos = 0;
+//					for (NodeObject temp : currentNode.getCurrentPath()){
+//						if (temp.getNodeName().equals("rootNode")) {
+//							continue;
+//						}
+//						nn+= temp.getNodeName() + Integer.toString(temp.getProcessor());
+//						if (oldNodePos == currentNode.getCurrentPath().size()-2){
+//							oldNode = nn;
+//						}
+//						oldNodePos++;
+//					}
 					//recursive call
+//                    Thread.sleep(10);
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
