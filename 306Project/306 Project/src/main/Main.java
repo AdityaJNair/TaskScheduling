@@ -1,3 +1,4 @@
+package main;
 
 import graph306.CustomGraphReader;
 import graph306.SolutionTree;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 public class Main {
 
+    public static View view;
 
     public static class MyFrame extends JFrame
     {
@@ -33,23 +35,28 @@ public class Main {
 		//long startTime = System.nanoTime();
 
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-//        Viewer viewer = new Viewer(SolutionTree.gsGraph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-        Viewer viewer = SolutionTree.gsGraph.display(false);
-        viewer.enableAutoLayout();
         SolutionTree.gsGraph.addAttribute("ui.stylesheet", "node { " +
-                "size:5px; " +
+                "size:10px; " +
                 "text-color:red; " +
-                "text-size:13px; " +
+                "text-size:20px; " +
                 "text-alignment:above;" +
+                "text-background-mode:rounded-box;" +
                 "}" +
                 "edge { " +
                 "text-color:red; " +
-                "text-size:8px; " +
+                "text-size:10px; " +
                 "text-background-mode:rounded-box;" +
+                "size:3px;" +
                 "}");
         SolutionTree.gsGraph.addAttribute("ui.antialias");
+        SolutionTree.gsGraph.setStrict(false);
         SolutionTree.gsGraph.addAttribute("ui.quality");
-//
+        Viewer viewer = SolutionTree.gsGraph.display();
+        view = viewer.getDefaultView();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        view.resizeFrame(screenSize.getWidth(), screenSize.getHeight());
+//        view.getCamera().setViewCenter(440000, 2503000, 0);
+//        view.getCamera().setViewPercent(1);
 
 
 

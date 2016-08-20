@@ -1,14 +1,15 @@
+package main;
+
 import graph306.AdjacencyList;
 import graph306.NodeObject;
 import graph306.UserOptions;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * The DotWriter class is used to output a .dot File
+ * The main.DotWriter class is used to output a .dot File
  *
  */
 public class DotWriter {
@@ -52,7 +53,7 @@ public class DotWriter {
 			writer.close();
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File was not found or something wrong with the .dot file in createDot() for class DotWriter");
+			System.out.println("ERROR: File was not found or something wrong with the .dot file in createDot() for class main.DotWriter");
 			e.printStackTrace();
 		}
 	}

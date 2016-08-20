@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 /**
  * This class creates a solution tree from the input adjacency list.
  * 
@@ -61,7 +60,7 @@ public class SolutionTree {
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
-				gsGraph.addAttribute("ui.style", "fill-color:black;");
+				gsGraph.addAttribute("ui.stylesheet", "edge{ fill-color: rgb(255,255,255); }");
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
 				String oldNode = new String();
@@ -73,18 +72,25 @@ public class SolutionTree {
 					newNode+=node.getNodeName()+node.getProcessor();
 					if(gsGraph.getNode(newNode)==null) {
 						Node n = gsGraph.addNode(newNode);
-//						n.addAttribute("ui.label", newNode);
+						n.addAttribute("ui.label", node.getNodeName()+node.getProcessor());
+						n.addAttribute("layout.frozen");
+						n.addAttribute("y", -i*30);
+						n.addAttribute("x", nid);
 						if (i > 0) {
 							Edge e = gsGraph.addEdge(Integer.toString(nid), newNode, oldNode);
-							e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
-							e.addAttribute("ui.style","fill-color: cyan;");
+//							e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
+                            e.addAttribute("ui.style", "fill-color: rgb(255,0,0);");
 						}
 					}
 					oldNode = newNode;
 					i++;
-					nid++;
-					Thread.sleep(20);
+					if(nid<0)
+						nid--;
+					else
+						nid++;
+					Thread.sleep(200);
 				}
+				nid *= -1;
 			}
 			return;
 		}

@@ -1,0 +1,19 @@
+digraph "outputmanyedge" {
+a [ Weight=7, Start =0, Processor =1];
+b [ Weight=5, Start =7, Processor =1];
+c [ Weight=3, Start =12, Processor =1];
+d [ Weight=11, Start =0, Processor =2];
+e [ Weight=8, Start =15, Processor =1];
+g [ Weight=9, Start =23, Processor =1];
+h [ Weight=10, Start =24, Processor =2];
+f [ Weight=2, Start =34, Processor =2];
+i [ Weight=5, Start =32, Processor =1];
+a -> e [Weight=3];
+b -> e [Weight=12];
+c -> e [Weight=1];
+d -> e [Weight=4];
+e -> f [Weight=7];
+e -> g [Weight=8];
+e -> h [Weight=1];
+e -> i [Weight=2];
+}
