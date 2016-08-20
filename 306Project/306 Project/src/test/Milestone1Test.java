@@ -17,7 +17,7 @@ public class Milestone1Test {
 
         //Change these as needed, filename, number of processes and other arguments.
         String slash = System.getProperty("file.separator");
-        String filename = "306 Project"+slash+"src"+slash+"resources"+slash+"Graphs"+slash+"testGraph.dot";
+        String filename = "306 Project"+slash+"src"+slash+"resources"+slash+"Graphs"+slash+"Nodes_11_OutTree.dot";
         args[0] = filename;
         args[1] = "2";
 
@@ -31,20 +31,20 @@ public class Milestone1Test {
 
         SolutionTree solver;
         //Run the algorithm 5 times and average the value.
-        for (int i=0; i<5; i++){
+        //for (int i=0; i<0; i++){
             CustomGraphReader graphReader = new CustomGraphReader(args);
             graphReader.readDAG();
             solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
             solver.calculateTime(solver.getRootNode(), solver.getNodeList());
-            if (i==0){
+            //if (i==0){
                 times[1] = new Long(solver.getMinimumTime());	//The optimal time for the schedule.
-            }
-        }
+            //}
+        //}
         //Stop timing
         long endTime = System.nanoTime();
         //Average times
         long duration = (endTime - startTime)/1000000;  //divide by 1000000 to get milliseconds.
-        duration = duration/5;                          //Average the time.
+        //duration = duration/1;                          //Average the time.
         times[0] = duration;							//The runtime for the algorithm.
 
 
@@ -55,7 +55,9 @@ public class Milestone1Test {
             Assert.assertEquals("Invalid Schedule", oldTimes[1],times[1]);
             //Compare the times of the old and new implmentations.
             //NOTE THAT RUNTIMES MAY VARY, EVEN WITH AVERAGING. IF IT FAILS, LOOK AT THE ERROR MESSAGE FOR THE DIFFERENCE.
-            Assert.assertTrue("Runtime increased by "+Long.toString(times[0]-oldTimes[0])+" milliseconds.", times[0]<oldTimes[0]);
+            System.out.println("Old Runtime: "+Long.toString(oldTimes[0]));
+            System.out.println("New Runtime: "+Long.toString(times[0]));
+            Assert.assertTrue(times[0]<oldTimes[0]);
         }catch(IOException e){
             //Theoretically, this is unreachable. The input is defined in the brief and won't change.
             Assert.fail("Invalid input to old main function");
