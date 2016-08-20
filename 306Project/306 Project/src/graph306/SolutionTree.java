@@ -103,19 +103,27 @@ public class SolutionTree {
 		}
 	}
 	
-	// Test Code starts-------------------------------
+	/**
+	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 
+	 * current best time and adding all processes not yet executed and dividing it by the
+	 * number of processors.
+	 * @param currentNode: the whose lower bound has to be calculated
+	 * @param nodesToCheck: List of nodes not yet seen by the 
+	 * @return
+	 */
 	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
-		int currentMaxTime = minTimeAtPoint(currentNode); // NOT CORRECT
+		int currentMaxTime = minTimeAtPoint(currentNode); 
+		int currentworstTime = maxTimeAtPoint(currentNode);
+		int diff = currentworstTime - currentMaxTime;
 		int totalWeight = 0;
 		int currentWeight;
 		for(String nodeToCheckStr : nodesToCheck){
 			currentWeight = getNodalWeight(nodeToCheckStr);
 			totalWeight = totalWeight + currentWeight;
 		}
-		int lowerBound = currentMaxTime + (totalWeight / numberofProcessors);
+		int lowerBound = currentMaxTime + ((totalWeight + diff) / numberofProcessors);
 		return lowerBound;	
 	}
-	// Test Code ends-------------------------------
 	
 	/**
 	 * Checks if the node is a valid option for option tree
