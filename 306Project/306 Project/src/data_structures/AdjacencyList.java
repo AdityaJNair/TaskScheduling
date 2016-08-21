@@ -1,4 +1,4 @@
-package graph306;
+package data_structures;
 
 import java.util.*;
 

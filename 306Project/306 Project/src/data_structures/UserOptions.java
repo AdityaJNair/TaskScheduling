@@ -1,4 +1,4 @@
-package oldVersion;
+package data_structures;
 
 /**
  * Singleton class to hold the user's input command line parameters.
