@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+//import pt.runtime.*;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -21,6 +22,7 @@ public class SolutionTree {
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	private int numberofProcessors;
+	//private TaskIDGroup group = new TaskIDGroup(20); //TODO: still testing, hardcoded Group size
 	
 	/**
 	 * Constructor that initialises the adjacency list to this class and makes a list of all nodes to use when checking if a node has been seen or not
