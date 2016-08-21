@@ -14,14 +14,14 @@ import java.util.List;
 public class SolutionTree {
 	public long nodeNumber = 0;
 	// Stores the time for the current shortest schedule.
-	private static int minimumTime = Integer.MAX_VALUE;
+	protected static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	
-	private AdjacencyList inputGraph;
+	protected AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
-	private int numberofProcessors;
+	protected int numberofProcessors;
 	//private TaskIDGroup group = new TaskIDGroup(20); //TODO: still testing, hardcoded Group size
 	
 	/**
@@ -144,7 +144,7 @@ public class SolutionTree {
 	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
-	private boolean isValidOption(String node, List<String> nodesToCheck){
+	protected boolean isValidOption(String node, List<String> nodesToCheck){
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 

@@ -99,8 +99,8 @@ public class AdjacencyList {
      * Note that this is O(n), and should be stored into a variable if possible, rather than run often.
      * @return a set of Strings containing the names of all source nodes.
      */
-    public Set<String> getSourceNodes(){
-        Set<String> sources = new HashSet<>();
+    public List<String> getSourceNodes(){
+        List<String> sources = new ArrayList<>();
         for(String n : adjacencyList.keySet()){
             if (adjacencyList.get(n).isEmpty()) {
                 //If the node's map of parents is empty, add it to the set of sources
