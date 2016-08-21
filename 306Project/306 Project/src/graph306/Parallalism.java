@@ -206,18 +206,6 @@ public class Parallalism extends SolutionTree {//####[10]####
     }//####[27]####
 //####[27]####
 //####[36]####
-    private static volatile Method __pt__calculateTime_NodeObject_ListString_boolean_method = null;//####[36]####
-    private synchronized static void __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet() {//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            try {//####[36]####
-                __pt__calculateTime_NodeObject_ListString_boolean_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__calculateTime", new Class[] {//####[36]####
-                    NodeObject.class, List.class, boolean.class//####[36]####
-                });//####[36]####
-            } catch (Exception e) {//####[36]####
-                e.printStackTrace();//####[36]####
-            }//####[36]####
-        }//####[36]####
-    }//####[36]####
     /** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
@@ -225,847 +213,7 @@ public class Parallalism extends SolutionTree {//####[10]####
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(0);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(1);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(1);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(0);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(2);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(0, 2);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(2);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(1, 2);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setTaskIdArgIndexes(0, 1, 2);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(1, 2);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(2);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(0, 2);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(2);//####[36]####
-        taskinfo.addDependsOn(isThreaded);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(0);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0, 2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(1);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0, 2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(1);//####[36]####
-        taskinfo.addDependsOn(nodesToCheck);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1, 2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(1, 2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setTaskIdArgIndexes(0);//####[36]####
-        taskinfo.addDependsOn(currentNode);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded) {//####[36]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[36]####
-        return calculateTime(currentNode, nodesToCheck, isThreaded, new TaskInfo());//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public TaskID<Void> calculateTime(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isThreaded, TaskInfo taskinfo) {//####[36]####
-        // ensure Method variable is set//####[36]####
-        if (__pt__calculateTime_NodeObject_ListString_boolean_method == null) {//####[36]####
-            __pt__calculateTime_NodeObject_ListString_boolean_ensureMethodVarSet();//####[36]####
-        }//####[36]####
-        taskinfo.setQueueArgIndexes(0, 1, 2);//####[36]####
-        taskinfo.setIsPipeline(true);//####[36]####
-        taskinfo.setParameters(currentNode, nodesToCheck, isThreaded);//####[36]####
-        taskinfo.setMethod(__pt__calculateTime_NodeObject_ListString_boolean_method);//####[36]####
-        taskinfo.setInstance(this);//####[36]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[36]####
-    }//####[36]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[36]####
-    public void __pt__calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
+    public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
         if (!isThreaded) //####[37]####
         {//####[37]####
             calculateTime(currentNode, nodesToCheck);//####[38]####
@@ -1090,7 +238,7 @@ public class Parallalism extends SolutionTree {//####[10]####
             newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[66]####
             nodeNumber++;//####[67]####
             System.out.println("Creating thread number " + (i + 1));//####[69]####
-            TaskID<Void> newTask = calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);//####[70]####
+            TaskID<Void> newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode);//####[70]####
             taskGroup.add(newTask);//####[71]####
         }//####[72]####
         try {//####[73]####
@@ -1100,20 +248,171 @@ public class Parallalism extends SolutionTree {//####[10]####
             e.printStackTrace();//####[77]####
         }//####[78]####
     }//####[80]####
-//####[80]####
-//####[90]####
-    private static volatile Method __pt__calculateTimeParallel_NodeObject_ListString_method = null;//####[90]####
-    private synchronized static void __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet() {//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            try {//####[90]####
-                __pt__calculateTimeParallel_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__calculateTimeParallel", new Class[] {//####[90]####
-                    NodeObject.class, List.class//####[90]####
-                });//####[90]####
-            } catch (Exception e) {//####[90]####
-                e.printStackTrace();//####[90]####
-            }//####[90]####
-        }//####[90]####
-    }//####[90]####
+//####[82]####
+    private static volatile Method __pt__intermediateMethod_NodeObject_ListString_method = null;//####[82]####
+    private synchronized static void __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet() {//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            try {//####[82]####
+                __pt__intermediateMethod_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__intermediateMethod", new Class[] {//####[82]####
+                    NodeObject.class, List.class//####[82]####
+                });//####[82]####
+            } catch (Exception e) {//####[82]####
+                e.printStackTrace();//####[82]####
+            }//####[82]####
+        }//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setTaskIdArgIndexes(0);//####[82]####
+        taskinfo.addDependsOn(currentNode);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setQueueArgIndexes(0);//####[82]####
+        taskinfo.setIsPipeline(true);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setTaskIdArgIndexes(1);//####[82]####
+        taskinfo.addDependsOn(nodesToCheck);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setTaskIdArgIndexes(0, 1);//####[82]####
+        taskinfo.addDependsOn(currentNode);//####[82]####
+        taskinfo.addDependsOn(nodesToCheck);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setQueueArgIndexes(0);//####[82]####
+        taskinfo.setIsPipeline(true);//####[82]####
+        taskinfo.setTaskIdArgIndexes(1);//####[82]####
+        taskinfo.addDependsOn(nodesToCheck);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setQueueArgIndexes(1);//####[82]####
+        taskinfo.setIsPipeline(true);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setQueueArgIndexes(1);//####[82]####
+        taskinfo.setIsPipeline(true);//####[82]####
+        taskinfo.setTaskIdArgIndexes(0);//####[82]####
+        taskinfo.addDependsOn(currentNode);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
+        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
+    }//####[82]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
+        // ensure Method variable is set//####[82]####
+        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
+            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
+        }//####[82]####
+        taskinfo.setQueueArgIndexes(0, 1);//####[82]####
+        taskinfo.setIsPipeline(true);//####[82]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
+        taskinfo.setInstance(this);//####[82]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
+    }//####[82]####
+    public void __pt__intermediateMethod(NodeObject currentNode, List<String> nodesToCheck) {//####[82]####
+        calculateTimeParallel(currentNode, nodesToCheck);//####[83]####
+    }//####[84]####
+//####[84]####
+//####[94]####
     /** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
@@ -1121,350 +420,63 @@ public class Parallalism extends SolutionTree {//####[10]####
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setTaskIdArgIndexes(0);//####[90]####
-        taskinfo.addDependsOn(currentNode);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setQueueArgIndexes(0);//####[90]####
-        taskinfo.setIsPipeline(true);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setTaskIdArgIndexes(1);//####[90]####
-        taskinfo.addDependsOn(nodesToCheck);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[90]####
-        taskinfo.addDependsOn(currentNode);//####[90]####
-        taskinfo.addDependsOn(nodesToCheck);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setQueueArgIndexes(0);//####[90]####
-        taskinfo.setIsPipeline(true);//####[90]####
-        taskinfo.setTaskIdArgIndexes(1);//####[90]####
-        taskinfo.addDependsOn(nodesToCheck);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setQueueArgIndexes(1);//####[90]####
-        taskinfo.setIsPipeline(true);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setQueueArgIndexes(1);//####[90]####
-        taskinfo.setIsPipeline(true);//####[90]####
-        taskinfo.setTaskIdArgIndexes(0);//####[90]####
-        taskinfo.addDependsOn(currentNode);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[90]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[90]####
-        return calculateTimeParallel(currentNode, nodesToCheck, new TaskInfo());//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public TaskID<Void> calculateTimeParallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[90]####
-        // ensure Method variable is set//####[90]####
-        if (__pt__calculateTimeParallel_NodeObject_ListString_method == null) {//####[90]####
-            __pt__calculateTimeParallel_NodeObject_ListString_ensureMethodVarSet();//####[90]####
-        }//####[90]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[90]####
-        taskinfo.setIsPipeline(true);//####[90]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[90]####
-        taskinfo.setMethod(__pt__calculateTimeParallel_NodeObject_ListString_method);//####[90]####
-        taskinfo.setInstance(this);//####[90]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[90]####
-    }//####[90]####
-    /** 
-	 * Pseudocode for recursively calculating the time taken to execute each path
-	 * in the solution tree.
-	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
-	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
-	 * of the solution tree
-	 * @param currentNode - the current node 
-	 *///####[90]####
-    public void __pt__calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck) {//####[90]####
-        if (nodesToCheck.size() == 0) //####[93]####
-        {//####[93]####
-            if (maxTimeAtPoint(currentNode) < getMinimumTime()) //####[96]####
-            {//####[96]####
-                setMinimumTime(maxTimeAtPoint(currentNode));//####[99]####
-                setBestSchedule(currentNode.getCurrentPath());//####[100]####
-            }//####[101]####
-            return;//####[102]####
-        }//####[103]####
-        if (minimumTime != Integer.MAX_VALUE) //####[105]####
-        {//####[105]####
-            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[107]####
-            {//####[107]####
-                return;//####[108]####
-            }//####[109]####
-        }//####[114]####
-        for (String nodeToCheckStr : nodesToCheck) //####[118]####
-        {//####[118]####
-            if (isValidOption(nodeToCheckStr, nodesToCheck)) //####[119]####
-            {//####[119]####
-                int count = 0;//####[120]####
-                for (int i = 0; i < numberofProcessors; i++) //####[121]####
-                {//####[121]####
-                    if (currentNode.getTimeWeightOnEachProcessor()[i] == 0) //####[122]####
-                    {//####[122]####
-                        count++;//####[123]####
-                    }//####[124]####
-                }//####[125]####
-                int killtree = 0;//####[126]####
-                if (count >= 2) //####[127]####
-                {//####[127]####
-                    killtree = count - 1;//####[128]####
-                }//####[129]####
-                for (int j = 0; j < (numberofProcessors - killtree); j++) //####[130]####
+	 *///####[94]####
+    public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck) {//####[94]####
+        if (CurrentTask.insideTask()) //####[95]####
+        {//####[95]####
+        } else {//####[97]####
+            System.out.println("Executed as a method sequentialsefsg web");//####[98]####
+        }//####[100]####
+        if (nodesToCheck.size() == 0) //####[102]####
+        {//####[102]####
+            if (maxTimeAtPoint(currentNode) < getMinimumTime()) //####[105]####
+            {//####[105]####
+                setMinimumTime(maxTimeAtPoint(currentNode));//####[108]####
+                setBestSchedule(currentNode.getCurrentPath());//####[109]####
+            }//####[110]####
+            return;//####[111]####
+        }//####[112]####
+        if (minimumTime != Integer.MAX_VALUE) //####[114]####
+        {//####[114]####
+            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[116]####
+            {//####[116]####
+                return;//####[117]####
+            }//####[118]####
+        }//####[123]####
+        for (String nodeToCheckStr : nodesToCheck) //####[127]####
+        {//####[127]####
+            if (isValidOption(nodeToCheckStr, nodesToCheck)) //####[128]####
+            {//####[128]####
+                int count = 0;//####[129]####
+                for (int i = 0; i < numberofProcessors; i++) //####[130]####
                 {//####[130]####
-                    ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[136]####
-                    int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[137]####
-                    String newNodeName = nodeToCheckStr;//####[140]####
-                    int newProcessor = j;//####[141]####
-                    int nodalWeight = getNodalWeight(newNodeName);//####[142]####
-                    int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[143]####
-                    int newEndTime = newStartTime + nodalWeight;//####[144]####
-                    processorArray[newProcessor] = newEndTime;//####[145]####
-                    NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[148]####
-                    List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[150]####
-                    newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[151]####
-                    nodeNumber++;//####[152]####
-                    calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);//####[155]####
-                }//####[156]####
-            }//####[157]####
-        }//####[158]####
-    }//####[159]####
-//####[159]####
-}//####[159]####
+                    if (currentNode.getTimeWeightOnEachProcessor()[i] == 0) //####[131]####
+                    {//####[131]####
+                        count++;//####[132]####
+                    }//####[133]####
+                }//####[134]####
+                int killtree = 0;//####[135]####
+                if (count >= 2) //####[136]####
+                {//####[136]####
+                    killtree = count - 1;//####[137]####
+                }//####[138]####
+                for (int j = 0; j < (numberofProcessors - killtree); j++) //####[139]####
+                {//####[139]####
+                    ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[145]####
+                    int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[146]####
+                    String newNodeName = nodeToCheckStr;//####[149]####
+                    int newProcessor = j;//####[150]####
+                    int nodalWeight = getNodalWeight(newNodeName);//####[151]####
+                    int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[152]####
+                    int newEndTime = newStartTime + nodalWeight;//####[153]####
+                    processorArray[newProcessor] = newEndTime;//####[154]####
+                    NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[157]####
+                    List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[159]####
+                    newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[160]####
+                    nodeNumber++;//####[161]####
+                    calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);//####[164]####
+                }//####[165]####
+            }//####[166]####
+        }//####[167]####
+    }//####[168]####
+}//####[168]####

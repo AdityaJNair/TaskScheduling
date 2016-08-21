@@ -33,7 +33,7 @@ public class Parallalism extends SolutionTree{
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	TASK public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded){
+	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded){
 		if(!isThreaded){
 			calculateTime(currentNode, nodesToCheck);
 			return;
@@ -67,7 +67,7 @@ public class Parallalism extends SolutionTree{
 			nodeNumber++;
 			
 			System.out.println("Creating thread number " + (i+1));
-			TaskID<Void> newTask = calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);
+			TaskID<Void> newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode);
 			taskGroup.add(newTask);
 		}
 		try{
@@ -79,6 +79,10 @@ public class Parallalism extends SolutionTree{
 		
 	}
 	
+	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
+		calculateTimeParallel(currentNode, nodesToCheck);
+	}
+	
 	/** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
@@ -87,8 +91,13 @@ public class Parallalism extends SolutionTree{
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	TASK public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck){
-		
+	public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck){
+		 if (CurrentTask.insideTask()) {
+//		       System.out.println("Executed as a task");
+		    } else {
+		    	System.out.println("Executed as a method sequentialsefsg web");
+		    	// this is being executed as a standard sequential method
+		    }
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
