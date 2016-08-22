@@ -5,17 +5,16 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 /**
  * This class creates a solution tree from the input adjacency list.
  * 
  *
  */
 public class SolutionTree {
-	public static Graph gsGraph = new SingleGraph("DAG");
+	public static Graph bestTimeTree = new SingleGraph("Best Time Tree");
+	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
 
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
@@ -23,8 +22,6 @@ public class SolutionTree {
 	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 
     private int nid = 0;
-	private String oldNode = "";
-	private String newNode;
 	private AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
@@ -60,35 +57,53 @@ public class SolutionTree {
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
-				gsGraph.addAttribute("ui.stylesheet", "edge{ fill-color: rgb(255,255,255); }");
+				for (Edge e: bestTimeTree.getEdgeSet()) {
+					e.addAttribute("ui.style", "fill-color: rgb(0,0,0);");
+				}
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
 				String oldNode = new String();
 				String newNode = new String();
 				int i = 0;
-				for(NodeObject node : currentNode.getCurrentPath()){
+                Edge e;
+                for(NodeObject node : currentNode.getCurrentPath()){
 					if(node.getNodeName().equals("rootNode"))
 						continue;
 					newNode+=node.getNodeName()+node.getProcessor();
-					if(gsGraph.getNode(newNode)==null) {
-						Node n = gsGraph.addNode(newNode);
-						n.addAttribute("ui.label", node.getNodeName()+node.getProcessor());
-						n.addAttribute("layout.frozen");
-						n.addAttribute("y", -i*30);
-						n.addAttribute("x", nid);
-						if (i > 0) {
-							Edge e = gsGraph.addEdge(Integer.toString(nid), newNode, oldNode);
-//							e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
-                            e.addAttribute("ui.style", "fill-color: rgb(255,0,0);");
-						}
-					}
-					oldNode = newNode;
+					if(bestTimeTree.getNode(newNode)==null) {
+                        Node n = bestTimeTree.addNode(newNode);
+
+                        n.addAttribute("ui.label", node.getNodeName() +"("+ node.getProcessor()+")");
+//                        n.addAttribute("ui.label", nid);
+                        n.addAttribute("layout.frozen");
+
+						n.addAttribute("y", -i * 20);
+                        if (i==0)
+                            n.addAttribute("x", nid);
+                        if (i > 0) {
+                            if((int)bestTimeTree.getNode(oldNode).getAttribute("x")<0){
+                                n.addAttribute("x", -java.lang.Math.abs(nid));
+                            } else{
+                                n.addAttribute("x", java.lang.Math.abs(nid));
+                            }
+                        }
+                    }
+                    if(i > 0){
+                        bestTimeTree.removeEdge(newNode, oldNode);
+                        e = bestTimeTree.addEdge(Integer.toString(nid), newNode, oldNode);
+                        e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
+                        e.setAttribute("ui.style", "fill-color: rgb(255,0,0);");
+
+                    }
+
+                    oldNode = newNode;
 					i++;
 					if(nid<0)
 						nid--;
 					else
 						nid++;
-					Thread.sleep(200);
+                    //SPEED FACTOR: lower=faster
+					Thread.sleep(50);
 				}
 				nid *= -1;
 			}
@@ -119,26 +134,21 @@ public class SolutionTree {
 					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
 					int newEndTime = newStartTime+nodalWeight;
 					processorArray[newProcessor] = newEndTime;
-					
+                    if(!currentNode.getNodeName().equals("rootNode")){
+                        Node gn = datGraph.getNode(currentNode.getNodeName());
+                        gn.setAttribute("ui.label",currentNode.getNodeName()+"\n "+currentNode.getStartTime()+"-"+currentNode.getEndTime());
+                        Random r = new Random();
+                        String b = Integer.toString(r.nextInt(256));
+                        b = "fill-color:rgb("+b+","+b+","+b+");";
+                        gn.setAttribute("ui.style",b);
+                    }
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
 					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					String nn = new String();
-//					int oldNodePos = 0;
-//					for (NodeObject temp : currentNode.getCurrentPath()){
-//						if (temp.getNodeName().equals("rootNode")) {
-//							continue;
-//						}
-//						nn+= temp.getNodeName() + Integer.toString(temp.getProcessor());
-//						if (oldNodePos == currentNode.getCurrentPath().size()-2){
-//							oldNode = nn;
-//						}
-//						oldNodePos++;
-//					}
+
 					//recursive call
-//                    Thread.sleep(10);
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
