@@ -81,9 +81,9 @@ public class SolutionTreeVisual {
 					newNode+=node.getNodeName()+node.getProcessor();
 					if(gsGraph.getNode(newNode)==null) {
 						Node n = gsGraph.addNode(newNode);
-						n.addAttribute("ui.label", node.getNodeName()+node.getProcessor());
+						n.addAttribute("ui.label", node.getNodeName()+" ("+node.getProcessor()+")");
 						n.addAttribute("layout.frozen");
-						n.addAttribute("y", -i*30);
+						n.addAttribute("y", -i*40);
 						n.addAttribute("x", nid);
 						if (i > 0) {
 							Edge e = gsGraph.addEdge(Integer.toString(nid), newNode, oldNode);
@@ -97,7 +97,7 @@ public class SolutionTreeVisual {
 						nid--;
 					else
 						nid++;
-					Thread.sleep(200);
+					Thread.sleep(50);
 				}
 				nid *= 01;
 			}

@@ -47,13 +47,15 @@ public class Main {
 		if(UserOptions.getInstance().isVisible() && UserOptions.getInstance().isParallel()){
 			
 			
-			
+			//if parallel and visual
 			
 			
 			
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
 			
+			
+			//if visual only
 			System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 	        SolutionTreeVisual.gsGraph.addAttribute("ui.stylesheet", "node { " +
 	                "size:10px; " +
@@ -96,7 +98,10 @@ public class Main {
 			
 		} else if(UserOptions.getInstance().isParallel() && !UserOptions.getInstance().isVisible()){
 			
+			//parallel only
 		} else {
+			
+			//normal
 			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
 			solver.calculateTime(solver.getRootNode(), solver.getNodeList());
 			
