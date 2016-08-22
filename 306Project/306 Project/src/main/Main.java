@@ -36,13 +36,7 @@ public class Main {
 			
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
-<<<<<<< HEAD
-			
-			
-			//if visual only
-=======
 
->>>>>>> b91121853718c3550f4f0672790562207a699a0f
 			System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 			SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 					"size:6px; " +

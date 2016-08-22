@@ -92,14 +92,6 @@ public class SolutionTreeVisual {
 					if(node.getNodeName().equals("rootNode"))
 						continue;
 					newNode+=node.getNodeName()+node.getProcessor();
-<<<<<<< HEAD
-					if(gsGraph.getNode(newNode)==null) {
-						Node n = gsGraph.addNode(newNode);
-						n.addAttribute("ui.label", node.getNodeName()+" ("+node.getProcessor()+")");
-						n.addAttribute("layout.frozen");
-						n.addAttribute("y", -i*40);
-						n.addAttribute("x", nid);
-=======
 					if(bestTimeTree.getNode(newNode)==null) {
 						Node n = bestTimeTree.addNode(newNode);
 
@@ -110,7 +102,6 @@ public class SolutionTreeVisual {
 						n.addAttribute("y", -i * 20);
 						if (i==0)
 							n.addAttribute("x", nid);
->>>>>>> b91121853718c3550f4f0672790562207a699a0f
 						if (i > 0) {
 							if((int)bestTimeTree.getNode(oldNode).getAttribute("x")<0){
 								n.addAttribute("x", -java.lang.Math.abs(nid));
@@ -133,13 +124,9 @@ public class SolutionTreeVisual {
 						nid--;
 					else
 						nid++;
-<<<<<<< HEAD
-					Thread.sleep(50);
-=======
 					//SPEED FACTOR: lower=faster
 					Thread.sleep(50);
 					bestPath += node.getNodeName()+"("+node.getProcessor()+") ";
->>>>>>> b91121853718c3550f4f0672790562207a699a0f
 				}
 				bestTimeScheduleLabel.setText("Best Path: "+bestPath);
 				nid *= -1;
@@ -153,9 +140,9 @@ public class SolutionTreeVisual {
 				return;
 			}
 		
-			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				//return;
-			//}
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
 		}
         
 		// Look through the list of unseen nodes and recursively call this method on nodes 
