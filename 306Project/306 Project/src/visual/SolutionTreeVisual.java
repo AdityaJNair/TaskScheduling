@@ -1,17 +1,17 @@
 package visual;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
+
+import javax.swing.*;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -19,13 +19,19 @@ import data_structures.UserOptions;
  *
  */
 public class SolutionTreeVisual {
-	public static Graph gsGraph = new SingleGraph("DAG");
+	public static Graph bestTimeTree = new SingleGraph("Best Time Tree");
+	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
     private int nid = 0;
-	private String oldNode = "";
-	private String newNode;
-	
-	
+
+	public static JLabel bestTimeLabel = new JLabel("Current Best Time:");
+	public static JLabel nodesSearchedLabel = new JLabel("Nodes Searched:");
+	public static JLabel bestTimeCountLabel = new JLabel("Best Times Found:");
+	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
+	public static JLabel bestTimeScheduleLabel = new JLabel("Best Schedule:");
+
 	public long nodeNumber = 0;
+	private long bestTimeCount = 0;
+	private long validScheduleCount = 0;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -62,44 +68,81 @@ public class SolutionTreeVisual {
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck) throws InterruptedException{
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
+			validScheduleCount++;
+			validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
 			// Calculate time
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime){
+				bestTimeCount++;
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
+				for (Edge e: bestTimeTree.getEdgeSet()) {
+					e.addAttribute("ui.style", "fill-color: rgb(0,0,0);");
+				}
 				minimumTime = maxTimeAtPoint(currentNode);
-				bestSchedule = currentNode.getCurrentPath();
-				gsGraph.addAttribute("ui.stylesheet", "edge{ fill-color: rgb(255,255,255); }");
-				minimumTime = maxTimeAtPoint(currentNode);
+				bestTimeLabel.setText("Current Best Time: "+maxTimeAtPoint(currentNode));
+				bestTimeCountLabel.setText("Best Times Found: "+Long.toString(bestTimeCount));
 				bestSchedule = currentNode.getCurrentPath();
 				String oldNode = new String();
 				String newNode = new String();
 				int i = 0;
+				Edge e;
+				String bestPath = new String();
 				for(NodeObject node : currentNode.getCurrentPath()){
 					if(node.getNodeName().equals("rootNode"))
 						continue;
 					newNode+=node.getNodeName()+node.getProcessor();
+<<<<<<< HEAD
 					if(gsGraph.getNode(newNode)==null) {
 						Node n = gsGraph.addNode(newNode);
 						n.addAttribute("ui.label", node.getNodeName()+" ("+node.getProcessor()+")");
 						n.addAttribute("layout.frozen");
 						n.addAttribute("y", -i*40);
 						n.addAttribute("x", nid);
+=======
+					if(bestTimeTree.getNode(newNode)==null) {
+						Node n = bestTimeTree.addNode(newNode);
+
+						n.addAttribute("ui.label", node.getNodeName() +"("+ node.getProcessor()+")");
+//                        n.addAttribute("ui.label", nid);
+						n.addAttribute("layout.frozen");
+
+						n.addAttribute("y", -i * 20);
+						if (i==0)
+							n.addAttribute("x", nid);
+>>>>>>> b91121853718c3550f4f0672790562207a699a0f
 						if (i > 0) {
-							Edge e = gsGraph.addEdge(Integer.toString(nid), newNode, oldNode);
-//							e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
-                            e.addAttribute("ui.style", "fill-color: rgb(255,0,0);");
+							if((int)bestTimeTree.getNode(oldNode).getAttribute("x")<0){
+								n.addAttribute("x", -java.lang.Math.abs(nid));
+							} else{
+								n.addAttribute("x", java.lang.Math.abs(nid));
+							}
 						}
 					}
+					if(i > 0){
+						bestTimeTree.removeEdge(newNode, oldNode);
+						e = bestTimeTree.addEdge(Integer.toString(nid), newNode, oldNode);
+						e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
+						e.setAttribute("ui.style", "fill-color: rgb(255,0,0);");
+
+					}
+
 					oldNode = newNode;
 					i++;
 					if(nid<0)
 						nid--;
 					else
 						nid++;
+<<<<<<< HEAD
 					Thread.sleep(50);
+=======
+					//SPEED FACTOR: lower=faster
+					Thread.sleep(50);
+					bestPath += node.getNodeName()+"("+node.getProcessor()+") ";
+>>>>>>> b91121853718c3550f4f0672790562207a699a0f
 				}
-				nid *= 01;
+				bestTimeScheduleLabel.setText("Best Path: "+bestPath);
+				nid *= -1;
 			}
 			return;
 		}
@@ -145,13 +188,25 @@ public class SolutionTreeVisual {
 					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
 					int newEndTime = newStartTime+nodalWeight;
 					processorArray[newProcessor] = newEndTime;
-					
+
+					Node gn = datGraph.getNode(nodeToCheckStr);
+					gn.setAttribute("ui.label",nodeToCheckStr+"("+j+") "+newEndTime);
+					Random rand = new Random();
+					int r = rand.nextInt(125)+130;
+					int g = rand.nextInt(125)+130;
+					int b = rand.nextInt(125)+130;
+					String color = "fill-color:rgb("+Integer.toString(r)+","+Integer.toString(g)+","+Integer.toString(b)+");";
+					gn.setAttribute("ui.style",color);
+					Thread.sleep(0,1);
+
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
 					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					nodeNumber++;
+					nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber));
+
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}

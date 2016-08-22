@@ -1,13 +1,9 @@
-package graph306;
+package milestone1.oldgraph306;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import data_structures.AdjacencyList;
-import data_structures.NodeObject;
-import data_structures.UserOptions;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -15,14 +11,14 @@ import data_structures.UserOptions;
  *
  */
 public class SolutionTree {
-	public long nodeNumber = 0;
+	
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	private static List<milestone1.oldgraph306.NodeObject> bestSchedule = new ArrayList<milestone1.oldgraph306.NodeObject>();
 	
 	private AdjacencyList inputGraph;
-	private NodeObject rootNode;
+	private milestone1.oldgraph306.NodeObject rootNode;
 	private List<String> nodeList;
 	private int numberofProcessors;
 	
@@ -33,12 +29,12 @@ public class SolutionTree {
 	public SolutionTree(AdjacencyList inputGraph){
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
-		for(String entry : inputGraph.getNodes()){
+		for(String entry : inputGraph.getIndices().keySet()){
     		nodeList.add(entry);
     	}
-		numberofProcessors = UserOptions.getInstance().getProcessors();
+		numberofProcessors = milestone1.oldgraph306.UserOptions.getInstance().getProcessors();
 		//create the root node object
-		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
+		rootNode = new milestone1.oldgraph306.NodeObject(0, new ArrayList<milestone1.oldgraph306.NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);
 	}
 	
 	/** 
@@ -48,7 +44,7 @@ public class SolutionTree {
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck){
+	public void calculateTime(milestone1.oldgraph306.NodeObject currentNode, List<String> nodesToCheck){
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -62,38 +58,21 @@ public class SolutionTree {
 			return;
 		}
 		
-		if(minimumTime != Integer.MAX_VALUE){
-			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
-			if(maxTimeAtPoint(currentNode) >= minimumTime){
-				return;
-			}
-		
-			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				//return;
-			//}
+		//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+		if(maxTimeAtPoint(currentNode) >= minimumTime){
+			return;
 		}
-        
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-				int count = 0;
-				for(int i = 0 ; i <numberofProcessors; i++){
-					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
-						count++;
-					}
-				}
-				int killtree = 0;
-				if(count >= 2){
-					killtree = count -1;
-				}
-				for(int j = 0; j < (numberofProcessors - killtree); j++){
+				for(int j = 0; j < numberofProcessors; j++){
 					
 					//UPDATE THE NEW NODE FOR RECURSION
 					
 					//create a newpath that is the same as current which includes the currentNode as well
 					//same thing but only copying the processor array --not checking for times at this place
-					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					ArrayList<milestone1.oldgraph306.NodeObject> nextPath = new ArrayList<milestone1.oldgraph306.NodeObject>(currentNode.getCurrentPath());
 					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
 					
 					//initialising the fields for the new NodalObject to recurse through
@@ -105,39 +84,16 @@ public class SolutionTree {
 					processorArray[newProcessor] = newEndTime;
 					
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
-					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+					milestone1.oldgraph306.NodeObject nextNode = new milestone1.oldgraph306.NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
 					//copy the nodesToCheck list and need to remove the current node from it for recursion
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
-					nodeNumber++;
+					
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
 		}
-	}
-
-
-	/**
-	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 
-	 * current best time and adding all processes not yet executed and dividing it by the
-	 * number of processors.
-	 * @param currentNode: the whose lower bound has to be calculated
-	 * @param nodesToCheck: List of nodes not yet seen by the 
-	 * @return
-	 */
-	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
-		int currentMaxTime = minTimeAtPoint(currentNode); 
-		int currentworstTime = maxTimeAtPoint(currentNode);
-		int diff = currentworstTime - currentMaxTime;
-		int totalWeight = 0;
-		int currentWeight;
-		for(String nodeToCheckStr : nodesToCheck){
-			currentWeight = getNodalWeight(nodeToCheckStr);
-			totalWeight = totalWeight + currentWeight;
-		}
-		int lowerBound = currentMaxTime + ((totalWeight + diff) / numberofProcessors);
-		return lowerBound;	
 	}
 	
 	/**
@@ -170,8 +126,9 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkAdjacencyListNullMap(String nodeName){
-
-		if(inputGraph.getAdjacencyList().get(nodeName).size() == 0){
+		
+		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
+		if(inputGraph.getAdjacencyList().get(indexAtListForMap).size() == 0){
 			return true;
 		} else {
 			return false;
@@ -185,8 +142,10 @@ public class SolutionTree {
 	 * @return
 	 */
 	public boolean checkValidSolutionDepency(String nodeName, List<String> nodesToCheck){
+		//found c
+		int indexAtListForMap = inputGraph.getIndices().get(nodeName);
 		//get map for c
-		for(String entry : inputGraph.getAdjacencyList().get(nodeName).keySet()){
+		for(String entry : inputGraph.getAdjacencyList().get(indexAtListForMap).keySet()){
 			//we check to see if the nodesToCheck has a or b inside of it.
 			//if it does that means we have not seen a node that it is dependent on. So invalid
 			if(nodesToCheck.contains(entry)){
@@ -202,7 +161,7 @@ public class SolutionTree {
 	 * @param node
 	 * @return largest end time amongst all processors
 	 */
-	public int maxTimeAtPoint(NodeObject node){
+	public int maxTimeAtPoint(milestone1.oldgraph306.NodeObject node){
 		int largest = -1;
 		for(int i: node.getTimeWeightOnEachProcessor()){
 			if(i > largest){
@@ -214,30 +173,12 @@ public class SolutionTree {
 	}
 	
 	/**
-	 * Find the largest time in the processor assuming that the node is updated.
-	 * Each element in this array has the end time for the index processor (assuming index 0 = processor 1)
-	 * TODO : fix comments
-	 * @param node
-	 * @return largest end time amongst all processors
-	 */
-	public int minTimeAtPoint(NodeObject node){
-		int smallest = Integer.MAX_VALUE;
-		for(int i: node.getTimeWeightOnEachProcessor()){
-			if(i < smallest){
-				smallest = i;
-			}
-		}
-		return smallest;
-		
-	}
-	
-	/**
 	 * checkProcessStartTimeTask finds the time when to add the task on the processor. This is required as need to check on the
 	 * constraints which are the communication costs. The dependencies constraint is met in the checkValidSolutionDepency method called
 	 * before. So just finds the start time for the particular task.
 	 * @return finds the start time for the particular task.
 	 */
-	public int checkProcessStartTimeTask(NodeObject currentNode, String newNode, int processor){
+	public int checkProcessStartTimeTask(milestone1.oldgraph306.NodeObject currentNode, String newNode, int processor){
 		if(checkAdjacencyListNullMap(newNode)){
 			//returns the endtime for particular processor as the new start time if the node in question was a source node
 			//so it has no dependencies and can be placed directly at the end of any processor
@@ -247,15 +188,15 @@ public class SolutionTree {
 			int maxTime = -1;
 			int tmpTime = -1;
 			//iterate through the current path of nodes visited to see the latest time to add the particular node
-			for(NodeObject node: currentNode.getCurrentPath()){
+			for(milestone1.oldgraph306.NodeObject node: currentNode.getCurrentPath()){
 				//check parents if processor is same
-				if(inputGraph.isDependent(node,newNode)){
+				if(isDependent(node,newNode)){
 					if(node.getProcessor() == processor){
 						//if it is same process, the next time it can go on is directly after it so endtime = starttime
 						tmpTime = node.getEndTime();
 					} else {
 						//if process are different; add communication cost so next time it can go on is directly after the communication cost.
-						tmpTime = node.getEndTime() + inputGraph.getEdgeWeight(node, newNode);
+						tmpTime = node.getEndTime() + getEdgeWeight(node, newNode);
 					}
 				}
 				//getting the greater of the times, such that maxTime is the latest point where we can add that node in processor
@@ -276,6 +217,22 @@ public class SolutionTree {
 			}
 		}
 	}
+
+
+	/**
+	 * Checks if the newNode(String) is dependent on node(Any particular Node with a string name)
+	 * @return true if is dependent and is inside the adjacency list : false if not in the map
+	 */
+	public boolean isDependent(milestone1.oldgraph306.NodeObject node, String newNode){
+		//if the newNode in the adjacency list has the NodalObject that is a parent to it, return true
+		int index = inputGraph.getIndices().get(newNode);
+		if(inputGraph.getAdjacencyList().get(index).containsKey(node.getNodeName())){
+			return true;
+		}
+		//if not a parent return false
+		return false;
+	}
+
 	
 	/**
 	 * getting the nodal weight from a string of node name
@@ -287,6 +244,21 @@ public class SolutionTree {
 			return 0;
 		}
 		return inputGraph.getNodeWeights().get(node);
+	}
+	
+	/**
+	 * Getting the edge weight from the currentNode to the new valid node
+	 * @param currentNode
+	 * @param nextNode
+	 * @return
+	 */
+	public int getEdgeWeight(milestone1.oldgraph306.NodeObject currentNode, String nextNode){
+		if(currentNode.getNodeName().equals("rootNode")){
+			return 0;
+		}
+		int index = inputGraph.getIndices().get(nextNode);
+		int value = inputGraph.getAdjacencyList().get(index).get(currentNode.getNodeName());
+		return value;
 	}
 
 	/*
@@ -302,11 +274,11 @@ public class SolutionTree {
 		SolutionTree.minimumTime = minimumTime;
 	}
 
-	public static List<NodeObject> getBestSchedule() {
+	public static List<milestone1.oldgraph306.NodeObject> getBestSchedule() {
 		return bestSchedule;
 	}
 
-	public static void setBestSchedule(List<NodeObject> bestSchedule) {
+	public static void setBestSchedule(List<milestone1.oldgraph306.NodeObject> bestSchedule) {
 		SolutionTree.bestSchedule = bestSchedule;
 	}
 
@@ -318,7 +290,7 @@ public class SolutionTree {
 		this.inputGraph = inputGraph;
 	}
 
-	public NodeObject getRootNode() {
+	public milestone1.oldgraph306.NodeObject getRootNode() {
 		return rootNode;
 	}
 

@@ -1,4 +1,4 @@
-package data_structures;
+package milestone1.oldgraph306;
 
 import java.util.ArrayList;
 import java.util.List;
