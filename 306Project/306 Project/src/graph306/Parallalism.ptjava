@@ -1,0 +1,215 @@
+package graph306;
+import pt.queues.FifoLifoQueue;
+import pt.runtime.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import data_structures.*;
+
+public class Parallalism extends SolutionTree{
+	
+	int semaphore = UserOptions.getInstance().getParallelThreads();
+	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
+	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	
+	/**
+	 * @param inputGraph
+	 */
+	public Parallalism(AdjacencyList inputGraph) {
+		super(inputGraph);
+		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
+//		bestScheduleThreaded.addGlobal(null);
+	}
+	
+	TASK public void parallel(NodeObject currentNode, List<String> nodesToCheck) {
+	    calculateTime(currentNode, nodesToCheck);
+	    return;
+	}
+	
+	/** 
+	 * Pseudocode for recursively calculating the time taken to execute each path
+	 * in the solution tree.
+	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
+	 * of the solution tree
+	 * @param currentNode - the current node 
+	 */
+	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded){
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestSchedule = currentNode.getCurrentPath();
+			}
+			return;
+		}
+		
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				//return;
+			//}
+		}
+		if(!isThreaded){
+			calculateTime(currentNode, nodesToCheck);
+			return;
+		}
+
+		for(String nodeToCheckStr : nodesToCheck){
+			
+			//create a newpath that is the same as current which includes the currentNode as well
+			//same thing but only copying the processor array --not checking for times at this place
+			ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+			int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+			
+			//initialising the fields for the new NodalObject to recurse through
+			String newNodeName = nodeToCheckStr;
+			int newProcessor = 0;
+			int nodalWeight = getNodalWeight(newNodeName);
+			int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
+			int newEndTime = newStartTime+nodalWeight;
+			processorArray[newProcessor] = newEndTime;
+			
+			//INITIALISE THE NEW NODE WITH UPDATED FIELDS
+			NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+			//copy the nodesToCheck list and need to remove the current node from it for recursion
+			List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+			newUpdatedListWithoutCurrentNode.remove(newNodeName);
+			nodeNumber++;
+			
+			if (semaphore > 0) {
+				System.out.println("Creating thread number " + (semaphore));
+			 	semaphore --;
+			 	boolean isHeadThread = true;
+			  	TaskID<Void> newTask = intermediateMethod(currentNode, nodesToCheck, true);
+			  	taskGroup.add(newTask);
+			} else {
+				calculateTime(currentNode, nodesToCheck);
+			}
+		}
+		
+		try{
+			taskGroup.waitTillFinished();
+			System.out.println("Not waiting anymore");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread){
+		calculateTimeParallel(currentNode, nodesToCheck, isHeadThread);
+	}
+	
+	/** 
+	 * Pseudocode for recursively calculating the time taken to execute each path
+	 * in the solution tree.
+	 * TODO: Change minimumtime and bestSchedule to thread safe options. Make superclass ones private
+	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
+	 * of the solution tree
+	 * @param currentNode - the current node 
+	 */
+	public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread){
+//		 if (CurrentTask.insideTask()) {
+//		       System.out.println("Executed as a task");
+//		    } else {
+//		    	System.out.println("Executed as a method sequentialsefsg web");
+//		    	// this is being executed as a standard sequential method
+//		    }
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < getMinimumTime()){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				setMinimumTime(maxTimeAtPoint(currentNode));
+				setBestSchedule(currentNode.getCurrentPath());
+			}
+			if(isHeadThread){
+				semaphore++;
+			}
+			return;
+		}
+		
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				if(isHeadThread){
+					semaphore++;
+				}
+				return;
+			}
+		
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+			//	return;
+			//}
+		}
+        
+		// Look through the list of unseen nodes and recursively call this method on nodes 
+		// that do not have any parents on the nodesToCheck list.
+		for(String nodeToCheckStr : nodesToCheck){
+			if(isValidOption(nodeToCheckStr, nodesToCheck)){
+				int count = 0;
+				for(int i = 0 ; i <numberofProcessors; i++){
+					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
+						count++;
+					}
+				}
+				int killtree = 0;
+				if(count >= 2){
+					killtree = count -1;
+				}
+				for(int j = 0; j < (numberofProcessors - killtree); j++){
+					
+					//UPDATE THE NEW NODE FOR RECURSION
+					
+					//create a newpath that is the same as current which includes the currentNode as well
+					//same thing but only copying the processor array --not checking for times at this place
+					ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+					int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+					
+					//initialising the fields for the new NodalObject to recurse through
+					String newNodeName = nodeToCheckStr;
+					int newProcessor = j;
+					int nodalWeight = getNodalWeight(newNodeName);
+					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
+					int newEndTime = newStartTime+nodalWeight;
+					processorArray[newProcessor] = newEndTime;
+					
+					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
+					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+					//copy the nodesToCheck list and need to remove the current node from it for recursion
+					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+					newUpdatedListWithoutCurrentNode.remove(newNodeName);
+					nodeNumber++;
+					//recursive call
+					if(semaphore > 0){
+						semaphore--;
+						TaskID newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode,true);
+						taskGroup.add(newTask);
+						
+					} else{
+					
+						calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode, false);
+					}
+				}
+			}		
+		}
+		if(isHeadThread){
+			semaphore++;
+		}
+	}
+}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+//import pt.runtime.*;
 
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
@@ -17,14 +18,15 @@ import data_structures.UserOptions;
 public class SolutionTree {
 	public long nodeNumber = 0;
 	// Stores the time for the current shortest schedule.
-	private static int minimumTime = Integer.MAX_VALUE;
+	protected static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	protected static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	
-	private AdjacencyList inputGraph;
+	protected AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
-	private int numberofProcessors;
+	protected int numberofProcessors;
+	//private TaskIDGroup group = new TaskIDGroup(20); //TODO: still testing, hardcoded Group size
 	
 	/**
 	 * Constructor that initialises the adjacency list to this class and makes a list of all nodes to use when checking if a node has been seen or not
@@ -146,7 +148,7 @@ public class SolutionTree {
 	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
-	private boolean isValidOption(String node, List<String> nodesToCheck){
+	protected boolean isValidOption(String node, List<String> nodesToCheck){
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 

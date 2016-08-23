@@ -2,6 +2,7 @@ package data_structures;
 
 import java.util.*;
 
+import data_structures.NodeObject;
 
 /**
  * NOTE: Removing from the list will cause the indices map to become invalid.
@@ -95,6 +96,21 @@ public class AdjacencyList {
         }
     }
 
+    /**
+     * Gets all source nodes in the adjacency list.
+     * Note that this is O(n), and should be stored into a variable if possible, rather than run often.
+     * @return a set of Strings containing the names of all source nodes.
+     */
+    public List<String> getSourceNodes(){
+        List<String> sources = new ArrayList<>();
+        for(String n : adjacencyList.keySet()){
+            if (adjacencyList.get(n).isEmpty()) {
+                //If the node's map of parents is empty, add it to the set of sources
+                sources.add(n);
+            }
+        }
+        return sources;
+    }
     public Set<String> getNodes(){
         return adjacencyList.keySet();
     }
