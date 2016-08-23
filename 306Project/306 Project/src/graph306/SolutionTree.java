@@ -128,7 +128,7 @@ public class SolutionTree {
 	 * @param nodesToCheck: List of nodes not yet seen by the 
 	 * @return
 	 */
-	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
+	public int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
 		int currentMaxTime = minTimeAtPoint(currentNode); 
 		int currentworstTime = maxTimeAtPoint(currentNode);
 		int diff = currentworstTime - currentMaxTime;

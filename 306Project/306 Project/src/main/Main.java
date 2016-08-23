@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.sql.Time;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,7 +19,7 @@ import org.graphstream.ui.view.Viewer;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
 import graph306.CustomGraphReader;
-import graph306.Parallalism;
+import graph306.ParallelSearchTree;
 import graph306.SolutionTree;
 import visual.SolutionTreeVisual;
 
@@ -35,7 +36,6 @@ public class Main {
 		//run a read method on DAG
 		graphReader.readDAG();
 		if(UserOptions.getInstance().isVisible() && UserOptions.getInstance().isParallel()){
-			
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
 			isVisual();
@@ -62,9 +62,11 @@ public class Main {
 		} else if(UserOptions.getInstance().isParallel() && !UserOptions.getInstance().isVisible()){
 			// Parallel team's code here
 			System.out.println("Doing process in Parallel mode");
-			Parallalism solver = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
-			solver.calculateTime(solver.getRootNode(), solver.getNodeList(), true);
-			System.out.println(solver.nodeNumber);
+			ParallelSearchTree solver = new ParallelSearchTree(graphReader.getGraphAdapter().getAdjacencyList());
+			//Parallalism solver = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
+			//solver.calculateTime(solver.getRootNode(), solver.getNodeList(), true);
+			solver.recursiveMethod(solver.getRootNode(), solver.getNodeList());
+			System.out.println("Nodes visited: " + solver.nodeNumber);
 		} else {
 			System.out.println("Doing process in sequential mode");
 			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
