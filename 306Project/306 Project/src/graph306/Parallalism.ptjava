@@ -9,8 +9,10 @@ import java.util.List;
 
 public class Parallalism extends SolutionTree{
 	
+	int semaphore = UserOptions.getInstance().getParallelThreads();
 	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
 	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
 	
 	/**
 	 * @param inputGraph
@@ -34,17 +36,38 @@ public class Parallalism extends SolutionTree{
 	 * @param currentNode - the current node 
 	 */
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded){
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestSchedule = currentNode.getCurrentPath();
+			}
+			return;
+		}
+		
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				//return;
+			//}
+		}
 		if(!isThreaded){
 			calculateTime(currentNode, nodesToCheck);
 			return;
 		}
 		List<String> sources = inputGraph.getSourceNodes();
 		int numberOfSources = sources.size();
-		// create threads here.
-		TaskIDGroup taskGroup = new TaskIDGroup(numberOfSources);
 		
-		for(int i = 0 ; i < numberOfSources ; i++){
-			String sourceName = sources.get(i);
+		
+		for(String nodeToCheckStr : nodesToCheck){
 			
 			//create a newpath that is the same as current which includes the currentNode as well
 			//same thing but only copying the processor array --not checking for times at this place
@@ -52,7 +75,7 @@ public class Parallalism extends SolutionTree{
 			int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
 			
 			//initialising the fields for the new NodalObject to recurse through
-			String newNodeName = sourceName;
+			String newNodeName = nodeToCheckStr;
 			int newProcessor = 0;
 			int nodalWeight = getNodalWeight(newNodeName);
 			int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
@@ -66,10 +89,17 @@ public class Parallalism extends SolutionTree{
 			newUpdatedListWithoutCurrentNode.remove(newNodeName);
 			nodeNumber++;
 			
-			System.out.println("Creating thread number " + (i+1));
-			TaskID<Void> newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode);
-			taskGroup.add(newTask);
+			if (semaphore > 0) {
+				System.out.println("Creating thread number " + (semaphore));
+			 	semaphore --;
+			 	boolean isHeadThread = true;
+			  	TaskID<Void> newTask = intermediateMethod(currentNode, nodesToCheck, true);
+			  	taskGroup.add(newTask);
+			} else {
+				calculateTime(currentNode, nodesToCheck);
+			}
 		}
+		
 		try{
 			taskGroup.waitTillFinished();
 			System.out.println("Not waiting anymore");
@@ -77,10 +107,12 @@ public class Parallalism extends SolutionTree{
 			e.printStackTrace();
 		}
 		
+		
 	}
 	
-	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
-		calculateTimeParallel(currentNode, nodesToCheck);
+	
+	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread){
+		calculateTimeParallel(currentNode, nodesToCheck, isHeadThread);
 	}
 	
 	/** 
@@ -91,13 +123,13 @@ public class Parallalism extends SolutionTree{
 	 * of the solution tree
 	 * @param currentNode - the current node 
 	 */
-	public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck){
-		 if (CurrentTask.insideTask()) {
+	public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread){
+//		 if (CurrentTask.insideTask()) {
 //		       System.out.println("Executed as a task");
-		    } else {
-		    	System.out.println("Executed as a method sequentialsefsg web");
-		    	// this is being executed as a standard sequential method
-		    }
+//		    } else {
+//		    	System.out.println("Executed as a method sequentialsefsg web");
+//		    	// this is being executed as a standard sequential method
+//		    }
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -108,17 +140,23 @@ public class Parallalism extends SolutionTree{
 				setMinimumTime(maxTimeAtPoint(currentNode));
 				setBestSchedule(currentNode.getCurrentPath());
 			}
+			if(isHeadThread){
+				semaphore++;
+			}
 			return;
 		}
 		
 		if(minimumTime != Integer.MAX_VALUE){
 			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
 			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				if(isHeadThread){
+					semaphore++;
+				}
 				return;
 			}
 		
 			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				//return;
+			//	return;
 			//}
 		}
         
@@ -160,8 +198,15 @@ public class Parallalism extends SolutionTree{
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					nodeNumber++;
 					//recursive call
+					if(semaphore > 0){
+						semaphore--;
+						TaskID newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode,true);
+						taskGroup.add(newTask);
+						
+					} else{
 					
-					calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);
+						calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode, false);
+					}
 				}
 			}		
 		}

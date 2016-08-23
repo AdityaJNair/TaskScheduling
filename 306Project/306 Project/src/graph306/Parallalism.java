@@ -29,390 +29,730 @@ public class Parallalism extends SolutionTree {//####[10]####
             m.invoke(instance, arg, interResult);//####[10]####
     }//####[10]####
 //####[12]####
-    FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();//####[12]####
+    int semaphore = UserOptions.getInstance().getParallelThreads();//####[12]####
 //####[13]####
-    FifoLifoQueue<Integer> bestTimeThreaded = new FifoLifoQueue<Integer>();//####[13]####
-//####[18]####
+    FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();//####[13]####
+//####[14]####
+    FifoLifoQueue<Integer> bestTimeThreaded = new FifoLifoQueue<Integer>();//####[14]####
+//####[15]####
+    TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads() + 5);//####[15]####
+//####[20]####
     /**
 	 * @param inputGraph
-	 *///####[18]####
-    public Parallalism(AdjacencyList inputGraph) {//####[18]####
-        super(inputGraph);//####[19]####
-        bestTimeThreaded.addGlobal(Integer.MAX_VALUE);//####[20]####
-    }//####[22]####
-//####[24]####
-    private static volatile Method __pt__parallel_NodeObject_ListString_method = null;//####[24]####
-    private synchronized static void __pt__parallel_NodeObject_ListString_ensureMethodVarSet() {//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            try {//####[24]####
-                __pt__parallel_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__parallel", new Class[] {//####[24]####
-                    NodeObject.class, List.class//####[24]####
-                });//####[24]####
-            } catch (Exception e) {//####[24]####
-                e.printStackTrace();//####[24]####
-            }//####[24]####
-        }//####[24]####
+	 *///####[20]####
+    public Parallalism(AdjacencyList inputGraph) {//####[20]####
+        super(inputGraph);//####[21]####
+        bestTimeThreaded.addGlobal(Integer.MAX_VALUE);//####[22]####
     }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setTaskIdArgIndexes(0);//####[24]####
-        taskinfo.addDependsOn(currentNode);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setQueueArgIndexes(0);//####[24]####
-        taskinfo.setIsPipeline(true);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setTaskIdArgIndexes(1);//####[24]####
-        taskinfo.addDependsOn(nodesToCheck);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[24]####
-        taskinfo.addDependsOn(currentNode);//####[24]####
-        taskinfo.addDependsOn(nodesToCheck);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setQueueArgIndexes(0);//####[24]####
-        taskinfo.setIsPipeline(true);//####[24]####
-        taskinfo.setTaskIdArgIndexes(1);//####[24]####
-        taskinfo.addDependsOn(nodesToCheck);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setQueueArgIndexes(1);//####[24]####
-        taskinfo.setIsPipeline(true);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setQueueArgIndexes(1);//####[24]####
-        taskinfo.setIsPipeline(true);//####[24]####
-        taskinfo.setTaskIdArgIndexes(0);//####[24]####
-        taskinfo.addDependsOn(currentNode);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[24]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[24]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[24]####
-    }//####[24]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[24]####
-        // ensure Method variable is set//####[24]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[24]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[24]####
-        }//####[24]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[24]####
-        taskinfo.setIsPipeline(true);//####[24]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[24]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[24]####
-        taskinfo.setInstance(this);//####[24]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[24]####
-    }//####[24]####
-    public void __pt__parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[24]####
-        calculateTime(currentNode, nodesToCheck);//####[25]####
-        return;//####[26]####
-    }//####[27]####
-//####[27]####
-//####[36]####
+//####[26]####
+    private static volatile Method __pt__parallel_NodeObject_ListString_method = null;//####[26]####
+    private synchronized static void __pt__parallel_NodeObject_ListString_ensureMethodVarSet() {//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            try {//####[26]####
+                __pt__parallel_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__parallel", new Class[] {//####[26]####
+                    NodeObject.class, List.class//####[26]####
+                });//####[26]####
+            } catch (Exception e) {//####[26]####
+                e.printStackTrace();//####[26]####
+            }//####[26]####
+        }//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setTaskIdArgIndexes(0);//####[26]####
+        taskinfo.addDependsOn(currentNode);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setQueueArgIndexes(0);//####[26]####
+        taskinfo.setIsPipeline(true);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setTaskIdArgIndexes(1);//####[26]####
+        taskinfo.addDependsOn(nodesToCheck);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setTaskIdArgIndexes(0, 1);//####[26]####
+        taskinfo.addDependsOn(currentNode);//####[26]####
+        taskinfo.addDependsOn(nodesToCheck);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setQueueArgIndexes(0);//####[26]####
+        taskinfo.setIsPipeline(true);//####[26]####
+        taskinfo.setTaskIdArgIndexes(1);//####[26]####
+        taskinfo.addDependsOn(nodesToCheck);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setQueueArgIndexes(1);//####[26]####
+        taskinfo.setIsPipeline(true);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setQueueArgIndexes(1);//####[26]####
+        taskinfo.setIsPipeline(true);//####[26]####
+        taskinfo.setTaskIdArgIndexes(0);//####[26]####
+        taskinfo.addDependsOn(currentNode);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
+    }//####[26]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
+        // ensure Method variable is set//####[26]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
+        }//####[26]####
+        taskinfo.setQueueArgIndexes(0, 1);//####[26]####
+        taskinfo.setIsPipeline(true);//####[26]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
+        taskinfo.setInstance(this);//####[26]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
+    }//####[26]####
+    public void __pt__parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[26]####
+        calculateTime(currentNode, nodesToCheck);//####[27]####
+        return;//####[28]####
+    }//####[29]####
+//####[29]####
+//####[38]####
     /** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 * @param currentNode - the current node 
-	 *///####[36]####
-    public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[36]####
-        if (!isThreaded) //####[37]####
-        {//####[37]####
-            calculateTime(currentNode, nodesToCheck);//####[38]####
-            return;//####[39]####
-        }//####[40]####
-        List<String> sources = inputGraph.getSourceNodes();//####[41]####
-        int numberOfSources = sources.size();//####[42]####
-        TaskIDGroup taskGroup = new TaskIDGroup(numberOfSources);//####[44]####
-        for (int i = 0; i < numberOfSources; i++) //####[46]####
-        {//####[46]####
-            String sourceName = sources.get(i);//####[47]####
-            ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[51]####
-            int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[52]####
-            String newNodeName = sourceName;//####[55]####
-            int newProcessor = 0;//####[56]####
-            int nodalWeight = getNodalWeight(newNodeName);//####[57]####
-            int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[58]####
-            int newEndTime = newStartTime + nodalWeight;//####[59]####
-            processorArray[newProcessor] = newEndTime;//####[60]####
-            NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[63]####
-            List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[65]####
-            newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[66]####
-            nodeNumber++;//####[67]####
-            System.out.println("Creating thread number " + (i + 1));//####[69]####
-            TaskID<Void> newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode);//####[70]####
-            taskGroup.add(newTask);//####[71]####
-        }//####[72]####
-        try {//####[73]####
-            taskGroup.waitTillFinished();//####[74]####
-            System.out.println("Not waiting anymore");//####[75]####
-        } catch (Exception e) {//####[76]####
-            e.printStackTrace();//####[77]####
-        }//####[78]####
-    }//####[80]####
-//####[82]####
-    private static volatile Method __pt__intermediateMethod_NodeObject_ListString_method = null;//####[82]####
-    private synchronized static void __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet() {//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            try {//####[82]####
-                __pt__intermediateMethod_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__intermediateMethod", new Class[] {//####[82]####
-                    NodeObject.class, List.class//####[82]####
-                });//####[82]####
-            } catch (Exception e) {//####[82]####
-                e.printStackTrace();//####[82]####
-            }//####[82]####
-        }//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setTaskIdArgIndexes(0);//####[82]####
-        taskinfo.addDependsOn(currentNode);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setQueueArgIndexes(0);//####[82]####
-        taskinfo.setIsPipeline(true);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setTaskIdArgIndexes(1);//####[82]####
-        taskinfo.addDependsOn(nodesToCheck);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[82]####
-        taskinfo.addDependsOn(currentNode);//####[82]####
-        taskinfo.addDependsOn(nodesToCheck);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setQueueArgIndexes(0);//####[82]####
-        taskinfo.setIsPipeline(true);//####[82]####
-        taskinfo.setTaskIdArgIndexes(1);//####[82]####
-        taskinfo.addDependsOn(nodesToCheck);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setQueueArgIndexes(1);//####[82]####
-        taskinfo.setIsPipeline(true);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setQueueArgIndexes(1);//####[82]####
-        taskinfo.setIsPipeline(true);//####[82]####
-        taskinfo.setTaskIdArgIndexes(0);//####[82]####
-        taskinfo.addDependsOn(currentNode);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[82]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[82]####
-        return intermediateMethod(currentNode, nodesToCheck, new TaskInfo());//####[82]####
-    }//####[82]####
-    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[82]####
-        // ensure Method variable is set//####[82]####
-        if (__pt__intermediateMethod_NodeObject_ListString_method == null) {//####[82]####
-            __pt__intermediateMethod_NodeObject_ListString_ensureMethodVarSet();//####[82]####
-        }//####[82]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[82]####
-        taskinfo.setIsPipeline(true);//####[82]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[82]####
-        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_method);//####[82]####
-        taskinfo.setInstance(this);//####[82]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[82]####
-    }//####[82]####
-    public void __pt__intermediateMethod(NodeObject currentNode, List<String> nodesToCheck) {//####[82]####
-        calculateTimeParallel(currentNode, nodesToCheck);//####[83]####
-    }//####[84]####
-//####[84]####
-//####[94]####
+	 *///####[38]####
+    public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[38]####
+        if (nodesToCheck.size() == 0) //####[40]####
+        {//####[40]####
+            if (maxTimeAtPoint(currentNode) < minimumTime) //####[43]####
+            {//####[43]####
+                minimumTime = maxTimeAtPoint(currentNode);//####[46]####
+                bestSchedule = currentNode.getCurrentPath();//####[47]####
+            }//####[48]####
+            return;//####[49]####
+        }//####[50]####
+        if (minimumTime != Integer.MAX_VALUE) //####[52]####
+        {//####[52]####
+            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[54]####
+            {//####[54]####
+                return;//####[55]####
+            }//####[56]####
+        }//####[61]####
+        if (!isThreaded) //####[62]####
+        {//####[62]####
+            calculateTime(currentNode, nodesToCheck);//####[63]####
+            return;//####[64]####
+        }//####[65]####
+        List<String> sources = inputGraph.getSourceNodes();//####[66]####
+        int numberOfSources = sources.size();//####[67]####
+        for (String nodeToCheckStr : nodesToCheck) //####[70]####
+        {//####[70]####
+            ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[74]####
+            int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[75]####
+            String newNodeName = nodeToCheckStr;//####[78]####
+            int newProcessor = 0;//####[79]####
+            int nodalWeight = getNodalWeight(newNodeName);//####[80]####
+            int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[81]####
+            int newEndTime = newStartTime + nodalWeight;//####[82]####
+            processorArray[newProcessor] = newEndTime;//####[83]####
+            NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[86]####
+            List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[88]####
+            newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[89]####
+            nodeNumber++;//####[90]####
+            if (semaphore > 0) //####[92]####
+            {//####[92]####
+                System.out.println("Creating thread number " + (semaphore));//####[93]####
+                semaphore--;//####[94]####
+                boolean isHeadThread = true;//####[95]####
+                TaskID<Void> newTask = intermediateMethod(currentNode, nodesToCheck, true);//####[96]####
+                taskGroup.add(newTask);//####[97]####
+            } else {//####[98]####
+                calculateTime(currentNode, nodesToCheck);//####[99]####
+            }//####[100]####
+        }//####[101]####
+        try {//####[103]####
+            taskGroup.waitTillFinished();//####[104]####
+            System.out.println("Not waiting anymore");//####[105]####
+        } catch (Exception e) {//####[106]####
+            e.printStackTrace();//####[107]####
+        }//####[108]####
+    }//####[111]####
+//####[114]####
+    private static volatile Method __pt__intermediateMethod_NodeObject_ListString_boolean_method = null;//####[114]####
+    private synchronized static void __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet() {//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            try {//####[114]####
+                __pt__intermediateMethod_NodeObject_ListString_boolean_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__intermediateMethod", new Class[] {//####[114]####
+                    NodeObject.class, List.class, boolean.class//####[114]####
+                });//####[114]####
+            } catch (Exception e) {//####[114]####
+                e.printStackTrace();//####[114]####
+            }//####[114]####
+        }//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(0);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(1);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(0, 1);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(1);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(0);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, boolean isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0, 1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(2);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(0, 2);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(2);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(1, 2);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setTaskIdArgIndexes(0, 1, 2);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(1, 2);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(2);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(0, 2);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskID<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0, 1);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(2);//####[114]####
+        taskinfo.addDependsOn(isHeadThread);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(0);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0, 2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(1);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(0, 1);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0, 2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(1);//####[114]####
+        taskinfo.addDependsOn(nodesToCheck);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1, 2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(1, 2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setTaskIdArgIndexes(0);//####[114]####
+        taskinfo.addDependsOn(currentNode);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread) {//####[114]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[114]####
+        return intermediateMethod(currentNode, nodesToCheck, isHeadThread, new TaskInfo());//####[114]####
+    }//####[114]####
+    private TaskID<Void> intermediateMethod(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, BlockingQueue<Boolean> isHeadThread, TaskInfo taskinfo) {//####[114]####
+        // ensure Method variable is set//####[114]####
+        if (__pt__intermediateMethod_NodeObject_ListString_boolean_method == null) {//####[114]####
+            __pt__intermediateMethod_NodeObject_ListString_boolean_ensureMethodVarSet();//####[114]####
+        }//####[114]####
+        taskinfo.setQueueArgIndexes(0, 1, 2);//####[114]####
+        taskinfo.setIsPipeline(true);//####[114]####
+        taskinfo.setParameters(currentNode, nodesToCheck, isHeadThread);//####[114]####
+        taskinfo.setMethod(__pt__intermediateMethod_NodeObject_ListString_boolean_method);//####[114]####
+        taskinfo.setInstance(this);//####[114]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[114]####
+    }//####[114]####
+    public void __pt__intermediateMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread) {//####[114]####
+        calculateTimeParallel(currentNode, nodesToCheck, isHeadThread);//####[115]####
+    }//####[116]####
+//####[116]####
+//####[126]####
     /** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
@@ -420,63 +760,73 @@ public class Parallalism extends SolutionTree {//####[10]####
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 * @param currentNode - the current node 
-	 *///####[94]####
-    public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck) {//####[94]####
-        if (CurrentTask.insideTask()) //####[95]####
-        {//####[95]####
-        } else {//####[97]####
-            System.out.println("Executed as a method sequentialsefsg web");//####[98]####
-        }//####[100]####
-        if (nodesToCheck.size() == 0) //####[102]####
-        {//####[102]####
-            if (maxTimeAtPoint(currentNode) < getMinimumTime()) //####[105]####
-            {//####[105]####
-                setMinimumTime(maxTimeAtPoint(currentNode));//####[108]####
-                setBestSchedule(currentNode.getCurrentPath());//####[109]####
-            }//####[110]####
-            return;//####[111]####
-        }//####[112]####
-        if (minimumTime != Integer.MAX_VALUE) //####[114]####
-        {//####[114]####
-            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[116]####
-            {//####[116]####
-                return;//####[117]####
-            }//####[118]####
-        }//####[123]####
-        for (String nodeToCheckStr : nodesToCheck) //####[127]####
-        {//####[127]####
-            if (isValidOption(nodeToCheckStr, nodesToCheck)) //####[128]####
-            {//####[128]####
-                int count = 0;//####[129]####
-                for (int i = 0; i < numberofProcessors; i++) //####[130]####
-                {//####[130]####
-                    if (currentNode.getTimeWeightOnEachProcessor()[i] == 0) //####[131]####
-                    {//####[131]####
-                        count++;//####[132]####
-                    }//####[133]####
-                }//####[134]####
-                int killtree = 0;//####[135]####
-                if (count >= 2) //####[136]####
-                {//####[136]####
-                    killtree = count - 1;//####[137]####
-                }//####[138]####
-                for (int j = 0; j < (numberofProcessors - killtree); j++) //####[139]####
-                {//####[139]####
-                    ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[145]####
-                    int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[146]####
-                    String newNodeName = nodeToCheckStr;//####[149]####
-                    int newProcessor = j;//####[150]####
-                    int nodalWeight = getNodalWeight(newNodeName);//####[151]####
-                    int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[152]####
-                    int newEndTime = newStartTime + nodalWeight;//####[153]####
-                    processorArray[newProcessor] = newEndTime;//####[154]####
-                    NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[157]####
-                    List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[159]####
-                    newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[160]####
-                    nodeNumber++;//####[161]####
-                    calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode);//####[164]####
-                }//####[165]####
-            }//####[166]####
-        }//####[167]####
-    }//####[168]####
-}//####[168]####
+	 *///####[126]####
+    public void calculateTimeParallel(NodeObject currentNode, List<String> nodesToCheck, boolean isHeadThread) {//####[126]####
+        if (nodesToCheck.size() == 0) //####[134]####
+        {//####[134]####
+            if (maxTimeAtPoint(currentNode) < getMinimumTime()) //####[137]####
+            {//####[137]####
+                setMinimumTime(maxTimeAtPoint(currentNode));//####[140]####
+                setBestSchedule(currentNode.getCurrentPath());//####[141]####
+            }//####[142]####
+            if (isHeadThread) //####[143]####
+            {//####[143]####
+                semaphore++;//####[144]####
+            }//####[145]####
+            return;//####[146]####
+        }//####[147]####
+        if (minimumTime != Integer.MAX_VALUE) //####[149]####
+        {//####[149]####
+            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[151]####
+            {//####[151]####
+                if (isHeadThread) //####[152]####
+                {//####[152]####
+                    semaphore++;//####[153]####
+                }//####[154]####
+                return;//####[155]####
+            }//####[156]####
+        }//####[161]####
+        for (String nodeToCheckStr : nodesToCheck) //####[165]####
+        {//####[165]####
+            if (isValidOption(nodeToCheckStr, nodesToCheck)) //####[166]####
+            {//####[166]####
+                int count = 0;//####[167]####
+                for (int i = 0; i < numberofProcessors; i++) //####[168]####
+                {//####[168]####
+                    if (currentNode.getTimeWeightOnEachProcessor()[i] == 0) //####[169]####
+                    {//####[169]####
+                        count++;//####[170]####
+                    }//####[171]####
+                }//####[172]####
+                int killtree = 0;//####[173]####
+                if (count >= 2) //####[174]####
+                {//####[174]####
+                    killtree = count - 1;//####[175]####
+                }//####[176]####
+                for (int j = 0; j < (numberofProcessors - killtree); j++) //####[177]####
+                {//####[177]####
+                    ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[183]####
+                    int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);//####[184]####
+                    String newNodeName = nodeToCheckStr;//####[187]####
+                    int newProcessor = j;//####[188]####
+                    int nodalWeight = getNodalWeight(newNodeName);//####[189]####
+                    int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);//####[190]####
+                    int newEndTime = newStartTime + nodalWeight;//####[191]####
+                    processorArray[newProcessor] = newEndTime;//####[192]####
+                    NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);//####[195]####
+                    List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);//####[197]####
+                    newUpdatedListWithoutCurrentNode.remove(newNodeName);//####[198]####
+                    nodeNumber++;//####[199]####
+                    if (semaphore > 0) //####[201]####
+                    {//####[201]####
+                        semaphore--;//####[202]####
+                        TaskID newTask = intermediateMethod(nextNode, newUpdatedListWithoutCurrentNode, true);//####[203]####
+                        taskGroup.add(newTask);//####[204]####
+                    } else {//####[206]####
+                        calculateTimeParallel(nextNode, newUpdatedListWithoutCurrentNode, false);//####[208]####
+                    }//####[209]####
+                }//####[210]####
+            }//####[211]####
+        }//####[212]####
+    }//####[213]####
+}//####[213]####
