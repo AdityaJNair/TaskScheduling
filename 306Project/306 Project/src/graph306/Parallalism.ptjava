@@ -64,9 +64,7 @@ public class Parallalism extends SolutionTree{
 			return;
 		}
 		List<String> sources = inputGraph.getSourceNodes();
-		int numberOfSources = sources.size();
-		
-		
+
 		for(String nodeToCheckStr : nodesToCheck){
 			
 			//create a newpath that is the same as current which includes the currentNode as well
@@ -209,6 +207,9 @@ public class Parallalism extends SolutionTree{
 					}
 				}
 			}		
+		}
+		if(isHeadThread){
+			semaphore++;
 		}
 	}
 }
