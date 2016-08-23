@@ -6,240 +6,240 @@ import java.util.ArrayList;//####[5]####
 import java.util.Arrays;//####[6]####
 import java.util.LinkedList;//####[7]####
 import java.util.List;//####[8]####
-//####[8]####
-//-- ParaTask related imports//####[8]####
-import pt.runtime.*;//####[8]####
-import java.util.concurrent.ExecutionException;//####[8]####
-import java.util.concurrent.locks.*;//####[8]####
-import java.lang.reflect.*;//####[8]####
-import pt.runtime.GuiThread;//####[8]####
-import java.util.concurrent.BlockingQueue;//####[8]####
-import java.util.ArrayList;//####[8]####
-import java.util.List;//####[8]####
-//####[8]####
-public class Parallalism extends SolutionTree {//####[10]####
-    static{ParaTask.init();}//####[10]####
-    /*  ParaTask helper method to access private/protected slots *///####[10]####
-    public void __pt__accessPrivateSlot(Method m, Object instance, TaskID arg, Object interResult ) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {//####[10]####
-        if (m.getParameterTypes().length == 0)//####[10]####
-            m.invoke(instance);//####[10]####
-        else if ((m.getParameterTypes().length == 1))//####[10]####
-            m.invoke(instance, arg);//####[10]####
-        else //####[10]####
-            m.invoke(instance, arg, interResult);//####[10]####
-    }//####[10]####
-//####[12]####
-    int semaphore = UserOptions.getInstance().getParallelThreads();//####[12]####
+import data_structures.*;//####[9]####
+//####[9]####
+//-- ParaTask related imports//####[9]####
+import pt.runtime.*;//####[9]####
+import java.util.concurrent.ExecutionException;//####[9]####
+import java.util.concurrent.locks.*;//####[9]####
+import java.lang.reflect.*;//####[9]####
+import pt.runtime.GuiThread;//####[9]####
+import java.util.concurrent.BlockingQueue;//####[9]####
+import java.util.ArrayList;//####[9]####
+import java.util.List;//####[9]####
+//####[9]####
+public class Parallalism extends SolutionTree {//####[11]####
+    static{ParaTask.init();}//####[11]####
+    /*  ParaTask helper method to access private/protected slots *///####[11]####
+    public void __pt__accessPrivateSlot(Method m, Object instance, TaskID arg, Object interResult ) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {//####[11]####
+        if (m.getParameterTypes().length == 0)//####[11]####
+            m.invoke(instance);//####[11]####
+        else if ((m.getParameterTypes().length == 1))//####[11]####
+            m.invoke(instance, arg);//####[11]####
+        else //####[11]####
+            m.invoke(instance, arg, interResult);//####[11]####
+    }//####[11]####
 //####[13]####
-    FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();//####[13]####
+    int semaphore = UserOptions.getInstance().getParallelThreads();//####[13]####
 //####[14]####
-    FifoLifoQueue<Integer> bestTimeThreaded = new FifoLifoQueue<Integer>();//####[14]####
+    FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();//####[14]####
 //####[15]####
-    TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads() + 5);//####[15]####
-//####[20]####
+    FifoLifoQueue<Integer> bestTimeThreaded = new FifoLifoQueue<Integer>();//####[15]####
+//####[16]####
+    TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads() + 5);//####[16]####
+//####[21]####
     /**
 	 * @param inputGraph
-	 *///####[20]####
-    public Parallalism(AdjacencyList inputGraph) {//####[20]####
-        super(inputGraph);//####[21]####
-        bestTimeThreaded.addGlobal(Integer.MAX_VALUE);//####[22]####
-    }//####[24]####
-//####[26]####
-    private static volatile Method __pt__parallel_NodeObject_ListString_method = null;//####[26]####
-    private synchronized static void __pt__parallel_NodeObject_ListString_ensureMethodVarSet() {//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            try {//####[26]####
-                __pt__parallel_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__parallel", new Class[] {//####[26]####
-                    NodeObject.class, List.class//####[26]####
-                });//####[26]####
-            } catch (Exception e) {//####[26]####
-                e.printStackTrace();//####[26]####
-            }//####[26]####
-        }//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setTaskIdArgIndexes(0);//####[26]####
-        taskinfo.addDependsOn(currentNode);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setQueueArgIndexes(0);//####[26]####
-        taskinfo.setIsPipeline(true);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setTaskIdArgIndexes(1);//####[26]####
-        taskinfo.addDependsOn(nodesToCheck);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setTaskIdArgIndexes(0, 1);//####[26]####
-        taskinfo.addDependsOn(currentNode);//####[26]####
-        taskinfo.addDependsOn(nodesToCheck);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setQueueArgIndexes(0);//####[26]####
-        taskinfo.setIsPipeline(true);//####[26]####
-        taskinfo.setTaskIdArgIndexes(1);//####[26]####
-        taskinfo.addDependsOn(nodesToCheck);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setQueueArgIndexes(1);//####[26]####
-        taskinfo.setIsPipeline(true);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setQueueArgIndexes(1);//####[26]####
-        taskinfo.setIsPipeline(true);//####[26]####
-        taskinfo.setTaskIdArgIndexes(0);//####[26]####
-        taskinfo.addDependsOn(currentNode);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[26]####
-        //-- execute asynchronously by enqueuing onto the taskpool//####[26]####
-        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[26]####
-    }//####[26]####
-    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[26]####
-        // ensure Method variable is set//####[26]####
-        if (__pt__parallel_NodeObject_ListString_method == null) {//####[26]####
-            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[26]####
-        }//####[26]####
-        taskinfo.setQueueArgIndexes(0, 1);//####[26]####
-        taskinfo.setIsPipeline(true);//####[26]####
-        taskinfo.setParameters(currentNode, nodesToCheck);//####[26]####
-        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[26]####
-        taskinfo.setInstance(this);//####[26]####
-        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[26]####
-    }//####[26]####
-    public void __pt__parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[26]####
-        calculateTime(currentNode, nodesToCheck);//####[27]####
-        return;//####[28]####
-    }//####[29]####
-//####[29]####
-//####[38]####
+	 *///####[21]####
+    public Parallalism(AdjacencyList inputGraph) {//####[21]####
+        super(inputGraph);//####[22]####
+        bestTimeThreaded.addGlobal(Integer.MAX_VALUE);//####[23]####
+    }//####[25]####
+//####[27]####
+    private static volatile Method __pt__parallel_NodeObject_ListString_method = null;//####[27]####
+    private synchronized static void __pt__parallel_NodeObject_ListString_ensureMethodVarSet() {//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            try {//####[27]####
+                __pt__parallel_NodeObject_ListString_method = ParaTaskHelper.getDeclaredMethod(new ParaTaskHelper.ClassGetter().getCurrentClass(), "__pt__parallel", new Class[] {//####[27]####
+                    NodeObject.class, List.class//####[27]####
+                });//####[27]####
+            } catch (Exception e) {//####[27]####
+                e.printStackTrace();//####[27]####
+            }//####[27]####
+        }//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setTaskIdArgIndexes(0);//####[27]####
+        taskinfo.addDependsOn(currentNode);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, List<String> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setQueueArgIndexes(0);//####[27]####
+        taskinfo.setIsPipeline(true);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setTaskIdArgIndexes(1);//####[27]####
+        taskinfo.addDependsOn(nodesToCheck);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setTaskIdArgIndexes(0, 1);//####[27]####
+        taskinfo.addDependsOn(currentNode);//####[27]####
+        taskinfo.addDependsOn(nodesToCheck);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, TaskID<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setQueueArgIndexes(0);//####[27]####
+        taskinfo.setIsPipeline(true);//####[27]####
+        taskinfo.setTaskIdArgIndexes(1);//####[27]####
+        taskinfo.addDependsOn(nodesToCheck);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(NodeObject currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setQueueArgIndexes(1);//####[27]####
+        taskinfo.setIsPipeline(true);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(TaskID<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setQueueArgIndexes(1);//####[27]####
+        taskinfo.setIsPipeline(true);//####[27]####
+        taskinfo.setTaskIdArgIndexes(0);//####[27]####
+        taskinfo.addDependsOn(currentNode);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck) {//####[27]####
+        //-- execute asynchronously by enqueuing onto the taskpool//####[27]####
+        return parallel(currentNode, nodesToCheck, new TaskInfo());//####[27]####
+    }//####[27]####
+    public TaskID<Void> parallel(BlockingQueue<NodeObject> currentNode, BlockingQueue<List<String>> nodesToCheck, TaskInfo taskinfo) {//####[27]####
+        // ensure Method variable is set//####[27]####
+        if (__pt__parallel_NodeObject_ListString_method == null) {//####[27]####
+            __pt__parallel_NodeObject_ListString_ensureMethodVarSet();//####[27]####
+        }//####[27]####
+        taskinfo.setQueueArgIndexes(0, 1);//####[27]####
+        taskinfo.setIsPipeline(true);//####[27]####
+        taskinfo.setParameters(currentNode, nodesToCheck);//####[27]####
+        taskinfo.setMethod(__pt__parallel_NodeObject_ListString_method);//####[27]####
+        taskinfo.setInstance(this);//####[27]####
+        return TaskpoolFactory.getTaskpool().enqueue(taskinfo);//####[27]####
+    }//####[27]####
+    public void __pt__parallel(NodeObject currentNode, List<String> nodesToCheck) {//####[27]####
+        calculateTime(currentNode, nodesToCheck);//####[28]####
+        return;//####[29]####
+    }//####[30]####
+//####[30]####
+//####[39]####
     /** 
 	 * Pseudocode for recursively calculating the time taken to execute each path
 	 * in the solution tree.
 	 * @param nodesToCheck - List of nodes that have not yet been seen in this branch
 	 * of the solution tree
 	 * @param currentNode - the current node 
-	 *///####[38]####
-    public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[38]####
-        if (nodesToCheck.size() == 0) //####[40]####
-        {//####[40]####
-            if (maxTimeAtPoint(currentNode) < minimumTime) //####[43]####
-            {//####[43]####
-                minimumTime = maxTimeAtPoint(currentNode);//####[46]####
-                bestSchedule = currentNode.getCurrentPath();//####[47]####
-            }//####[48]####
-            return;//####[49]####
-        }//####[50]####
-        if (minimumTime != Integer.MAX_VALUE) //####[52]####
-        {//####[52]####
-            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[54]####
-            {//####[54]####
-                return;//####[55]####
-            }//####[56]####
-        }//####[61]####
-        if (!isThreaded) //####[62]####
-        {//####[62]####
-            calculateTime(currentNode, nodesToCheck);//####[63]####
-            return;//####[64]####
-        }//####[65]####
-        List<String> sources = inputGraph.getSourceNodes();//####[66]####
+	 *///####[39]####
+    public void calculateTime(NodeObject currentNode, List<String> nodesToCheck, boolean isThreaded) {//####[39]####
+        if (nodesToCheck.size() == 0) //####[41]####
+        {//####[41]####
+            if (maxTimeAtPoint(currentNode) < minimumTime) //####[44]####
+            {//####[44]####
+                minimumTime = maxTimeAtPoint(currentNode);//####[47]####
+                bestSchedule = currentNode.getCurrentPath();//####[48]####
+            }//####[49]####
+            return;//####[50]####
+        }//####[51]####
+        if (minimumTime != Integer.MAX_VALUE) //####[53]####
+        {//####[53]####
+            if (maxTimeAtPoint(currentNode) >= minimumTime) //####[55]####
+            {//####[55]####
+                return;//####[56]####
+            }//####[57]####
+        }//####[62]####
+        if (!isThreaded) //####[63]####
+        {//####[63]####
+            calculateTime(currentNode, nodesToCheck);//####[64]####
+            return;//####[65]####
+        }//####[66]####
         for (String nodeToCheckStr : nodesToCheck) //####[68]####
         {//####[68]####
             ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());//####[72]####
