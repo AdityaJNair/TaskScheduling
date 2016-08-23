@@ -19,10 +19,21 @@ public class Main {
 		CustomGraphReader graphReader = new CustomGraphReader(args);
 		//run a read method on DAG
 		graphReader.readDAG();
-//		SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
-//		solver.calculateTime(solver.getRootNode(), solver.getNodeList());
-		Parallalism parallal = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
-		parallal.calculateTime(parallal.getRootNode(), parallal.getNodeList(), true);
+		if(UserOptions.getInstance().isParallel()){
+			System.out.println("Doing process in Parallel mode");
+			Parallalism parallal = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
+			parallal.calculateTime(parallal.getRootNode(), parallal.getNodeList(), true);
+			DotWriter writer = new DotWriter();
+			writer.createDot(parallal.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),parallal.getInputGraph());
+			System.out.println(parallal.nodeNumber);
+		} else {
+			System.out.println("Doing process in sequential mode");
+			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
+			solver.calculateTime(solver.getRootNode(), solver.getNodeList());
+			DotWriter writer = new DotWriter();
+			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
+			System.out.println(solver.nodeNumber);
+		}		
 		
 		//end timing
 		//	print statements to see the time and the minimum path time
@@ -34,11 +45,8 @@ public class Main {
 //				System.out.println("Node_name= "+a.getNodeName() + " Processor= " + (a.getProcessor()+1) + " Start_time= " + a.getStartTime() + " End_time= " + a.getEndTime());
 //			}
 		//Create .dot file at the end
-		//TODO: Wait here for parallol
-		DotWriter writer = new DotWriter();
-		writer.createDot(parallal.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),parallal.getInputGraph());
-		System.out.println(parallal.nodeNumber);
-		System.out.println("HI");
+		
+		System.out.println("Output file was created");
 	}
 
 }
