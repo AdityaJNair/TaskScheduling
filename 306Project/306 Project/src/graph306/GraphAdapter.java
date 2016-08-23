@@ -1,5 +1,7 @@
 package graph306;
 
+import data_structures.AdjacencyList;
+
 /**
  * A wrapper class so that the graph representation framework in use can be altered without changing methods.
  * Follows the adapter design pattern.

@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 //import pt.runtime.*;
 
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
+
 /**
  * This class creates a solution tree from the input adjacency list.
  * 

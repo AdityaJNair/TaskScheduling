@@ -1,13 +1,13 @@
-package milestone1;
-
-import milestone1.oldgraph306.AdjacencyList;
-import milestone1.oldgraph306.NodeObject;
-import milestone1.oldgraph306.UserOptions;
-
+package main;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
 /**
  * The DotWriter class is used to output a .dot File
  *

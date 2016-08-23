@@ -1,16 +1,14 @@
 package graph306;
 
-import java.util.ArrayList;
-import java.util.List;
+import data_structures.UserOptions;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
@@ -90,7 +88,7 @@ public class CustomGraphReader {
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
-		        	edges.add(line);
+					edges.add(line);
 		        	continue;
 		        } else { 
 		        	// exit if end of file
@@ -100,7 +98,7 @@ public class CustomGraphReader {
 		        	// add Vertices to the graph
 		        	String[] words = line.split("\\s+");
 		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
-		        }
+				}
 		    }
 		    //checking for errors
 		} catch (FileNotFoundException e) {
