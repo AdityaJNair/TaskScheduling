@@ -1,17 +1,18 @@
 package visual;
 
-import java.util.*;
-
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-import data_structures.AdjacencyList;
-import data_structures.NodeObject;
-import data_structures.UserOptions;
-
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -20,18 +21,28 @@ import javax.swing.*;
  */
 public class SolutionTreeVisual {
 	public static Graph bestTimeTree = new SingleGraph("Best Time Tree");
-	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
+//	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
     private int nid = 0;
 
 	public static JLabel bestTimeLabel = new JLabel("Current Best Time:");
-	public static JLabel nodesSearchedLabel = new JLabel("Nodes Searched:");
-	public static JLabel bestTimeCountLabel = new JLabel("Best Times Found:");
-	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
 	public static JLabel bestTimeScheduleLabel = new JLabel("Best Schedule:");
+	public static JLabel bestTimeCountLabel = new JLabel("Optimal Schedules Found:");
+	public static JLabel equalBestTimeCountLabel = new JLabel("Duplicate Best Schedules Found:");
+
+	public static JLabel nodesSearchedLabel = new JLabel("Nodes Searched:");
+	public static JLabel processorsUsedLabel = new JLabel("Processors Used:");
+	public static JLabel idleProcessorsLabel = new JLabel("Idle Processors:");
+	public static JLabel partialScheduleLabel = new JLabel("Current Schedule:");
+	public static JLabel processorEndTimeLabel = new JLabel("Processor End Time:");
+
+	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
+	public static JLabel validScheduleLabel = new JLabel("Current Valid Schedule:");
+	public static JLabel boundValueLabel = new JLabel("Bound Value:");
 
 	public long nodeNumber = 0;
 	private long bestTimeCount = 0;
 	private long validScheduleCount = 0;
+	private long equalBestTimeCount = 0;
 	// Stores the time for the current shortest schedule.
 	private static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
@@ -66,86 +77,81 @@ public class SolutionTreeVisual {
 	 * @throws InterruptedException 
 	 */
 	public void calculateTime(NodeObject currentNode, List<String> nodesToCheck) throws InterruptedException{
+
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			validScheduleCount++;
 			validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
-			// Calculate time
+
+			for(NodeObject node : currentNode.getCurrentPath()){
+
+			}
+
+				// Calculate time
 			// Compare with minimumTime to see if this solution is better
-			if(maxTimeAtPoint(currentNode) < minimumTime){
+			if(maxTimeAtPoint(currentNode) < minimumTime) {
 				bestTimeCount++;
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
-				for (Edge e: bestTimeTree.getEdgeSet()) {
+				for (Edge e : bestTimeTree.getEdgeSet()) {
 					e.addAttribute("ui.style", "fill-color: rgb(0,0,0);");
 				}
 				minimumTime = maxTimeAtPoint(currentNode);
-				bestTimeLabel.setText("Current Best Time: "+maxTimeAtPoint(currentNode));
-				bestTimeCountLabel.setText("Best Times Found: "+Long.toString(bestTimeCount));
+				bestTimeLabel.setText("Current Best Time: " + maxTimeAtPoint(currentNode));
+				bestTimeCountLabel.setText("Faster Schedules Found: " + Long.toString(bestTimeCount));
 				bestSchedule = currentNode.getCurrentPath();
 				String oldNode = new String();
 				String newNode = new String();
 				int i = 0;
 				Edge e;
 				String bestPath = new String();
-				for(NodeObject node : currentNode.getCurrentPath()){
-					if(node.getNodeName().equals("rootNode"))
+				for (NodeObject node : currentNode.getCurrentPath()) {
+					if (node.getNodeName().equals("rootNode"))
 						continue;
-					newNode+=node.getNodeName()+node.getProcessor();
-<<<<<<< HEAD
-					if(gsGraph.getNode(newNode)==null) {
-						Node n = gsGraph.addNode(newNode);
-						n.addAttribute("ui.label", node.getNodeName()+" ("+node.getProcessor()+")");
-						n.addAttribute("layout.frozen");
-						n.addAttribute("y", -i*40);
-						n.addAttribute("x", nid);
-=======
-					if(bestTimeTree.getNode(newNode)==null) {
+					newNode += node.getNodeName() + node.getProcessor();
+					if (bestTimeTree.getNode(newNode) == null) {
 						Node n = bestTimeTree.addNode(newNode);
 
-						n.addAttribute("ui.label", node.getNodeName() +"("+ node.getProcessor()+")");
+						n.addAttribute("ui.label", node.getNodeName() + "(" + node.getProcessor() + ")");
 //                        n.addAttribute("ui.label", nid);
 						n.addAttribute("layout.frozen");
 
-						n.addAttribute("y", -i * 20);
-						if (i==0)
+						n.addAttribute("y", -i * 15);
+						if (i == 0)
 							n.addAttribute("x", nid);
->>>>>>> b91121853718c3550f4f0672790562207a699a0f
 						if (i > 0) {
-							if((int)bestTimeTree.getNode(oldNode).getAttribute("x")<0){
+							if ((int) bestTimeTree.getNode(oldNode).getAttribute("x") < 0) {
 								n.addAttribute("x", -java.lang.Math.abs(nid));
-							} else{
+							} else {
 								n.addAttribute("x", java.lang.Math.abs(nid));
 							}
 						}
 					}
-					if(i > 0){
+					if (i > 0) {
 						bestTimeTree.removeEdge(newNode, oldNode);
 						e = bestTimeTree.addEdge(Integer.toString(nid), newNode, oldNode);
-						e.addAttribute("ui.label", Integer.toString(node.getEndTime()));
-						e.setAttribute("ui.style", "fill-color: rgb(255,0,0);");
+						e.setAttribute("ui.style", "fill-color:red;");
 
 					}
 
 					oldNode = newNode;
 					i++;
-					if(nid<0)
+					if (nid < 0)
 						nid--;
 					else
 						nid++;
-<<<<<<< HEAD
-					Thread.sleep(50);
-=======
 					//SPEED FACTOR: lower=faster
 					Thread.sleep(50);
-					bestPath += node.getNodeName()+"("+node.getProcessor()+") ";
->>>>>>> b91121853718c3550f4f0672790562207a699a0f
+					bestPath += node.getNodeName() + "(" + (node.getProcessor() + 1) + ") ";
 				}
-				bestTimeScheduleLabel.setText("Best Path: "+bestPath);
+				bestTimeScheduleLabel.setText("Best Path: " + bestPath);
 				nid *= -1;
+			} else if(maxTimeAtPoint(currentNode) == minimumTime){
+				equalBestTimeCount++;
+				equalBestTimeCountLabel.setText("Duplicate Schedules at Current Optimal Time Found: "+Long.toString(equalBestTimeCount));
 			}
 			return;
-		}
+			}
 		
 		if(minimumTime != Integer.MAX_VALUE){
 			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
@@ -188,16 +194,6 @@ public class SolutionTreeVisual {
 					int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
 					int newEndTime = newStartTime+nodalWeight;
 					processorArray[newProcessor] = newEndTime;
-
-					Node gn = datGraph.getNode(nodeToCheckStr);
-					gn.setAttribute("ui.label",nodeToCheckStr+"("+j+") "+newEndTime);
-					Random rand = new Random();
-					int r = rand.nextInt(125)+130;
-					int g = rand.nextInt(125)+130;
-					int b = rand.nextInt(125)+130;
-					String color = "fill-color:rgb("+Integer.toString(r)+","+Integer.toString(g)+","+Integer.toString(b)+");";
-					gn.setAttribute("ui.style",color);
-					Thread.sleep(0,1);
 
 					//INITIALISE THE NEW NODE WITH UPDATED FIELDS
 					NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
