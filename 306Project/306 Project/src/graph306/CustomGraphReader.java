@@ -1,5 +1,7 @@
 package graph306;
 
+import data_structures.UserOptions;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,11 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import data_structures.UserOptions;
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
-import visual.SolutionTreeVisual;
 
 /**
  * Class to read in a directed graph from a .dot file and create a directed graph.
@@ -91,18 +88,6 @@ public class CustomGraphReader {
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
-					if (SolutionTreeVisual.datGraph.getNode(edgeString[0])==null) {
-						Node n = SolutionTreeVisual.datGraph.addNode(edgeString[0]);
-						n.addAttribute("ui.label",n.getId());
-					}
-					if (SolutionTreeVisual.datGraph.getNode(edgeString[2])==null) {
-						Node n = SolutionTreeVisual.datGraph.addNode(edgeString[2]);
-						n.addAttribute("ui.label",n.getId());
-					}
-					Edge e = SolutionTreeVisual.datGraph.addEdge(edgeString[0]+"->"+edgeString[2], edgeString[0], edgeString[2], true);
-//					e.addAttribute("ui.label", e.getId());
-//					e.addAttribute("ui.label", Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
-
 					edges.add(line);
 		        	continue;
 		        } else { 
@@ -113,10 +98,6 @@ public class CustomGraphReader {
 		        	// add Vertices to the graph
 		        	String[] words = line.split("\\s+");
 		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
-					if(SolutionTreeVisual.datGraph.getNode(words[0])==null){
-						Node n = SolutionTreeVisual.datGraph.addNode(words[0]);
-						n.addAttribute("ui.label",n.getId());
-					}
 				}
 		    }
 		    //checking for errors
