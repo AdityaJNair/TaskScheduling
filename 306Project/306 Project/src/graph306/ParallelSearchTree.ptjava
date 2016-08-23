@@ -1,0 +1,125 @@
+package graph306;
+import pt.queues.FifoLifoQueue;
+import pt.runtime.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import data_structures.*;
+
+public class ParallelSearchTree extends SolutionTree{
+	
+	int semaphore = UserOptions.getInstance().getParallelThreads();
+	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
+	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
+	List<String> sourceNodes = inputGraph.getSourceNodes();
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	/**
+	 * @param inputGraph
+	 */
+	public ParallelSearchTree(AdjacencyList inputGraph) {
+		super(inputGraph);
+		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
+//		bestScheduleThreaded.addGlobal(null);
+	}
+	
+	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
+		
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime){
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestSchedule = currentNode.getCurrentPath();
+			}
+			return;
+		}
+		
+		// heuristics for pruning the tree
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
+		}
+		
+		TaskID newTask = null;
+		for(String nodeToCheckStr : nodesToCheck){
+			if(isValidOption(nodeToCheckStr, nodesToCheck)){
+				int count = 0;
+				for(int i = 0 ; i <numberofProcessors; i++){
+					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
+						count++;
+					}
+				}
+				int killtree = 0;
+				if(count >= 2){
+					killtree = count -1;
+				}
+				for(int j = 0; j < (numberofProcessors - killtree); j++){
+					NodeObject newNode = createNextNode(currentNode, nodeToCheckStr, j);
+					
+					//copy the nodesToCheck list and need to remove the current node from it for recursion
+					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
+					nodeNumber++;
+					
+					if(isSubtask){
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
+						continue;
+					}
+					// check if new thread can be created
+					if(semaphore == 0){
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
+					} else {
+						semaphore--;
+						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
+						
+						taskGroup.add(newTask);
+					}
+				}
+			}
+		}
+		if(isSubtask){
+			return;
+		}
+		try{
+			taskGroup.waitTillFinished();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
+		recursiveMethod(currentNode, nodesToCheck, true);
+		semaphore++;
+	}
+	
+	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
+		//create a newpath that is the same as current which includes the currentNode as well
+		//same thing but only copying the processor array --not checking for times at this place
+		ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+		int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+		
+		//initialising the fields for the new NodalObject to recurse through
+		String newNodeName = nodeToCheckStr;
+		int newProcessor = processorNumber;
+		int nodalWeight = getNodalWeight(newNodeName);
+		int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
+		int newEndTime = newStartTime+nodalWeight;
+		processorArray[newProcessor] = newEndTime;
+		
+		//INITIALISE THE NEW NODE WITH UPDATED FIELDS
+		NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+		return nextNode;
+	}
+	
+}
