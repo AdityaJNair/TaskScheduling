@@ -65,8 +65,13 @@ public class Main {
 			ParallelSearchTree solver = new ParallelSearchTree(graphReader.getGraphAdapter().getAdjacencyList());
 			//Parallalism solver = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
 			//solver.calculateTime(solver.getRootNode(), solver.getNodeList(), true);
-			solver.recursiveMethod(solver.getRootNode(), solver.getNodeList());
+			solver.recursiveMethod(solver.getRootNode(), solver.getNodeList(), false);
 			System.out.println("Nodes visited: " + solver.nodeNumber);
+			//Create .dot file at the end
+			DotWriter writer = new DotWriter();
+			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
+			System.out.println(solver.nodeNumber);
+			System.out.println("HI3");
 		} else {
 			System.out.println("Doing process in sequential mode");
 			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
@@ -89,6 +94,7 @@ public class Main {
 			System.out.println(solver.nodeNumber);
 			System.out.println("HI3");
 		}
+		System.out.println("Program finished");
 	}
 
 	private static void isVisual() {

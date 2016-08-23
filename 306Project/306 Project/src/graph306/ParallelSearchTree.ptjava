@@ -24,7 +24,7 @@ public class ParallelSearchTree extends SolutionTree{
 //		bestScheduleThreaded.addGlobal(null);
 	}
 	
-	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck){
+	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
 		
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
@@ -71,9 +71,14 @@ public class ParallelSearchTree extends SolutionTree{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
+					
+					if(isSubtask){
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
+						continue;
+					}
 					// check if new thread can be created
 					if(semaphore == 0){
-						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode);
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
 					} else {
 						semaphore--;
 						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
@@ -83,19 +88,18 @@ public class ParallelSearchTree extends SolutionTree{
 				}
 			}
 		}
+		if(isSubtask){
+			return;
+		}
 		try{
 			taskGroup.waitTillFinished();
-			System.out.println("Not waiting anymore");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
 	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
-		System.out.println(CurrentTask.getProgress());
-		System.out.println("Created a new thread: " + currentThreadID());
-		
-		recursiveMethod(currentNode, nodesToCheck);
+		recursiveMethod(currentNode, nodesToCheck, true);
 		semaphore++;
 	}
 	
