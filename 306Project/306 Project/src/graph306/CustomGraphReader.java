@@ -1,8 +1,5 @@
 package graph306;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +17,6 @@ public class CustomGraphReader {
 	public GraphAdapter graph = null;
 	public ArrayList<String> edges = new ArrayList<String>();
 
-
 	/**
 	 * Constructor for the CustomGraphReader that reads in the options from the
 	 * main arguments.
@@ -29,7 +25,7 @@ public class CustomGraphReader {
 	 *  		-p N 		:Use N threads for execution in parallel (default is sequential)
 	 *  		-v			:Visualize the search
 	 *  		-o OUTPUT	:Output file is named OUTPUT (default is INPUT-output.dot)
-	 *  
+	 *
 	 *  		-..... 		:for future options
 	 * @param args
 	 */
@@ -40,7 +36,7 @@ public class CustomGraphReader {
 		userOptions.setFilenameOut(args[0].substring(0,args[0].length()-4) + "-output.dot");
 		//adds the number of processors used in algorithm
 		userOptions.setProcessors(Integer.parseInt(args[1]));
-		
+
 		//iterates through other options if there are any
 		for(int i = 2; i < args.length; i++) {
 			//if visible option set flag as true
@@ -62,7 +58,7 @@ public class CustomGraphReader {
 		}
 
 	}
-	
+
 	/**
 	 * Reads the input file and adds nodes to the graph (Adjacency List).
 	 * Stores information from the input graph and stores it as information in fields for the singleton class of UserOptions
@@ -75,50 +71,33 @@ public class CustomGraphReader {
 			String line;
 		    while((line = br.readLine()) != null ) {
 		    	line=line.trim();
-		    	//sets the name of the graph and creates a graph 
+		    	//sets the name of the graph and creates a graph
 		        if(line.contains("digraph")){
 		        	//checks first line and finds the text inside quotation marks which is graph name (used for output)
 		        	Pattern p = Pattern.compile("\"([^\"]*)\"");
 		        	Matcher m = p.matcher(line);
 		        	// first line. Contains graph name
 		        	while (m.find()) {
-						// create new graph object and sets the name of the graph to userOptions
-						userOptions.setGraphName(m.group(1));
-						graph = new GraphAdapter();
-					}
+		        		// create new graph object and sets the name of the graph to userOptions
+		        		userOptions.setGraphName(m.group(1));
+		        		graph = new GraphAdapter();
+		        	}
 		        	continue;
 		        } else if(line.contains("->")){ // Line with edges and weights add to adjacency list
 		        	String[] edgeString = line.split("\\s+");
 		        	graph.addEdge(edgeString[0], edgeString[2], Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
-					if (SolutionTree.datGraph.getNode(edgeString[0])==null) {
-						Node n = SolutionTree.datGraph.addNode(edgeString[0]);
-						n.addAttribute("ui.label",n.getId());
-					}
-					if (SolutionTree.datGraph.getNode(edgeString[2])==null) {
-						Node n = SolutionTree.datGraph.addNode(edgeString[2]);
-						n.addAttribute("ui.label",n.getId());
-					}
-					Edge e = SolutionTree.datGraph.addEdge(edgeString[0]+"->"+edgeString[2], edgeString[0], edgeString[2], true);
-//					e.addAttribute("ui.label", e.getId());
-//					e.addAttribute("ui.label", Integer.parseInt(edgeString[3].replaceAll("\\D+", "")));
-		        	edges.add(line);
-					continue;
+					edges.add(line);
+		        	continue;
 		        } else {
 		        	// exit if end of file
 		        	if(line.contains("}")){
-		        		break; 
+		        		break;
 		        	}
 		        	// add Vertices to the graph
 		        	String[] words = line.split("\\s+");
 		        	graph.addNode(words[0], Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
-					if(SolutionTree.datGraph.getNode(words[0])==null){
-						Node n = SolutionTree.datGraph.addNode(words[0]);
-						n.addAttribute("ui.label",n.getId());
-					}
-//					Node n = gsGraph.addNode(words[0]);
-//					n.addAttribute("ui.label", words[0]+": "+Integer.parseInt(words[1].replaceAll("[^0-9]+", "")));
 				}
-			}
+		    }
 		    //checking for errors
 		} catch (FileNotFoundException e) {
 			System.out.println("The input file was not found in readDAG() for CustomGraphReader.");
@@ -128,13 +107,13 @@ public class CustomGraphReader {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//GETTERS
 
 	public GraphAdapter getGraphAdapter() {
 		return graph;
 	}
-	
+
 	public ArrayList<String> getEdgeList(){
 		return edges;
 	}
