@@ -78,7 +78,7 @@ public class Main {
 			DotWriter writer = new DotWriter();
 			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
 			System.out.println(solver.nodeNumber);
-			System.out.println("HI");
+			System.out.println("HI3");
 		}
 	}
 
