@@ -16,7 +16,7 @@ public class SolutionTree {
 	// Stores the time for the current shortest schedule.
 	protected static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	protected static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	
 	protected AdjacencyList inputGraph;
 	private NodeObject rootNode;
