@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import data_structures.*;
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
 
 public class ParallelSearchTree extends SolutionTree{
 	
@@ -71,7 +73,6 @@ public class ParallelSearchTree extends SolutionTree{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
-					
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;

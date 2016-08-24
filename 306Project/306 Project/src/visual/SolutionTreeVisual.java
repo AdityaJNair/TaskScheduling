@@ -22,7 +22,7 @@ import java.util.List;
 public class SolutionTreeVisual {
 	public static Graph bestTimeTree = new SingleGraph("Best Time Tree");
 //	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
-    private int nid = 0;
+	public int nid = 0;
 
 	public static JLabel bestTimeLabel = new JLabel("Current Best Time:");
 	public static JLabel bestTimeScheduleLabel = new JLabel("Best Schedule:");
@@ -40,18 +40,18 @@ public class SolutionTreeVisual {
 	public static JLabel boundValueLabel = new JLabel("Bound Value:");
 
 	public long nodeNumber = 0;
-	private long bestTimeCount = 0;
-	private long validScheduleCount = 0;
-	private long equalBestTimeCount = 0;
+	public long bestTimeCount = 0;
+	public long validScheduleCount = 0;
+	public long equalBestTimeCount = 0;
 	// Stores the time for the current shortest schedule.
-	private static int minimumTime = Integer.MAX_VALUE;
+	public static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	private static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	protected static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	
-	private AdjacencyList inputGraph;
+	protected AdjacencyList inputGraph;
 	private NodeObject rootNode;
 	private List<String> nodeList;
-	private int numberofProcessors;
+	protected int numberofProcessors;
 	
 	/**
 	 * Constructor that initialises the adjacency list to this class and makes a list of all nodes to use when checking if a node has been seen or not
@@ -82,12 +82,7 @@ public class SolutionTreeVisual {
 		if(nodesToCheck.size() == 0){
 			validScheduleCount++;
 			validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
-
-			for(NodeObject node : currentNode.getCurrentPath()){
-
-			}
-
-				// Calculate time
+			// Calculate time
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime) {
 				bestTimeCount++;
@@ -219,7 +214,7 @@ public class SolutionTreeVisual {
 	 * @param nodesToCheck: List of nodes not yet seen by the 
 	 * @return
 	 */
-	private int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
+	protected int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
 		int currentMaxTime = minTimeAtPoint(currentNode); 
 		int currentworstTime = maxTimeAtPoint(currentNode);
 		int diff = currentworstTime - currentMaxTime;
@@ -239,7 +234,7 @@ public class SolutionTreeVisual {
 	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
-	private boolean isValidOption(String node, List<String> nodesToCheck){
+	protected boolean isValidOption(String node, List<String> nodesToCheck){
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 
