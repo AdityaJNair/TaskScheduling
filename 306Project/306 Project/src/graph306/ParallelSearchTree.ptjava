@@ -34,13 +34,14 @@ public class ParallelSearchTree extends SolutionTree{
 			visualFrame = new GraphVisualiser(inputGraph, this);
 		}
 	}
-	/* recursiveMethod is the parallel version of calculateTime from the SolutionTree.
+	/** recursiveMethod is the parallel version of calculateTime from the SolutionTree.
 	*@param currentNode - the currentNode 
 	*@param nodesToCheck -  List of nodes that have not yet been seen in this branch of the tree
 	*@param isSubTask - Checks which node is the root of the thread or not
+	**/
 	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
 		
-		// Exit condition for exiting recursion
+		// Exit condition for exitinWg recursion
 		if(nodesToCheck.size() == 0){
 			// Update the graph of the new path
 			if(UserOptions.getInstance().isVisible() && visualFrame !=null){
@@ -133,11 +134,11 @@ public class ParallelSearchTree extends SolutionTree{
 		semaphore++;
 	}
 	
-	/*createNextNode method is used to create the next valid node in the tree
+	/**createNextNode method is used to create the next valid node in the tree
 	*@param currentNode - currentNode on the tree
 	*@param nodeToCheckStr - the name of the node
 	*@param processorNumber - the processor the node is in
-	*/
+	**/
 	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
 		//create a newpath that is the same as current which includes the currentNode as well
 		//same thing but only copying the processor array --not checking for times at this place

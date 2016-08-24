@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 //import pt.runtime.*;
-
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
-import scala.collection.mutable.Queue;
 import visual.GraphVisualiser;
 
 /**
