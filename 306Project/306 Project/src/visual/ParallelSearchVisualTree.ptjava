@@ -181,6 +181,10 @@ public class ParallelSearchVisualTree extends SolutionTreeVisual{
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
 					nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber));
+					semaphoreLabel.setText("Current Threads Used: "+ semaphore);
+					if(CurrentTask.insideTask()){
+						System.out.println(CurrentTask.currentThreadID());
+					}
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
@@ -191,9 +195,14 @@ public class ParallelSearchVisualTree extends SolutionTreeVisual{
 					} else {
 						semaphore--;
 						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
-						
+						try{
+							newTask.waitTillFinished();
+						} catch (Exception e){
+							
+						}
 						taskGroup.add(newTask);
 					}
+					
 				}
 			}
 		}

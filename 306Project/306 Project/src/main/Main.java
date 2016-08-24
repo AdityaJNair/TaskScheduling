@@ -10,6 +10,7 @@ import java.sql.Time;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.graphstream.ui.swingViewer.ViewPanel;
@@ -183,7 +184,15 @@ public class Main {
 		processorPanel.add(SolutionTreeVisual.processorsUsedLabel);
 		processorPanel.add(SolutionTreeVisual.idleProcessorsLabel);
 		statPanel.add(processorPanel);
+		if(UserOptions.getInstance().isParallel()){
+			JPanel paraPanel = new JPanel();
+			paraPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+			paraPanel.add(SolutionTreeVisual.semaphoreLabel);
+			JLabel threadIDLabel = new JLabel("Number of Threads to Use:" + UserOptions.getInstance().getProcessors());
+			paraPanel.add(threadIDLabel);
+			statPanel.add(paraPanel);
 
+		}
 
 		tV.setPreferredSize(dim);
 		panel.add(tV, BorderLayout.CENTER);

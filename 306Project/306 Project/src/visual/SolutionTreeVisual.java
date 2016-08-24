@@ -37,6 +37,8 @@ public class SolutionTreeVisual {
 	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
 	public static JLabel validScheduleLabel = new JLabel("Current Valid Schedule:");
 
+	public static JLabel semaphoreLabel = new JLabel("Current Threads Used:");
+
 	public long nodeNumber = 0;
 	public long bestTimeCount = 0;
 	public long validScheduleCount = 0;
