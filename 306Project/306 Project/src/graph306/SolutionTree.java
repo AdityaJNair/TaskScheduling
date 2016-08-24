@@ -9,6 +9,8 @@ import java.util.List;
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
+import scala.collection.mutable.Queue;
+import visual.GraphVisualiser;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -26,6 +28,7 @@ public class SolutionTree {
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	protected int numberofProcessors;
+	GraphVisualiser visualFrame = null;
 	//private TaskIDGroup group = new TaskIDGroup(20); //TODO: still testing, hardcoded Group size
 	
 	/**
@@ -33,6 +36,7 @@ public class SolutionTree {
 	 * @param inputGraph
 	 */
 	public SolutionTree(AdjacencyList inputGraph){
+		
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
 		for(String entry : inputGraph.getNodes()){
@@ -40,7 +44,10 @@ public class SolutionTree {
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
 		//create the root node object
-		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
+		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);	
+		if(UserOptions.getInstance().isVisible()){
+			visualFrame = new GraphVisualiser(inputGraph, this);
+		}
 	}
 	
 	/** 
@@ -54,12 +61,18 @@ public class SolutionTree {
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
+			if(UserOptions.getInstance().isVisible() && visualFrame !=null){
+				visualFrame.notifyFirstGraph(currentNode);
+			}
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
+				if(UserOptions.getInstance().isVisible() && visualFrame != null){
+					visualFrame.notifyGraph(currentNode, minimumTime, endArray(bestSchedule));
+				}
 			}
 			return;
 		}
@@ -113,12 +126,25 @@ public class SolutionTree {
 					newUpdatedListWithoutCurrentNode.remove(newNodeName);
 					nodeNumber++;
 					//recursive call
+					if(UserOptions.getInstance().isVisible() && visualFrame != null){
+						visualFrame.notifySecondGraph(nodeNumber);
+					}
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
 			}		
 		}
 	}
 
+
+    protected int[] endArray(List<NodeObject> nodeList){
+        int[] intArray = new int[numberofProcessors];
+        for(NodeObject n : nodeList){
+            if(n.getEndTime() > intArray[n.getProcessor()]){
+                intArray[n.getProcessor()] = n.getEndTime();
+            }
+        }
+        return intArray;
+    }
 
 	/**
 	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 

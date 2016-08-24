@@ -9,6 +9,7 @@ import java.util.List;
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
+import visual.GraphVisualiser;
 
 public class ParallelSearchTree extends SolutionTree{
 	
@@ -16,7 +17,9 @@ public class ParallelSearchTree extends SolutionTree{
 	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
 	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
 	List<String> sourceNodes = inputGraph.getSourceNodes();
-	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads());
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	GraphVisualiser visualFrame = null;
+	
 	/**
 	 * @param inputGraph
 	 */
@@ -24,19 +27,29 @@ public class ParallelSearchTree extends SolutionTree{
 		super(inputGraph);
 		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
 //		bestScheduleThreaded.addGlobal(null);
+		if(UserOptions.getInstance().isVisible()){
+			visualFrame = new GraphVisualiser(inputGraph, this);
+		}
 	}
 	
 	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
-	
+		
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
+			if(UserOptions.getInstance().isVisible() && visualFrame !=null){
+				visualFrame.notifyFirstGraph(currentNode);
+			}
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
+				
+				if(UserOptions.getInstance().isVisible() && visualFrame != null){
+					visualFrame.notifyGraph(currentNode, minimumTime, endArray(bestSchedule));
+				}
 			}
 			return;
 		}
@@ -60,7 +73,6 @@ public class ParallelSearchTree extends SolutionTree{
 				for(int i = 0 ; i <numberofProcessors; i++){
 					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
 						count++;
-						
 					}
 				}
 				int killtree = 0;
@@ -74,7 +86,10 @@ public class ParallelSearchTree extends SolutionTree{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
-					if(!isSubtask){
+					if(UserOptions.getInstance().isVisible() && visualFrame != null){
+						visualFrame.notifyParallelGraph(nodeNumber, semaphore);
+					}
+					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
 					}
@@ -90,7 +105,7 @@ public class ParallelSearchTree extends SolutionTree{
 				}
 			}
 		}
-		if(!isSubtask){
+		if(isSubtask){
 			return;
 		}
 		try{
@@ -104,6 +119,7 @@ public class ParallelSearchTree extends SolutionTree{
 		recursiveMethod(currentNode, nodesToCheck, true);
 		semaphore++;
 	}
+	
 	
 	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
 		//create a newpath that is the same as current which includes the currentNode as well
