@@ -251,7 +251,6 @@ public class GraphVisualiser{
 	 * @param input
 	 */
 	public void notifyGraph(NodeObject input, int maxtime, int[] end){
-		System.out.println("Adding node " + input);
 		if(UserOptions.getInstance().isParallel()){
 			oneLineGraph(input, maxtime, end);
 		}else{
