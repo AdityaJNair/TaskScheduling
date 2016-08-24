@@ -59,7 +59,7 @@ Optional Parameters:
 
 -v: Display a visual representation of the search in a JFrame.
 
--o "OUTPUT": The generated output file will be named "OUTPUT-output.dot". If not specified, the input graph name will be used to generate a name. 
+-o "OUTPUT": The generated output file will be named "OUTPUT.dot". If not specified, the input graph name will be used to generate a name (INPUT-output.dot). 
 
 
 The [wiki](https://github.com/AdityaJNair/RunningGoatShorts/wiki) contains all information regarding previous meetings, plans, decisions, background research etc.
