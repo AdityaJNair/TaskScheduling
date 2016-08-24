@@ -161,31 +161,9 @@ public class ParallelSearchVisualTree extends SolutionTreeVisual{
 		}
 		
 		TaskID newTask = null;
-		List<String> legalNodes = new ArrayList<String>();
-		
-		// collect the list of nodes we can go to
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
-				legalNodes.add(nodeToCheckStr);
-			}
-		}
-		int count =0;
-		if(legalNodes.size() == 1){
-			// sequential
-			for(int i=0 ; i<numberofProcessors ; i++){
-				NodeObject newNode = createNextNode(currentNode, legalNodes.get(0), i);
-				//copy the nodesToCheck list and need to remove the current node from it for recursion
-				List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
-				newUpdatedListWithoutCurrentNode.remove(legalNodes.get(0));
-				nodeNumber++;
-				
-				recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, isSubtask);
-			}
-			
-		} else {
-
-			for(String nodeToCheckStr : legalNodes){
-
+				int count = 0;
 				for(int i = 0 ; i <numberofProcessors; i++){
 					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
 						count++;
@@ -202,17 +180,15 @@ public class ParallelSearchVisualTree extends SolutionTreeVisual{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
-					
+					nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber));
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
 					}
 					// check if new thread can be created
 					if(semaphore == 0){
-						// can't mke any more threads
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
 					} else {
-						// create new thread
 						semaphore--;
 						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
 						
