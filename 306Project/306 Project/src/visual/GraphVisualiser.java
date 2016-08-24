@@ -216,7 +216,7 @@ public class GraphVisualiser{
 				"size:6px;" +
 				"}" +
 				"graph{" +
-				"fill-color:#FFFFAA;" +
+				"fill-color:#CCFFFF;" +
 				"}");
 		String bestPath = new String();
 		bestPath = currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")";
