@@ -333,7 +333,7 @@ public class GraphVisualiser{
 			JPanel paraPanel = new JPanel();
 			paraPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
 			paraPanel.add(GraphVisualiser.semaphoreLabel);
-			JLabel threadIDLabel = new JLabel("Number of Threads to Use:" + UserOptions.getInstance().getProcessors());
+			JLabel threadIDLabel = new JLabel("Number of Threads to Use:" + UserOptions.getInstance().getParallelThreads());
 			paraPanel.add(threadIDLabel);
 			statPanel.add(paraPanel);
 
