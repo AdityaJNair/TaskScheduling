@@ -22,7 +22,7 @@ import java.util.List;
 public class SolutionTreeVisual {
 	public static Graph bestTimeTree = new SingleGraph("Best Time Tree");
 //	public static Graph datGraph = new SingleGraph("Directed Acyclic Task Graph");
-	public int nid = 0;
+    public int nid = 0;
 
 	public static JLabel bestTimeLabel = new JLabel("Current Best Time:");
 	public static JLabel bestTimeScheduleLabel = new JLabel("Best Schedule:");
@@ -32,12 +32,10 @@ public class SolutionTreeVisual {
 	public static JLabel nodesSearchedLabel = new JLabel("Nodes Searched:");
 	public static JLabel processorsUsedLabel = new JLabel("Processors Used:");
 	public static JLabel idleProcessorsLabel = new JLabel("Idle Processors:");
-	public static JLabel partialScheduleLabel = new JLabel("Current Schedule:");
 	public static JLabel processorEndTimeLabel = new JLabel("Processor End Time:");
 
 	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
 	public static JLabel validScheduleLabel = new JLabel("Current Valid Schedule:");
-	public static JLabel boundValueLabel = new JLabel("Bound Value:");
 
 	public long nodeNumber = 0;
 	public long bestTimeCount = 0;
@@ -46,13 +44,12 @@ public class SolutionTreeVisual {
 	// Stores the time for the current shortest schedule.
 	public static int minimumTime = Integer.MAX_VALUE;
 	// A list containing the current best schedule.
-	protected static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
+	public static List<NodeObject> bestSchedule = new ArrayList<NodeObject>();
 	
-	protected AdjacencyList inputGraph;
-	private NodeObject rootNode;
-	private List<String> nodeList;
-	protected int numberofProcessors;
-	
+	public AdjacencyList inputGraph;
+	public NodeObject rootNode;
+	public List<String> nodeList;
+	public int numberofProcessors;
 	/**
 	 * Constructor that initialises the adjacency list to this class and makes a list of all nodes to use when checking if a node has been seen or not
 	 * @param inputGraph
@@ -65,7 +62,7 @@ public class SolutionTreeVisual {
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
 		//create the root node object
-		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
+		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);
 	}
 	
 	/** 
@@ -82,19 +79,59 @@ public class SolutionTreeVisual {
 		if(nodesToCheck.size() == 0){
 			validScheduleCount++;
 			validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
+
+			String procText = new String();
+			ArrayList procList = new ArrayList();
+			for(NodeObject node : currentNode.getCurrentPath()){
+				int processor = node.getProcessor();
+				if(!procList.contains(processor)){
+					procList.add(processor);
+					procText += "["+Integer.toString(processor+1)+"] ";
+				}
+			}
+			String idleText = new String();
+			for(int i = 0; i < numberofProcessors; i++){
+				if(!procList.contains(i)){
+					idleText += "["+Integer.toString(i+1)+"] ";
+				}
+			}
+			if (idleText.isEmpty()){
+				idleText = "None";
+			}
+			processorsUsedLabel.setText("Processors Used: "+ procText);
+			idleProcessorsLabel.setText("Idle Processors: "+ idleText);
+
+			String currentValidSchedule = new String();
+			for(NodeObject node : currentNode.getCurrentPath()){
+				if(!(node.getNodeName()=="rootNode")){
+					currentValidSchedule += node.getNodeName() +"("+(node.getProcessor()+1)+")";
+				}
+			}
+
+			validScheduleLabel.setText("Current Valid Schedule: "+currentValidSchedule);
+
 			// Calculate time
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime) {
+
 				bestTimeCount++;
 				//when tree all the way down, and the time is lower than the global flag, set the new time
 				//and set the new schedule to it
 				for (Edge e : bestTimeTree.getEdgeSet()) {
-					e.addAttribute("ui.style", "fill-color: rgb(0,0,0);");
+					e.addAttribute("ui.style", "fill-color:#ADB5C7;");
 				}
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestTimeLabel.setText("Current Best Time: " + maxTimeAtPoint(currentNode));
 				bestTimeCountLabel.setText("Faster Schedules Found: " + Long.toString(bestTimeCount));
 				bestSchedule = currentNode.getCurrentPath();
+                int[] endArray = endArray(bestSchedule);
+                String endArrayString = new String();
+                int procID = 1;
+                for(int eA : endArray){
+                    endArrayString+=Integer.toString(procID)+": "+eA+" ";
+                    procID++;
+                }
+                processorEndTimeLabel.setText("Processor End Time: "+endArrayString);
 				String oldNode = new String();
 				String newNode = new String();
 				int i = 0;
@@ -107,11 +144,11 @@ public class SolutionTreeVisual {
 					if (bestTimeTree.getNode(newNode) == null) {
 						Node n = bestTimeTree.addNode(newNode);
 
-						n.addAttribute("ui.label", node.getNodeName() + "(" + node.getProcessor() + ")");
+						n.addAttribute("ui.label", node.getNodeName() + "(" + (node.getProcessor()+1) + ")");
 //                        n.addAttribute("ui.label", nid);
 						n.addAttribute("layout.frozen");
 
-						n.addAttribute("y", -i * 15);
+						n.addAttribute("y", -i *15);
 						if (i == 0)
 							n.addAttribute("x", nid);
 						if (i > 0) {
@@ -154,12 +191,12 @@ public class SolutionTreeVisual {
 				return;
 			}
 		
-			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
-				return;
-			}
+			//if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				//return;
+			//}
 		}
-        
-		// Look through the list of unseen nodes and recursively call this method on nodes 
+
+		// Look through the list of unseen nodes and recursively call this method on nodes
 		// that do not have any parents on the nodesToCheck list.
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
@@ -201,12 +238,22 @@ public class SolutionTreeVisual {
 					//recursive call
 					calculateTime(nextNode, newUpdatedListWithoutCurrentNode);
 				}
-			}		
+			}
 		}
 	}
 
+    private int[] endArray(List<NodeObject> nodeList){
+        int[] intArray = new int[numberofProcessors];
+        for(NodeObject n : nodeList){
+            if(n.getEndTime() > intArray[n.getProcessor()]){
+                intArray[n.getProcessor()] = n.getEndTime();
+            }
+        }
+        return intArray;
+    }
 
-	/**
+
+    /**
 	 * Calculates the lower bound from any node. Lower bound is calculated by taking the 
 	 * current best time and adding all processes not yet executed and dividing it by the
 	 * number of processors.
@@ -214,7 +261,7 @@ public class SolutionTreeVisual {
 	 * @param nodesToCheck: List of nodes not yet seen by the 
 	 * @return
 	 */
-	protected int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
+	public int calculateLowerBound(NodeObject currentNode, List<String> nodesToCheck){
 		int currentMaxTime = minTimeAtPoint(currentNode); 
 		int currentworstTime = maxTimeAtPoint(currentNode);
 		int diff = currentworstTime - currentMaxTime;
@@ -234,7 +281,7 @@ public class SolutionTreeVisual {
 	 * @param nodesToCheck : List of unseen nodes at a given point in time
 	 * @return
 	 */
-	protected boolean isValidOption(String node, List<String> nodesToCheck){
+	public boolean isValidOption(String node, List<String> nodesToCheck){
 		
 		//root node
 		if(checkAdjacencyListNullMap(node)){ 

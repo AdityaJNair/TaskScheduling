@@ -129,20 +129,18 @@ public class Main {
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 				"size:12px; " +
-				"text-color:#AD2A1A; " +
 				"text-size:12px; " +
 				"text-alignment:above;" +
 				"text-padding: 3px;" +
 				"text-background-mode:rounded-box;" +
 				"}" +
 				"edge { " +
-				"text-color:#AD2A1A; " +
 				"text-size:13px; " +
 				"text-background-mode:rounded-box;" +
-				"size:6px;" +
+				"size:5px;" +
 				"}" +
 				"graph{" +
-				"fill-color:#FFFFAA;" +
+				"fill-color:#D6D8DD;" +
 				"}");
 		SolutionTreeVisual.bestTimeTree.addAttribute("ui.antialias");
 		SolutionTreeVisual.bestTimeTree.setStrict(false);
@@ -164,18 +162,15 @@ public class Main {
 		bestPathStats.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
 		bestPathStats.add(SolutionTreeVisual.bestTimeLabel);
 		bestPathStats.add(SolutionTreeVisual.bestTimeScheduleLabel);
+		bestPathStats.add(SolutionTreeVisual.processorEndTimeLabel);
 		bestPathStats.add(SolutionTreeVisual.bestTimeCountLabel);
-		bestPathStats.add(SolutionTreeVisual.equalBestTimeCountLabel);
 		statPanel.add(bestPathStats);
 
-		JPanel processorPanel = new JPanel();
-		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		processorPanel.add(SolutionTreeVisual.nodesSearchedLabel);
-		processorPanel.add(SolutionTreeVisual.processorsUsedLabel);
-		processorPanel.add(SolutionTreeVisual.idleProcessorsLabel);
-		processorPanel.add(SolutionTreeVisual.partialScheduleLabel);
-		processorPanel.add(SolutionTreeVisual.processorEndTimeLabel);
-		statPanel.add(processorPanel);
+		JPanel countPanel = new JPanel();
+		countPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+		countPanel.add(SolutionTreeVisual.nodesSearchedLabel);
+		countPanel.add(SolutionTreeVisual.equalBestTimeCountLabel);
+		statPanel.add(countPanel);
 
 		JPanel validSchedulePanel = new JPanel();
 		validSchedulePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
@@ -183,10 +178,11 @@ public class Main {
 		validSchedulePanel.add(SolutionTreeVisual.validScheduleLabel);
 		statPanel.add(validSchedulePanel);
 
-		JPanel boundValuePanel = new JPanel();
-		boundValuePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		boundValuePanel.add(SolutionTreeVisual.boundValueLabel);
-		statPanel.add(boundValuePanel);
+		JPanel processorPanel = new JPanel();
+		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+		processorPanel.add(SolutionTreeVisual.processorsUsedLabel);
+		processorPanel.add(SolutionTreeVisual.idleProcessorsLabel);
+		statPanel.add(processorPanel);
 
 
 		tV.setPreferredSize(dim);
