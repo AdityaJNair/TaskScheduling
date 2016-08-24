@@ -45,7 +45,7 @@ public class GraphVisualiser{
 	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
 	public static JLabel validScheduleLabel = new JLabel("Current Valid Schedule:");
 
-	public static JLabel semaphoreLabel = new JLabel("Current Threads Used:");
+	public static JLabel semaphoreLabel = new JLabel("Semaphor thread counter: ");
 
 	public long nodeNumber = 0;
 	public long bestTimeCount = 0;
@@ -200,12 +200,14 @@ public class GraphVisualiser{
 		processorEndTimeLabel.setText("Processor End Time: "+endArrayString);
 		bestTimeTree.clear();
 		bestTimeTree.addAttribute("ui.stylesheet", "node { " +
-				"size:12px; " +
-				"text-color:#AD2A1A; " +
-				"text-size:24px; " +
-				"text-alignment:above;" +
+				"size:50px; " +
+				"text-color:#000000; " +
+				"text-size:18px; " +
+				"text-alignment:at-right;" +
 				"text-padding: 3px;" +
-				"text-background-mode:rounded-box;" +
+				"text-background-mode:none;" +
+				"shape:cross;"+
+				"fill-color:red;" +
 				"}" +
 				"edge { " +
 				"text-color:#AD2A1A; " +
@@ -220,27 +222,31 @@ public class GraphVisualiser{
 		bestPath = currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")";
 		int i = 0;
 		Node n = bestTimeTree.addNode(currentNode.getCurrentPath().get(1).getNodeName());
-		n.addAttribute("ui.label", currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")");
+		n.addAttribute("ui.label", "Name:"+currentNode.getCurrentPath().get(1).getNodeName() + " On Processor(" + currentNode.getCurrentPath().get(1).getProcessor() + ")"
+				+" Start_time: "+ currentNode.getCurrentPath().get(1).getStartTime() + " , End_time: "+ currentNode.getCurrentPath().get(1).getEndTime());
 		n.addAttribute("x", i);
 		n.addAttribute("y", i);
 		i++;
 		for(int j = 2; j<currentNode.getCurrentPath().size()-1;j++){
 			Node x = bestTimeTree.addNode(currentNode.getCurrentPath().get(j).getNodeName());
-			x.addAttribute("ui.label", currentNode.getCurrentPath().get(j).getNodeName() + "(" + currentNode.getCurrentPath().get(j).getProcessor() + ")");
+			x.addAttribute("ui.label", "Name:"+currentNode.getCurrentPath().get(j).getNodeName() + " On Processor(" + currentNode.getCurrentPath().get(j).getProcessor() + ")"
+					+" Start_time: "+ currentNode.getCurrentPath().get(j).getStartTime() + " , End_time: "+ currentNode.getCurrentPath().get(j).getEndTime());
 			x.addAttribute("x", i);
 			x.addAttribute("y", i);
 			bestTimeTree.addEdge(n.toString()+x.toString(), n, x, true);
 			n=x;
 			i++;
 			bestPath += currentNode.getCurrentPath().get(j).getNodeName() + "(" + (currentNode.getCurrentPath().get(j).getProcessor() + 1) + ") ";
+
 		} 
-		bestTimeScheduleLabel.setText("Best Path: " + bestPath);
 		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
+			Thread.sleep(100);
+		} catch (InterruptedException e2) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e2.printStackTrace();
 		}
+		bestTimeScheduleLabel.setText("Best Path: " + bestPath);
+
 	}
 
 	public void updateNodeNumber(long nodeNumber2) {
@@ -269,7 +275,7 @@ public class GraphVisualiser{
 	
 	public void notifyParallelGraph(long number, int semaphor){
 		nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(number));
-		semaphoreLabel.setText("Current Threads Used: " + semaphor);
+		semaphoreLabel.setText("Semaphor thread counter: " + semaphor);
 	}
 	
 	public static void isVisual() {
