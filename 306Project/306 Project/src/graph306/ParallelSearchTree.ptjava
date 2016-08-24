@@ -11,32 +11,37 @@ import data_structures.NodeObject;
 import data_structures.UserOptions;
 import visual.GraphVisualiser;
 
+/*
+*The ParallelSearchTree class is created to parallelize the branch and bound algorithm
+* It extends the SolutionTree class to use the variables
+*/
 public class ParallelSearchTree extends SolutionTree{
-	
+	//Semaphore is to make sure that only a limited amount of threads are able to be created
 	int semaphore = UserOptions.getInstance().getParallelThreads();
-	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
-	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
-	List<String> sourceNodes = inputGraph.getSourceNodes();
+
+	//taskGroup is used to put all the parallel tasks
 	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
 	GraphVisualiser visualFrame = null;
 	
-	/**
-	 * @param inputGraph
+	/**Constructor to initialize the arguments
+	 * @param inputGraph - Storing the input Adjacency list
 	 */
 	public ParallelSearchTree(AdjacencyList inputGraph) {
 		super(inputGraph);
-		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
-//		bestScheduleThreaded.addGlobal(null);
 		if(UserOptions.getInstance().isVisible()){
 			visualFrame = new GraphVisualiser(inputGraph, this);
 		}
 	}
 	
+	/* recursiveMethod is the parallel version of calculateTime from the SolutionTree.
+	*@param currentNode - the currentNode 
+	*@param nodesToCheck -  List of nodes that have not yet been seen in this branch of the tree
+	*@param isSubTask - Checks which node is the root of the thread or not
 	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
 		
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
-			// Calculate time
+			// Update the graph of the new path
 			if(UserOptions.getInstance().isVisible() && visualFrame !=null){
 				visualFrame.notifyFirstGraph(currentNode);
 			}
@@ -66,6 +71,8 @@ public class ParallelSearchTree extends SolutionTree{
 			}
 		}
 		
+		// Look through the list of unseen nodes and recursively call this method on nodes 
+		// that do not have any parents on the nodesToCheck list.
 		TaskID newTask = null;
 		for(String nodeToCheckStr : nodesToCheck){
 			if(isValidOption(nodeToCheckStr, nodesToCheck)){
@@ -75,10 +82,12 @@ public class ParallelSearchTree extends SolutionTree{
 						count++;
 					}
 				}
+				//pruning duplicate branches if it is the same value but just on different processors.
 				int killtree = 0;
 				if(count >= 2){
 					killtree = count -1;
 				}
+				
 				for(int j = 0; j < (numberofProcessors - killtree); j++){
 					NodeObject newNode = createNextNode(currentNode, nodeToCheckStr, j);
 					
@@ -89,6 +98,8 @@ public class ParallelSearchTree extends SolutionTree{
 					if(UserOptions.getInstance().isVisible() && visualFrame != null){
 						visualFrame.notifyParallelGraph(nodeNumber, semaphore);
 					}
+					
+					//If it is the head of the thread than recursively go through the algorithm.
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
@@ -96,7 +107,7 @@ public class ParallelSearchTree extends SolutionTree{
 					// check if new thread can be created
 					if(semaphore == 0){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
-					} else {
+					} else { //If there is still unused threads left than make more threads
 						semaphore--;
 						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
 						
@@ -105,9 +116,12 @@ public class ParallelSearchTree extends SolutionTree{
 				}
 			}
 		}
+		//If it is the head thread than it means that this thread is finished so return
 		if(isSubtask){
 			return;
 		}
+		
+		//Wait for everything to finish before displaying the final graph.
 		try{
 			taskGroup.waitTillFinished();
 		}catch(Exception e){
@@ -115,12 +129,17 @@ public class ParallelSearchTree extends SolutionTree{
 		}
 	}
 	
+	//This intermediate method is used to run the recursiveMethod method in parallel
 	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
 		recursiveMethod(currentNode, nodesToCheck, true);
 		semaphore++;
 	}
 	
-	
+	/*createNextNode method is used to create the next valid node in the tree
+	*@param currentNode - currentNode on the tree
+	*@param nodeToCheckStr - the name of the node
+	*@param processorNumber - the processor the node is in
+	*/
 	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
 		//create a newpath that is the same as current which includes the currentNode as well
 		//same thing but only copying the processor array --not checking for times at this place
