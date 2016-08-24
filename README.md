@@ -54,6 +54,7 @@ Input graph: The path to the input graph, stored as a .dot file. The code is spe
 Processor count: The number of processors on which to schedule the tasks.
 
 Optional Parameters:
+
 -p N: Run in parallel, using up to N threads. Without this, the code will be run in sequential.
 
 -v: Display a visual representation of the search in a JFrame.
