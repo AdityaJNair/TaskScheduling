@@ -1,15 +1,15 @@
 # RunningGoatShorts
 SOFTENG 306 Project - Team 6
 
-AdityaJNair = Aditya Nair
+AdityaJNair = Aditya Nair (UPI: anai714)
 
-PriyankitSingh = Priyankit Singh
+PriyankitSingh = Priyankit Singh (UPI: psin778)
 
-JSCooke = Jayden Cooke
+JSCooke = Jayden Cooke (UPI: jcoo418)
 
-JunoJin = Juno Jin
+JunoJin = Juno Jin (UPI: jjin525)
 
-Wombotastic = Nathan Situ
+Wombotastic = Nathan Situ (UPI: nsit984)
 
 The following program was built on JRE 1.8
 
