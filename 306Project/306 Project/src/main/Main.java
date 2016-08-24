@@ -1,28 +1,13 @@
 package main;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.io.IOException;
-import java.sql.Time;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.View;
-import org.graphstream.ui.view.Viewer;
 
-import data_structures.NodeObject;
 import data_structures.UserOptions;
 import graph306.CustomGraphReader;
 import graph306.ParallelSearchTree;
 import graph306.SolutionTree;
 import visual.GraphVisualiser;
-import visual.ParallelSearchVisualTree;
 import visual.SolutionTreeVisual;
 
 public class Main {
@@ -61,8 +46,6 @@ public class Main {
 
 		} else if(UserOptions.getInstance().isParallel() && !UserOptions.getInstance().isVisible()){
 			ParallelSearchTree solver = new ParallelSearchTree(graphReader.getGraphAdapter().getAdjacencyList());
-			//Parallalism solver = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
-			//solver.calculateTime(solver.getRootNode(), solver.getNodeList(), true);
 			solver.recursiveMethod(solver.getRootNode(), solver.getNodeList(), false);
 			//Create .dot file at the end
 			DotWriter writer = new DotWriter();
@@ -74,7 +57,6 @@ public class Main {
 			DotWriter writer = new DotWriter();
 			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
 		}
-		System.out.println("Program finished");
 	}
 
 }
