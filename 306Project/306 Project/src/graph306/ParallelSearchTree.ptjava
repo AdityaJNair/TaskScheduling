@@ -87,7 +87,7 @@ public class ParallelSearchTree extends SolutionTree{
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
 					if(UserOptions.getInstance().isVisible() && visualFrame != null){
-						visualFrame.notifySecondGraph(nodeNumber);
+						visualFrame.notifyParallelGraph(nodeNumber, semaphore);
 					}
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);

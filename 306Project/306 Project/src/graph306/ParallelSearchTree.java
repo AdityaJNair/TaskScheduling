@@ -112,7 +112,7 @@ public class ParallelSearchTree extends SolutionTree {//####[14]####
                     nodeNumber++;//####[88]####
                     if (UserOptions.getInstance().isVisible() && visualFrame != null) //####[89]####
                     {//####[89]####
-                        visualFrame.notifySecondGraph(nodeNumber);//####[90]####
+                        visualFrame.notifyParallelGraph(nodeNumber, semaphore);//####[90]####
                     }//####[91]####
                     if (isSubtask) //####[92]####
                     {//####[92]####

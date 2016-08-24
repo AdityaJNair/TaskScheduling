@@ -187,6 +187,7 @@ public class GraphVisualiser{
 	}
 	
 	public void oneLineGraph(NodeObject currentNode, int maxTime, int[] endArraya) {
+		bestTimeCount++;
         int[] endArray = endArraya;
         String endArrayString = new String();
         int procID = 1;
@@ -201,20 +202,22 @@ public class GraphVisualiser{
 		bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 				"size:12px; " +
 				"text-color:#AD2A1A; " +
-				"text-size:12px; " +
+				"text-size:24px; " +
 				"text-alignment:above;" +
 				"text-padding: 3px;" +
 				"text-background-mode:rounded-box;" +
 				"}" +
 				"edge { " +
 				"text-color:#AD2A1A; " +
-				"text-size:13px; " +
+				"text-size:24px; " +
 				"text-background-mode:rounded-box;" +
 				"size:6px;" +
 				"}" +
 				"graph{" +
 				"fill-color:#FFFFAA;" +
 				"}");
+		String bestPath = new String();
+		bestPath = currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")";
 		int i = 0;
 		Node n = bestTimeTree.addNode(currentNode.getCurrentPath().get(1).getNodeName());
 		n.addAttribute("ui.label", currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")");
@@ -229,7 +232,9 @@ public class GraphVisualiser{
 			bestTimeTree.addEdge(n.toString()+x.toString(), n, x, true);
 			n=x;
 			i++;
+			bestPath += currentNode.getCurrentPath().get(j).getNodeName() + "(" + (currentNode.getCurrentPath().get(j).getProcessor() + 1) + ") ";
 		} 
+		bestTimeScheduleLabel.setText("Best Path: " + bestPath);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -261,6 +266,11 @@ public class GraphVisualiser{
 	
 	public void notifySecondGraph(long number){
 			updateNodeNumber(number);
+	}
+	
+	public void notifyParallelGraph(long number, int semaphor){
+		nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(number));
+		semaphoreLabel.setText("Current Threads Used: " + semaphor);
 	}
 	
 	public static void isVisual() {
