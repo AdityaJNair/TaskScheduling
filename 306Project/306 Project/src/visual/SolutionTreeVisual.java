@@ -242,7 +242,7 @@ public class SolutionTreeVisual {
 		}
 	}
 
-    private int[] endArray(List<NodeObject> nodeList){
+    protected int[] endArray(List<NodeObject> nodeList){
         int[] intArray = new int[numberofProcessors];
         for(NodeObject n : nodeList){
             if(n.getEndTime() > intArray[n.getProcessor()]){
