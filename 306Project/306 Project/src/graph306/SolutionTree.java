@@ -68,7 +68,7 @@ public class SolutionTree {
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
 				if(UserOptions.getInstance().isVisible() && visualFrame != null){
-					visualFrame.notify(currentNode);
+					visualFrame.notifyGraph(currentNode);
 				}
 			}
 			return;

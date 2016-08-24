@@ -41,7 +41,7 @@ public class Main {
 			GraphVisualiser.isVisual();
 			// Parallel visual team's code here
 			System.out.println("Doing process in Parallel visual mode");
-			ParallelSearchVisualTree solver = new ParallelSearchVisualTree(graphReader.getGraphAdapter().getAdjacencyList());
+			ParallelSearchTree solver = new ParallelSearchTree(graphReader.getGraphAdapter().getAdjacencyList());
 			//Parallalism solver = new Parallalism(graphReader.getGraphAdapter().getAdjacencyList());
 			//solver.calculateTime(solver.getRootNode(), solver.getNodeList(), true);
 			solver.recursiveMethod(solver.getRootNode(), solver.getNodeList(), false);

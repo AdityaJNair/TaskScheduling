@@ -144,13 +144,67 @@ public class GraphVisualiser{
 		bestTimeScheduleLabel.setText("Best Path: " + bestPath);
 		nid *= -1;
 	}
+	
+	public void oneLineGraph(NodeObject currentNode) {
+		bestTimeTree.clear();
+		bestTimeTree.addAttribute("ui.stylesheet", "node { " +
+				"size:12px; " +
+				"text-color:#AD2A1A; " +
+				"text-size:12px; " +
+				"text-alignment:above;" +
+				"text-padding: 3px;" +
+				"text-background-mode:rounded-box;" +
+				"}" +
+				"edge { " +
+				"text-color:#AD2A1A; " +
+				"text-size:13px; " +
+				"text-background-mode:rounded-box;" +
+				"size:6px;" +
+				"}" +
+				"graph{" +
+				"fill-color:#FFFFAA;" +
+				"}");
+		int i = 0;
+		Node n = bestTimeTree.addNode(currentNode.getCurrentPath().get(1).getNodeName());
+		n.addAttribute("ui.label", currentNode.getCurrentPath().get(1).getNodeName() + "(" + currentNode.getCurrentPath().get(1).getProcessor() + ")");
+		n.addAttribute("x", i);
+		n.addAttribute("y", i);
+		i++;
+		for(int j = 2; j<currentNode.getCurrentPath().size()-1;j++){
+			Node x = bestTimeTree.addNode(currentNode.getCurrentPath().get(j).getNodeName());
+			x.addAttribute("ui.label", currentNode.getCurrentPath().get(j).getNodeName() + "(" + currentNode.getCurrentPath().get(j).getProcessor() + ")");
+			x.addAttribute("x", i);
+			x.addAttribute("y", i);
+			bestTimeTree.addEdge(n.toString()+x.toString(), n, x, true);
+			n=x;
+			i++;
+		} 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-	public void notify(NodeObject input){
-		System.out.println(input.getNodeName());
-		updateGraph(input);
+	/**
+	 * Notifies the graph that a new schedule was found.
+	 * @param input
+	 */
+	public void notifyGraph(NodeObject input){
+		System.out.println("Adding node " + input);
+		if(UserOptions.getInstance().isParallel()){
+			
+			oneLineGraph(input);
+		}else{
+			updateGraph(input);
+		}
+		
+		
 	}
 	
 	public static void isVisual() {
+		System.out.println("In is visual");
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		GraphVisualiser.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 				"size:12px; " +

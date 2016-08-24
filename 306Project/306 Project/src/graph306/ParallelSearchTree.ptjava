@@ -9,6 +9,7 @@ import java.util.List;
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
+import visual.GraphVisualiser;
 
 public class ParallelSearchTree extends SolutionTree{
 	
@@ -17,6 +18,8 @@ public class ParallelSearchTree extends SolutionTree{
 	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
 	List<String> sourceNodes = inputGraph.getSourceNodes();
 	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	GraphVisualiser visualFrame = null;
+	
 	/**
 	 * @param inputGraph
 	 */
@@ -24,6 +27,9 @@ public class ParallelSearchTree extends SolutionTree{
 		super(inputGraph);
 		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
 //		bestScheduleThreaded.addGlobal(null);
+		if(UserOptions.getInstance().isVisible()){
+			visualFrame = new GraphVisualiser(inputGraph, this);
+		}
 	}
 	
 	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
@@ -37,6 +43,10 @@ public class ParallelSearchTree extends SolutionTree{
 				//and set the new schedule to it
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
+				
+				if(UserOptions.getInstance().isVisible() == true){
+					visualFrame.notifyGraph(currentNode);
+				}
 			}
 			return;
 		}
