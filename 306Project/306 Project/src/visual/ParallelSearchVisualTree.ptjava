@@ -1,0 +1,241 @@
+package visual;
+import pt.queues.FifoLifoQueue;
+import pt.runtime.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+import javax.swing.*;
+
+public class ParallelSearchVisualTree extends SolutionTreeVisual{
+	
+	int semaphore = UserOptions.getInstance().getParallelThreads(); //Threads
+	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
+	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
+	List<String> sourceNodes = inputGraph.getSourceNodes();
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	/**
+	 * @param inputGraph
+	 */
+	public ParallelSearchVisualTree(AdjacencyList inputGraph) {
+		super(inputGraph);
+		bestTimeThreaded.addGlobal(Integer.MAX_VALUE);
+//		bestScheduleThreaded.addGlobal(null);
+	}
+	
+	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
+
+		// Exit condition for exiting recursion
+		if(nodesToCheck.size() == 0){
+			validScheduleCount++;
+			validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
+
+			String procText = new String();
+			ArrayList procList = new ArrayList();
+			for(NodeObject node : currentNode.getCurrentPath()){
+				int processor = node.getProcessor();
+				if(!procList.contains(processor)){
+					procList.add(processor);
+					procText += "["+Integer.toString(processor+1)+"] ";
+				}
+			}
+			String idleText = new String();
+			for(int i = 0; i < numberofProcessors; i++){
+				if(!procList.contains(i)){
+					idleText += "["+Integer.toString(i+1)+"] ";
+				}
+			}
+			if (idleText.isEmpty()){
+				idleText = "None";
+			}
+			processorsUsedLabel.setText("Processors Used: "+ procText);
+			idleProcessorsLabel.setText("Idle Processors: "+ idleText);
+
+			String currentValidSchedule = new String();
+			for(NodeObject node : currentNode.getCurrentPath()){
+				if(!(node.getNodeName()=="rootNode")){
+					currentValidSchedule += node.getNodeName() +"("+(node.getProcessor()+1)+")";
+				}
+			}
+
+			validScheduleLabel.setText("Current Valid Schedule: "+currentValidSchedule);
+
+			// Calculate time
+			// Compare with minimumTime to see if this solution is better
+			if(maxTimeAtPoint(currentNode) < minimumTime) {
+
+				bestTimeCount++;
+				//when tree all the way down, and the time is lower than the global flag, set the new time
+				//and set the new schedule to it
+				for (Edge e : bestTimeTree.getEdgeSet()) {
+					e.addAttribute("ui.style", "fill-color:#ADB5C7;");
+				}
+				minimumTime = maxTimeAtPoint(currentNode);
+				bestTimeLabel.setText("Current Best Time: " + maxTimeAtPoint(currentNode));
+				bestTimeCountLabel.setText("Faster Schedules Found: " + Long.toString(bestTimeCount));
+				bestSchedule = currentNode.getCurrentPath();
+                int[] endArray = endArray(bestSchedule);
+                String endArrayString = new String();
+                int procID = 1;
+                for(int eA : endArray){
+                    endArrayString+=Integer.toString(procID)+": "+eA+" ";
+                    procID++;
+                }
+                processorEndTimeLabel.setText("Processor End Time: "+endArrayString);
+				String oldNode = new String();
+				String newNode = new String();
+				int i = 0;
+				Edge e;
+				String bestPath = new String();
+				for (NodeObject node : currentNode.getCurrentPath()) {
+					if (node.getNodeName().equals("rootNode"))
+						continue;
+					newNode += node.getNodeName() + node.getProcessor();
+					if (bestTimeTree.getNode(newNode) == null) {
+						Node n = bestTimeTree.addNode(newNode);
+
+						n.addAttribute("ui.label", node.getNodeName() + "(" + (node.getProcessor()+1) + ")");
+//                        n.addAttribute("ui.label", nid);
+						n.addAttribute("layout.frozen");
+
+						n.addAttribute("y", -i *15);
+						if (i == 0)
+							n.addAttribute("x", nid);
+						if (i > 0) {
+							if ((int) bestTimeTree.getNode(oldNode).getAttribute("x") < 0) {
+								n.addAttribute("x", -java.lang.Math.abs(nid));
+							} else {
+								n.addAttribute("x", java.lang.Math.abs(nid));
+							}
+						}
+					}
+					if (i > 0) {
+						bestTimeTree.removeEdge(newNode, oldNode);
+						e = bestTimeTree.addEdge(Integer.toString(nid), newNode, oldNode);
+						e.setAttribute("ui.style", "fill-color:red;");
+
+					}
+
+					oldNode = newNode;
+					i++;
+					if (nid < 0)
+						nid--;
+					else
+						nid++;
+					//SPEED FACTOR: lower=faster
+					try{
+						Thread.sleep(50);						
+					} catch (Exception E2){
+
+					}
+
+					bestPath += node.getNodeName() + "(" + (node.getProcessor() + 1) + ") ";
+				}
+				bestTimeScheduleLabel.setText("Best Path: " + bestPath);
+				nid *= -1;
+			} else if(maxTimeAtPoint(currentNode) == minimumTime){
+				equalBestTimeCount++;
+				equalBestTimeCountLabel.setText("Duplicate Schedules at Current Optimal Time Found: "+Long.toString(equalBestTimeCount));
+			}
+			return;
+			}
+		
+		// heuristics for pruning the tree
+		if(minimumTime != Integer.MAX_VALUE){
+			//if the time of current node but has not finished path is greater than optimal path which has finished dont bother looking
+			if(maxTimeAtPoint(currentNode) >= minimumTime){
+				return;
+			}
+		
+			if(calculateLowerBound(currentNode, nodesToCheck) >= minimumTime){
+				return;
+			}
+		}
+		
+		TaskID newTask = null;
+		for(String nodeToCheckStr : nodesToCheck){
+			if(isValidOption(nodeToCheckStr, nodesToCheck)){
+				int count = 0;
+				for(int i = 0 ; i <numberofProcessors; i++){
+					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
+						count++;
+					}
+				}
+				int killtree = 0;
+				if(count >= 2){
+					killtree = count -1;
+				}
+				for(int j = 0; j < (numberofProcessors - killtree); j++){
+					NodeObject newNode = createNextNode(currentNode, nodeToCheckStr, j);
+					
+					//copy the nodesToCheck list and need to remove the current node from it for recursion
+					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
+					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
+					nodeNumber++;
+					nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber));
+					semaphoreLabel.setText("Current Threads Used: "+ semaphore);
+					if(isSubtask){
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
+						continue;
+					}
+					// check if new thread can be created
+					if(semaphore == 0){
+						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
+					} else {
+						semaphore--;
+						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
+						try{
+							newTask.waitTillFinished();
+						} catch (Exception e){
+							
+						}
+						taskGroup.add(newTask);
+					}
+					
+				}
+			}
+		}
+		if(isSubtask){
+			return;
+		}
+		try{
+			taskGroup.waitTillFinished();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
+		recursiveMethod(currentNode, nodesToCheck, true);
+		semaphore++;
+		
+	}
+	
+	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
+		//create a newpath that is the same as current which includes the currentNode as well
+		//same thing but only copying the processor array --not checking for times at this place
+		ArrayList<NodeObject> nextPath = new ArrayList<NodeObject>(currentNode.getCurrentPath());
+		int[] processorArray = Arrays.copyOf(currentNode.getTimeWeightOnEachProcessor(), currentNode.getTimeWeightOnEachProcessor().length);
+		
+		//initialising the fields for the new NodalObject to recurse through
+		String newNodeName = nodeToCheckStr;
+		int newProcessor = processorNumber;
+		int nodalWeight = getNodalWeight(newNodeName);
+		int newStartTime = checkProcessStartTimeTask(currentNode, newNodeName, newProcessor);
+		int newEndTime = newStartTime+nodalWeight;
+		processorArray[newProcessor] = newEndTime;
+		
+		//INITIALISE THE NEW NODE WITH UPDATED FIELDS
+		NodeObject nextNode = new NodeObject(newProcessor, nextPath, newNodeName, processorArray, newStartTime, newEndTime);
+		return nextNode;
+	}
+	
+}
