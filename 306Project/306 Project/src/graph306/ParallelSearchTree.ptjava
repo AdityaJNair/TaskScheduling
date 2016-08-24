@@ -20,7 +20,7 @@ public class ParallelSearchTree extends SolutionTree{
 	int semaphore = UserOptions.getInstance().getParallelThreads();
 
 	//taskGroup is used to put all the parallel tasks
-	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+//	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
 	GraphVisualiser visualFrame = null;
 	
 	/**Constructor to initialize the arguments
@@ -72,7 +72,7 @@ public class ParallelSearchTree extends SolutionTree{
 				return;
 			}
 		}
-		
+		TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
 		// Look through the list of unseen nodes and recursively call this method on nodes 
 		// that do not have any parents on the nodesToCheck list.		
 		TaskID newTask = null;
@@ -99,14 +99,17 @@ public class ParallelSearchTree extends SolutionTree{
 					if(UserOptions.getInstance().isVisible() && visualFrame != null){
 						visualFrame.notifyParallelGraph(nodeNumber, semaphore);
 					}
-					//If it is the head of the thread than recursively go through the algorithm.
-					if(isSubtask){
-						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
-						continue;
+					if(isSubtask && semaphore > 0){
+						semaphore--;
+						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
+						
+						taskGroup.add(newTask);
 					}
+					//If it is the head of the thread than recursively go through the algorithm.				
 					// check if new thread can be created
-					if(semaphore == 0){
+					else if(semaphore == 0){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, false);
+						continue;
 					} else { //If there is still unused threads left than make more threads
 						semaphore--;
 						newTask = intermediateMethod(newNode, newUpdatedListWithoutCurrentNode);
@@ -117,9 +120,9 @@ public class ParallelSearchTree extends SolutionTree{
 			}
 		}
 		//If it is the head thread than it means that this thread is finished so return
-		if(isSubtask){
-			return;
-		}
+	//	if(isSubtask){
+		//	return;
+		//}
 		//Wait for everything to finish before displaying the final graph.
 		try{
 			taskGroup.waitTillFinished();
@@ -130,7 +133,7 @@ public class ParallelSearchTree extends SolutionTree{
 	
 	//This intermediate method is used to run the recursiveMethod method in parallel
 	TASK private void intermediateMethod(NodeObject currentNode, List<String> nodesToCheck){
-		recursiveMethod(currentNode, nodesToCheck, true);
+		recursiveMethod(currentNode, nodesToCheck, false);
 		semaphore++;
 	}
 	
