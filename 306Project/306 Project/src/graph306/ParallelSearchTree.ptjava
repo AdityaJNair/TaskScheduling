@@ -37,6 +37,9 @@ public class ParallelSearchTree extends SolutionTree{
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
+			if(UserOptions.getInstance().isVisible() && visualFrame !=null){
+				visualFrame.notifyFirstGraph(currentNode);
+			}
 			// Compare with minimumTime to see if this solution is better
 			if(maxTimeAtPoint(currentNode) < minimumTime){
 				//when tree all the way down, and the time is lower than the global flag, set the new time
@@ -44,8 +47,8 @@ public class ParallelSearchTree extends SolutionTree{
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
 				
-				if(UserOptions.getInstance().isVisible() == true){
-					visualFrame.notifyGraph(currentNode);
+				if(UserOptions.getInstance().isVisible() && visualFrame != null){
+					visualFrame.notifyGraph(currentNode, minimumTime, endArray(bestSchedule));
 				}
 			}
 			return;
@@ -83,6 +86,9 @@ public class ParallelSearchTree extends SolutionTree{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
+					if(UserOptions.getInstance().isVisible() && visualFrame != null){
+						visualFrame.notifySecondGraph(nodeNumber);
+					}
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
@@ -113,6 +119,7 @@ public class ParallelSearchTree extends SolutionTree{
 		recursiveMethod(currentNode, nodesToCheck, true);
 		semaphore++;
 	}
+	
 	
 	private NodeObject createNextNode(NodeObject currentNode, String nodeToCheckStr, int processorNumber){
 		//create a newpath that is the same as current which includes the currentNode as well

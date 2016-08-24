@@ -36,17 +36,16 @@ public class GraphVisualiser{
 	public static JLabel bestTimeLabel = new JLabel("Current Best Time:");
 	public static JLabel bestTimeScheduleLabel = new JLabel("Best Schedule:");
 	public static JLabel bestTimeCountLabel = new JLabel("Optimal Schedules Found:");
-	public static JLabel equalBestTimeCountLabel = new JLabel("Duplicate Best Schedules Found:");
 
 	public static JLabel nodesSearchedLabel = new JLabel("Nodes Searched:");
 	public static JLabel processorsUsedLabel = new JLabel("Processors Used:");
 	public static JLabel idleProcessorsLabel = new JLabel("Idle Processors:");
-	public static JLabel partialScheduleLabel = new JLabel("Current Schedule:");
 	public static JLabel processorEndTimeLabel = new JLabel("Processor End Time:");
 
 	public static JLabel validScheduleCountLabel = new JLabel("Valid Schedules Discovered:");
 	public static JLabel validScheduleLabel = new JLabel("Current Valid Schedule:");
-	public static JLabel boundValueLabel = new JLabel("Bound Value:");
+
+	public static JLabel semaphoreLabel = new JLabel("Current Threads Used:");
 
 	public long nodeNumber = 0;
 	public long bestTimeCount = 0;
@@ -80,18 +79,60 @@ public class GraphVisualiser{
 		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
 	}
 	
+	public void updateFirstGraph(NodeObject currentNode){
+		validScheduleCount++;
+		validScheduleCountLabel.setText("Valid Schedules Discovered: "+Long.toString(validScheduleCount));
+
+		String procText = new String();
+		ArrayList procList = new ArrayList();
+		for(NodeObject node : currentNode.getCurrentPath()){
+			int processor = node.getProcessor();
+			if(!procList.contains(processor)){
+				procList.add(processor);
+				procText += "["+Integer.toString(processor+1)+"] ";
+			}
+		}
+		String idleText = new String();
+		for(int i = 0; i < numberofProcessors; i++){
+			if(!procList.contains(i)){
+				idleText += "["+Integer.toString(i+1)+"] ";
+			}
+		}
+		if (idleText.isEmpty()){
+			idleText = "None";
+		}
+		processorsUsedLabel.setText("Processors Used: "+ procText);
+		idleProcessorsLabel.setText("Idle Processors: "+ idleText);
+
+		String currentValidSchedule = new String();
+		for(NodeObject node : currentNode.getCurrentPath()){
+			if(!(node.getNodeName()=="rootNode")){
+				currentValidSchedule += node.getNodeName() +"("+(node.getProcessor()+1)+")";
+			}
+		}
+
+		validScheduleLabel.setText("Current Valid Schedule: "+currentValidSchedule);
+
+	}
 	
-	public void updateGraph(NodeObject currentNode){ // not updating
+	public void updateGraph(NodeObject currentNode, int maxTime, int[] endArraya){ // not updating
+
 		bestTimeCount++;
 		//when tree all the way down, and the time is lower than the global flag, set the new time
 		//and set the new schedule to it
 		for (Edge e : bestTimeTree.getEdgeSet()) {
-			e.addAttribute("ui.style", "fill-color: rgb(0,0,0);");
+			e.addAttribute("ui.style", "fill-color:#ADB5C7;");
 		}
-		minimumTime = solution.maxTimeAtPoint(currentNode);
-		bestTimeLabel.setText("Current Best Time: " + solution.maxTimeAtPoint(currentNode));
+		bestTimeLabel.setText("Current Best Time: " + maxTime);
 		bestTimeCountLabel.setText("Faster Schedules Found: " + Long.toString(bestTimeCount));
-		bestSchedule = currentNode.getCurrentPath();
+        int[] endArray = endArraya;
+        String endArrayString = new String();
+        int procID = 1;
+        for(int eA : endArray){
+            endArrayString+=Integer.toString(procID)+": "+eA+" ";
+            procID++;
+        }
+        processorEndTimeLabel.setText("Processor End Time: "+endArrayString);
 		String oldNode = new String();
 		String newNode = new String();
 		int i = 0;
@@ -104,11 +145,11 @@ public class GraphVisualiser{
 			if (bestTimeTree.getNode(newNode) == null) {
 				Node n = bestTimeTree.addNode(newNode);
 
-				n.addAttribute("ui.label", node.getNodeName() + "(" + node.getProcessor() + ")");
+				n.addAttribute("ui.label", node.getNodeName() + "(" + (node.getProcessor()+1) + ")");
 //                n.addAttribute("ui.label", nid);
 				n.addAttribute("layout.frozen");
 
-				n.addAttribute("y", -i * 15);
+				n.addAttribute("y", -i *15);
 				if (i == 0)
 					n.addAttribute("x", nid);
 				if (i > 0) {
@@ -120,9 +161,8 @@ public class GraphVisualiser{
 				}
 			}
 			if (i > 0) {
-				if(!(bestTimeTree.getEdge(newNode+oldNode)==null))
 				bestTimeTree.removeEdge(newNode, oldNode);
-				e = bestTimeTree.addEdge(newNode+oldNode, newNode, oldNode);
+				e = bestTimeTree.addEdge(Integer.toString(nid), newNode, oldNode);
 				e.setAttribute("ui.style", "fill-color:red;");
 
 			}
@@ -133,6 +173,7 @@ public class GraphVisualiser{
 				nid--;
 			else
 				nid++;
+			//SPEED FACTOR: lower=faster
 			//SPEED FACTOR: lower=faster
 			try {
 				Thread.sleep(50);
@@ -145,7 +186,17 @@ public class GraphVisualiser{
 		nid *= -1;
 	}
 	
-	public void oneLineGraph(NodeObject currentNode) {
+	public void oneLineGraph(NodeObject currentNode, int maxTime, int[] endArraya) {
+        int[] endArray = endArraya;
+        String endArrayString = new String();
+        int procID = 1;
+        for(int eA : endArray){
+            endArrayString+=Integer.toString(procID)+": "+eA+" ";
+            procID++;
+        }
+		bestTimeLabel.setText("Current Best Time: " + maxTime);
+		bestTimeCountLabel.setText("Faster Schedules Found: " + Long.toString(bestTimeCount));
+		processorEndTimeLabel.setText("Processor End Time: "+endArrayString);
 		bestTimeTree.clear();
 		bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 				"size:12px; " +
@@ -187,41 +238,47 @@ public class GraphVisualiser{
 		}
 	}
 
+	public void updateNodeNumber(long nodeNumber2) {
+		nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber2));
+	}
 	/**
 	 * Notifies the graph that a new schedule was found.
 	 * @param input
 	 */
-	public void notifyGraph(NodeObject input){
+	public void notifyGraph(NodeObject input, int maxtime, int[] end){
 		System.out.println("Adding node " + input);
 		if(UserOptions.getInstance().isParallel()){
-			
-			oneLineGraph(input);
+			oneLineGraph(input, maxtime, end);
 		}else{
-			updateGraph(input);
+			updateGraph(input, maxtime, end );
+			
 		}
-		
-		
+	}
+	
+	public void notifyFirstGraph(NodeObject input){
+			updateFirstGraph(input);
+	}
+	
+	public void notifySecondGraph(long number){
+			updateNodeNumber(number);
 	}
 	
 	public static void isVisual() {
-		System.out.println("In is visual");
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		GraphVisualiser.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
 				"size:12px; " +
-				"text-color:#AD2A1A; " +
 				"text-size:12px; " +
 				"text-alignment:above;" +
 				"text-padding: 3px;" +
 				"text-background-mode:rounded-box;" +
 				"}" +
 				"edge { " +
-				"text-color:#AD2A1A; " +
 				"text-size:13px; " +
 				"text-background-mode:rounded-box;" +
-				"size:6px;" +
+				"size:5px;" +
 				"}" +
 				"graph{" +
-				"fill-color:#FFFFAA;" +
+				"fill-color:#D6D8DD;" +
 				"}");
 		GraphVisualiser.bestTimeTree.addAttribute("ui.antialias");
 		GraphVisualiser.bestTimeTree.setStrict(false);
@@ -243,18 +300,14 @@ public class GraphVisualiser{
 		bestPathStats.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
 		bestPathStats.add(GraphVisualiser.bestTimeLabel);
 		bestPathStats.add(GraphVisualiser.bestTimeScheduleLabel);
+		bestPathStats.add(GraphVisualiser.processorEndTimeLabel);
 		bestPathStats.add(GraphVisualiser.bestTimeCountLabel);
-		bestPathStats.add(GraphVisualiser.equalBestTimeCountLabel);
 		statPanel.add(bestPathStats);
 
-		JPanel processorPanel = new JPanel();
-		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		processorPanel.add(GraphVisualiser.nodesSearchedLabel);
-		processorPanel.add(GraphVisualiser.processorsUsedLabel);
-		processorPanel.add(GraphVisualiser.idleProcessorsLabel);
-		processorPanel.add(GraphVisualiser.partialScheduleLabel);
-		processorPanel.add(GraphVisualiser.processorEndTimeLabel);
-		statPanel.add(processorPanel);
+		JPanel countPanel = new JPanel();
+		countPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+		countPanel.add(GraphVisualiser.nodesSearchedLabel);
+		statPanel.add(countPanel);
 
 		JPanel validSchedulePanel = new JPanel();
 		validSchedulePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
@@ -262,11 +315,20 @@ public class GraphVisualiser{
 		validSchedulePanel.add(GraphVisualiser.validScheduleLabel);
 		statPanel.add(validSchedulePanel);
 
-		JPanel boundValuePanel = new JPanel();
-		boundValuePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		boundValuePanel.add(GraphVisualiser.boundValueLabel);
-		statPanel.add(boundValuePanel);
+		JPanel processorPanel = new JPanel();
+		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+		processorPanel.add(GraphVisualiser.processorsUsedLabel);
+		processorPanel.add(GraphVisualiser.idleProcessorsLabel);
+		statPanel.add(processorPanel);
+		if(UserOptions.getInstance().isParallel()){
+			JPanel paraPanel = new JPanel();
+			paraPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+			paraPanel.add(GraphVisualiser.semaphoreLabel);
+			JLabel threadIDLabel = new JLabel("Number of Threads to Use:" + UserOptions.getInstance().getProcessors());
+			paraPanel.add(threadIDLabel);
+			statPanel.add(paraPanel);
 
+		}
 
 		tV.setPreferredSize(dim);
 		panel.add(tV, BorderLayout.CENTER);
@@ -276,5 +338,7 @@ public class GraphVisualiser{
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
 		frame.setVisible(true);
+
 	}
+
 }
