@@ -2,9 +2,13 @@
 306 Project - Team 6
 
 AdityaJNair = Aditya Nair
+
 PriyankitSingh = Priyankit Singh
+
 JSCooke = Jayden Cooke
+
 JunoJin = Juno Jin
+
 Wombotastic = Nathan Situ
 
 The following program was built on jre 1.8
