@@ -266,7 +266,6 @@ public class GraphVisualiser{
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		bestTimeScheduleLabel.setText("Best Path: " + bestPath);
