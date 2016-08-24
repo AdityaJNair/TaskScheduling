@@ -46,7 +46,7 @@ Instructions for starting up program on your IDE:
 
 
 
-Wiki contains all information on meeting, plans, decisions, background research etc.
+The [wiki](https://github.com/AdityaJNair/RunningGoatShorts/wiki) contains all information regarding previous meetings, plans, decisions, background research etc.
   
                 
                 
