@@ -1,15 +1,15 @@
-digraph "outputedgefirst" {
+digraph "outputedgeFirst" {
 a [ Weight=3, Start =0, Processor =1];
 b [ Weight=2, Start =0, Processor =2];
 c [ Weight=3, Start =4, Processor =1];
+d [ Weight=4, Start =7, Processor =1];
 f [ Weight=1, Start =2, Processor =2];
-d [ Weight=4, Start =8, Processor =2];
-g [ Weight=2, Start =7, Processor =1];
-e [ Weight=3, Start =9, Processor =1];
+g [ Weight=2, Start =3, Processor =2];
+e [ Weight=3, Start =8, Processor =2];
 a -> c [Weight=2];
 b -> c [Weight=2];
 c -> d [Weight=1];
-c -> e [Weight=3];
-f -> g [Weight=2];
+c -> e [Weight=1];
+f -> g [Weight=1];
 g -> e [Weight=1];
 }

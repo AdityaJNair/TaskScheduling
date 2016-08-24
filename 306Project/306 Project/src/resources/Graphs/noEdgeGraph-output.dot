@@ -1,0 +1,9 @@
+digraph "outputno edge graph" {
+a [ Weight=3, Start =0, Processor =1];
+b [ Weight=2, Start =3, Processor =1];
+c [ Weight=3, Start =5, Processor =1];
+d [ Weight=4, Start =0, Processor =2];
+e [ Weight=3, Start =4, Processor =2];
+f [ Weight=1, Start =8, Processor =1];
+g [ Weight=2, Start =7, Processor =2];
+}

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import data_structures.*;
+import data_structures.AdjacencyList;
+import data_structures.NodeObject;
+import data_structures.UserOptions;
 
 public class ParallelSearchTree extends SolutionTree{
 	
@@ -14,7 +16,7 @@ public class ParallelSearchTree extends SolutionTree{
 	FifoLifoQueue<List<NodeObject>> bestScheduleThreaded = new FifoLifoQueue<List<NodeObject>>();
 	FifoLifoQueue<Integer> bestTimeThreaded= new FifoLifoQueue<Integer>();
 	List<String> sourceNodes = inputGraph.getSourceNodes();
-	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads()+5);
+	TaskIDGroup taskGroup = new TaskIDGroup(UserOptions.getInstance().getParallelThreads());
 	/**
 	 * @param inputGraph
 	 */
@@ -25,7 +27,7 @@ public class ParallelSearchTree extends SolutionTree{
 	}
 	
 	public void recursiveMethod(NodeObject currentNode, List<String> nodesToCheck, boolean isSubtask){
-		
+	
 		// Exit condition for exiting recursion
 		if(nodesToCheck.size() == 0){
 			// Calculate time
@@ -58,6 +60,7 @@ public class ParallelSearchTree extends SolutionTree{
 				for(int i = 0 ; i <numberofProcessors; i++){
 					if(currentNode.getTimeWeightOnEachProcessor()[i] == 0){
 						count++;
+						
 					}
 				}
 				int killtree = 0;
@@ -71,8 +74,7 @@ public class ParallelSearchTree extends SolutionTree{
 					List<String> newUpdatedListWithoutCurrentNode = new LinkedList<String>(nodesToCheck);
 					newUpdatedListWithoutCurrentNode.remove(nodeToCheckStr);
 					nodeNumber++;
-					
-					if(isSubtask){
+					if(!isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
 					}
@@ -88,7 +90,7 @@ public class ParallelSearchTree extends SolutionTree{
 				}
 			}
 		}
-		if(isSubtask){
+		if(!isSubtask){
 			return;
 		}
 		try{
