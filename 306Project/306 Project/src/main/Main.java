@@ -21,6 +21,7 @@ import data_structures.UserOptions;
 import graph306.CustomGraphReader;
 import graph306.ParallelSearchTree;
 import graph306.SolutionTree;
+import visual.GraphVisualiser;
 import visual.ParallelSearchVisualTree;
 import visual.SolutionTreeVisual;
 
@@ -37,7 +38,7 @@ public class Main {
 		//run a read method on DAG
 		graphReader.readDAG();
 		if(UserOptions.getInstance().isVisible() && UserOptions.getInstance().isParallel()){
-			isVisual();
+			GraphVisualiser.isVisual();
 			// Parallel visual team's code here
 			System.out.println("Doing process in Parallel visual mode");
 			ParallelSearchVisualTree solver = new ParallelSearchVisualTree(graphReader.getGraphAdapter().getAdjacencyList());
@@ -59,8 +60,8 @@ public class Main {
 			System.out.println("HI3");
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
-			isVisual();
-			SolutionTreeVisual solver = new SolutionTreeVisual(graphReader.getGraphAdapter().getAdjacencyList());
+			GraphVisualiser.isVisual();
+			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
 			solver.calculateTime(solver.getRootNode(), solver.getNodeList());
 			
 			//end timing
