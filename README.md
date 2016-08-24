@@ -1,15 +1,15 @@
 # RunningGoatShorts
 SOFTENG 306 Project - Team 6
 
-AdityaJNair = Aditya Nair
+AdityaJNair = Aditya Nair (UPI: anai714)
 
-PriyankitSingh = Priyankit Singh
+PriyankitSingh = Priyankit Singh (UPI: psin778)
 
-JSCooke = Jayden Cooke
+JSCooke = Jayden Cooke (UPI: jcoo418)
 
-JunoJin = Juno Jin
+JunoJin = Juno Jin (UPI: jjin525)
 
-Wombotastic = Nathan Situ
+Wombotastic = Nathan Situ (UPI: nsit984)
 
 The following program was built on JRE 1.8
 
@@ -44,6 +44,22 @@ Instructions for starting up program on your IDE:
   
 (5) Run it.
 
+Details on parameters:
+As specified in the assignment brief.
+
+Mandatory Parameters:
+
+Input graph: The path to the input graph, stored as a .dot file. The code is specifically designed for directed acyclic graphs, and may have unpredicatable results  in other cases.
+
+Processor count: The number of processors on which to schedule the tasks.
+
+Optional Parameters:
+
+-p N: Run in parallel, using up to N threads. Without this, the code will be run in sequential.
+
+-v: Display a visual representation of the search in a JFrame.
+
+-o "OUTPUT": The generated output file will be named "OUTPUT.dot". If not specified, the input graph name will be used to generate a name (INPUT-output.dot). 
 
 
 The [wiki](https://github.com/AdityaJNair/RunningGoatShorts/wiki) contains all information regarding previous meetings, plans, decisions, background research etc.
