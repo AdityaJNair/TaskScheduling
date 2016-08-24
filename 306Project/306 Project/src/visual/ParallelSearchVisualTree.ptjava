@@ -182,9 +182,6 @@ public class ParallelSearchVisualTree extends SolutionTreeVisual{
 					nodeNumber++;
 					nodesSearchedLabel.setText("Nodes Searched: "+Long.toString(nodeNumber));
 					semaphoreLabel.setText("Current Threads Used: "+ semaphore);
-					if(CurrentTask.insideTask()){
-						System.out.println(CurrentTask.currentThreadID());
-					}
 					if(isSubtask){
 						recursiveMethod(newNode, newUpdatedListWithoutCurrentNode, true);
 						continue;
