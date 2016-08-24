@@ -20,9 +20,11 @@ Instructions for running this program on the bash command line:
 (2) Open a terminal and navigate to the directory.
 
 (3) If your machine uses JRE 1.8 by default, execute 
-                java -jar scheduler.jar "input graph" "processor count" "[OPTIONS]" 
+
+                java -jar scheduler.jar "input graph" "processor count" "[OPTIONS]"
     
 NOTE: The University of Auckland's UG4 lab computers use JRE 1.7 by default at time of writing, and some libraries may be incompatible. To run the scheduler on such a machine, instead execute:
+
                 /usr/lib/jvm/jre1.8.0_45/bin/java -jar scheduler.jar "input graph" "processor count" "[OPTIONS]" 
 
 Instructions for starting up program on your IDE:
