@@ -8,7 +8,6 @@ import graph306.CustomGraphReader;
 import graph306.ParallelSearchTree;
 import graph306.SolutionTree;
 import visual.GraphVisualiser;
-import visual.SolutionTreeVisual;
 
 public class Main {
 	
@@ -33,7 +32,7 @@ public class Main {
 			//Create .dot file at the end
 			DotWriter writer = new DotWriter();
 			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
-			SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "graph{fill-color: green;}");
+			GraphVisualiser.bestTimeTree.addAttribute("ui.stylesheet", "graph{fill-color: green;}");
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
 			GraphVisualiser.isVisual();
@@ -42,7 +41,7 @@ public class Main {
 			//Create .dot file at the end
 			DotWriter writer = new DotWriter();
 			writer.createDot(solver.getBestSchedule(),UserOptions.getInstance(),graphReader.getEdgeList(),solver.getInputGraph());
-			SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "graph{fill-color: green;}");
+			GraphVisualiser.bestTimeTree.addAttribute("ui.stylesheet", "graph{fill-color: green;}");
 
 		} else if(UserOptions.getInstance().isParallel() && !UserOptions.getInstance().isVisible()){
 			ParallelSearchTree solver = new ParallelSearchTree(graphReader.getGraphAdapter().getAdjacencyList());
