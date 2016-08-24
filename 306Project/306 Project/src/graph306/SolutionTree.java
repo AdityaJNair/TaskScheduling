@@ -9,6 +9,8 @@ import java.util.List;
 import data_structures.AdjacencyList;
 import data_structures.NodeObject;
 import data_structures.UserOptions;
+import scala.collection.mutable.Queue;
+import visual.GraphVisualiser;
 
 /**
  * This class creates a solution tree from the input adjacency list.
@@ -26,6 +28,7 @@ public class SolutionTree {
 	private NodeObject rootNode;
 	private List<String> nodeList;
 	protected int numberofProcessors;
+	GraphVisualiser visualFrame = null;
 	//private TaskIDGroup group = new TaskIDGroup(20); //TODO: still testing, hardcoded Group size
 	
 	/**
@@ -33,6 +36,7 @@ public class SolutionTree {
 	 * @param inputGraph
 	 */
 	public SolutionTree(AdjacencyList inputGraph){
+		
 		this.inputGraph = inputGraph;
 		nodeList = new ArrayList<String>();
 		for(String entry : inputGraph.getNodes()){
@@ -40,7 +44,10 @@ public class SolutionTree {
     	}
 		numberofProcessors = UserOptions.getInstance().getProcessors();
 		//create the root node object
-		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);		
+		rootNode = new NodeObject(0, new ArrayList<NodeObject>(), "rootNode", new int[numberofProcessors], 0, 0);	
+		if(UserOptions.getInstance().isVisible()){
+			visualFrame = new GraphVisualiser(inputGraph, this);
+		}
 	}
 	
 	/** 
@@ -60,6 +67,9 @@ public class SolutionTree {
 				//and set the new schedule to it
 				minimumTime = maxTimeAtPoint(currentNode);
 				bestSchedule = currentNode.getCurrentPath();
+				if(UserOptions.getInstance().isVisible() && visualFrame != null){
+					visualFrame.notify(currentNode);
+				}
 			}
 			return;
 		}

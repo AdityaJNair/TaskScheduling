@@ -21,6 +21,7 @@ import data_structures.UserOptions;
 import graph306.CustomGraphReader;
 import graph306.ParallelSearchTree;
 import graph306.SolutionTree;
+import visual.GraphVisualiser;
 import visual.ParallelSearchVisualTree;
 import visual.SolutionTreeVisual;
 
@@ -37,7 +38,7 @@ public class Main {
 		//run a read method on DAG
 		graphReader.readDAG();
 		if(UserOptions.getInstance().isVisible() && UserOptions.getInstance().isParallel()){
-			isVisual();
+			GraphVisualiser.isVisual();
 			// Parallel visual team's code here
 			System.out.println("Doing process in Parallel visual mode");
 			ParallelSearchVisualTree solver = new ParallelSearchVisualTree(graphReader.getGraphAdapter().getAdjacencyList());
@@ -59,8 +60,8 @@ public class Main {
 			System.out.println("HI3");
 			
 		} else if(UserOptions.getInstance().isVisible() && !UserOptions.getInstance().isParallel()){
-			isVisual();
-			SolutionTreeVisual solver = new SolutionTreeVisual(graphReader.getGraphAdapter().getAdjacencyList());
+			GraphVisualiser.isVisual();
+			SolutionTree solver = new SolutionTree(graphReader.getGraphAdapter().getAdjacencyList());
 			solver.calculateTime(solver.getRootNode(), solver.getNodeList());
 			
 			//end timing
@@ -125,78 +126,78 @@ public class Main {
 		System.out.println("Program finished");
 	}
 
-	private static void isVisual() {
-		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-		SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
-				"size:12px; " +
-				"text-color:#AD2A1A; " +
-				"text-size:12px; " +
-				"text-alignment:above;" +
-				"text-padding: 3px;" +
-				"text-background-mode:rounded-box;" +
-				"}" +
-				"edge { " +
-				"text-color:#AD2A1A; " +
-				"text-size:13px; " +
-				"text-background-mode:rounded-box;" +
-				"size:6px;" +
-				"}" +
-				"graph{" +
-				"fill-color:#FFFFAA;" +
-				"}");
-		SolutionTreeVisual.bestTimeTree.addAttribute("ui.antialias");
-		SolutionTreeVisual.bestTimeTree.setStrict(false);
-		SolutionTreeVisual.bestTimeTree.addAttribute("ui.quality");
-		Viewer treeViewer = new Viewer(SolutionTreeVisual.bestTimeTree, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-		JFrame frame = new JFrame("Visualization");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel panel = new JPanel(new BorderLayout());
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		Dimension dim = new Dimension((int)(screenSize.getWidth()*0.9), (int)(screenSize.height/1.2));
-		ViewPanel tV = treeViewer.addDefaultView(false);
-
-		JPanel statPanel = new JPanel();
-		statPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
-		statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.Y_AXIS));
-
-		JPanel bestPathStats = new JPanel();
-		bestPathStats.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		bestPathStats.add(SolutionTreeVisual.bestTimeLabel);
-		bestPathStats.add(SolutionTreeVisual.bestTimeScheduleLabel);
-		bestPathStats.add(SolutionTreeVisual.bestTimeCountLabel);
-		bestPathStats.add(SolutionTreeVisual.equalBestTimeCountLabel);
-		statPanel.add(bestPathStats);
-
-		JPanel processorPanel = new JPanel();
-		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		processorPanel.add(SolutionTreeVisual.nodesSearchedLabel);
-		processorPanel.add(SolutionTreeVisual.processorsUsedLabel);
-		processorPanel.add(SolutionTreeVisual.idleProcessorsLabel);
-		processorPanel.add(SolutionTreeVisual.partialScheduleLabel);
-		processorPanel.add(SolutionTreeVisual.processorEndTimeLabel);
-		statPanel.add(processorPanel);
-
-		JPanel validSchedulePanel = new JPanel();
-		validSchedulePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		validSchedulePanel.add(SolutionTreeVisual.validScheduleCountLabel);
-		validSchedulePanel.add(SolutionTreeVisual.validScheduleLabel);
-		statPanel.add(validSchedulePanel);
-
-		JPanel boundValuePanel = new JPanel();
-		boundValuePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
-		boundValuePanel.add(SolutionTreeVisual.boundValueLabel);
-		statPanel.add(boundValuePanel);
-
-
-		tV.setPreferredSize(dim);
-		panel.add(tV, BorderLayout.CENTER);
-		panel.add(statPanel, BorderLayout.PAGE_START);
-
-		frame.getContentPane().add(panel);
-		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-
-		frame.setVisible(true);
-	}
+//	private static void isVisual() {
+//		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+//		SolutionTreeVisual.bestTimeTree.addAttribute("ui.stylesheet", "node { " +
+//				"size:12px; " +
+//				"text-color:#AD2A1A; " +
+//				"text-size:12px; " +
+//				"text-alignment:above;" +
+//				"text-padding: 3px;" +
+//				"text-background-mode:rounded-box;" +
+//				"}" +
+//				"edge { " +
+//				"text-color:#AD2A1A; " +
+//				"text-size:13px; " +
+//				"text-background-mode:rounded-box;" +
+//				"size:6px;" +
+//				"}" +
+//				"graph{" +
+//				"fill-color:#FFFFAA;" +
+//				"}");
+//		SolutionTreeVisual.bestTimeTree.addAttribute("ui.antialias");
+//		SolutionTreeVisual.bestTimeTree.setStrict(false);
+//		SolutionTreeVisual.bestTimeTree.addAttribute("ui.quality");
+//		Viewer treeViewer = new Viewer(SolutionTreeVisual.bestTimeTree, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+//		JFrame frame = new JFrame("Visualization");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		JPanel panel = new JPanel(new BorderLayout());
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//
+//		Dimension dim = new Dimension((int)(screenSize.getWidth()*0.9), (int)(screenSize.height/1.2));
+//		ViewPanel tV = treeViewer.addDefaultView(false);
+//
+//		JPanel statPanel = new JPanel();
+//		statPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+//		statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.Y_AXIS));
+//
+//		JPanel bestPathStats = new JPanel();
+//		bestPathStats.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+//		bestPathStats.add(SolutionTreeVisual.bestTimeLabel);
+//		bestPathStats.add(SolutionTreeVisual.bestTimeScheduleLabel);
+//		bestPathStats.add(SolutionTreeVisual.bestTimeCountLabel);
+//		bestPathStats.add(SolutionTreeVisual.equalBestTimeCountLabel);
+//		statPanel.add(bestPathStats);
+//
+//		JPanel processorPanel = new JPanel();
+//		processorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+//		processorPanel.add(SolutionTreeVisual.nodesSearchedLabel);
+//		processorPanel.add(SolutionTreeVisual.processorsUsedLabel);
+//		processorPanel.add(SolutionTreeVisual.idleProcessorsLabel);
+//		processorPanel.add(SolutionTreeVisual.partialScheduleLabel);
+//		processorPanel.add(SolutionTreeVisual.processorEndTimeLabel);
+//		statPanel.add(processorPanel);
+//
+//		JPanel validSchedulePanel = new JPanel();
+//		validSchedulePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+//		validSchedulePanel.add(SolutionTreeVisual.validScheduleCountLabel);
+//		validSchedulePanel.add(SolutionTreeVisual.validScheduleLabel);
+//		statPanel.add(validSchedulePanel);
+//
+//		JPanel boundValuePanel = new JPanel();
+//		boundValuePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 2));
+//		boundValuePanel.add(SolutionTreeVisual.boundValueLabel);
+//		statPanel.add(boundValuePanel);
+//
+//
+//		tV.setPreferredSize(dim);
+//		panel.add(tV, BorderLayout.CENTER);
+//		panel.add(statPanel, BorderLayout.PAGE_START);
+//
+//		frame.getContentPane().add(panel);
+//		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+//
+//		frame.setVisible(true);
+//	}
 
 }
