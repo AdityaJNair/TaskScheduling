@@ -1,15 +1,15 @@
 # RunningGoatShorts
-SOFTENG 306 Project - Team 6
+Task Parallelization
 
-AdityaJNair = Aditya Nair (UPI: anai714)
+AdityaJNair = Aditya Nair
 
-PriyankitSingh = Priyankit Singh (UPI: psin778)
+PriyankitSingh = Priyankit Singh
 
-JSCooke = Jayden Cooke (UPI: jcoo418)
+JSCooke = Jayden Cooke
 
-JunoJin = Juno Jin (UPI: jjin525)
+JunoJin = Juno Jin
 
-Wombotastic = Nathan Situ (UPI: nsit984)
+Wombotastic = Nathan Situ
 
 The following program was built on JRE 1.8
 
@@ -23,10 +23,6 @@ Instructions for running this program on the bash command line:
 
                 java -jar scheduler.jar "input graph" "processor count" "[OPTIONS]"
     
-NOTE: The University of Auckland's UG4 lab computers use JRE 1.7 by default at time of writing, and some libraries may be incompatible. To run the scheduler on such a machine, instead execute:
-
-                /usr/lib/jvm/jre1.8.0_45/bin/java -jar scheduler.jar "input graph" "processor count" "[OPTIONS]" 
-
 Instructions for starting up program on your IDE:
 
 (1) Download the RunningGoatShorts folder into your workspace.
